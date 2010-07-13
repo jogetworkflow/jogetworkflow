@@ -111,15 +111,21 @@
                                 <copy file="src/main/resources/setup.sh" todir="target"/>
                                 <copy file="src/main/resources/tomcat6.sh" todir="target"/>
                                 
+                                <mkdir dir="downloads"/>
+                                <get src="http://dev.joget.org/svn/joget/tags/1.1.3/wflow-install/src/main/resources/apache-tomcat-${tomcat.version}.tar.gz" dest="downloads/apache-tomcat-${tomcat.version}.tar.gz" username="public" password="public" usetimestamp="true" />
+                                <get src="http://dev.joget.org/svn/joget/tags/1.1.3/wflow-install/src/main/resources/apache-ant-${apache-ant.version}-bin.tar.gz" dest="downloads/apache-ant-${apache-ant.version}-bin.tar.gz" username="public" password="public" usetimestamp="true" />
+                                <get src="http://dev.joget.org/svn/joget/tags/1.1.3/wflow-install/src/main/resources/mysql-noinstall-${mysql.version}-win32.zip" dest="downloads/mysql-noinstall-${mysql.version}-win32.zip" username="public" password="public" usetimestamp="true" />
+                                <get src="http://dev.joget.org/svn/joget/tags/1.1.3/wflow-install/src/main/resources/jdk${jdk.version}.zip" dest="downloads/jdk${jdk.version}.zip" username="public" password="public" usetimestamp="true" />
+
                                 <untar compression="gzip" dest="target">
-                                    <fileset dir="src/main/resources/">
+                                    <fileset dir="downloads/">
                                         <include name="apache-tomcat-${tomcat.version}.tar.gz"/>
                                         <include name="apache-ant-${apache-ant.version}-bin.tar.gz"/>
                                     </fileset>
                                 </untar>
 
                                 <unzip dest="target">
-                                    <fileset dir="src/main/resources/">
+                                    <fileset dir="downloads/">
                                         <include name="mysql-noinstall-${mysql.version}-win32.zip"/>
                                         <include name="jdk${jdk.version}.zip"/>
                                     </fileset>
