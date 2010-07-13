@@ -1,0 +1,100 @@
+/*UI tabs*/
+/* Caution! Ensure accessibility in print and other media types... */
+@media projection, screen { /* Use class for showing/hiding tab content, so that visibility can be better controlled in different media types... */
+    #menuTabView .ui-tabs-hide {
+        display: none;
+    }
+}
+
+/* Hide useless elements in print layouts... */
+@media print {
+    #menuTabView .ui-tabs-nav {
+        display: none;
+    }
+}
+
+#menuTabView .navHeader{ font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: #0057ec; }
+#menuTabView .navText{ font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif; font-size: 10px; color: #838383;}
+
+#menuTabView .ui-tabs-disabled .navHeader{ color: #838383; }
+
+#menuTabView{
+    background-image: url(../images/new/navbar_inactive_bg.gif);
+    background-repeat: repeat-x;
+}
+
+/* Skin */
+#menuTabView .ui-tabs-nav {
+    font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+}
+
+
+
+#menuTabView .tab-sub-nav{
+    position:relative;
+    top: -2px;
+    background-image: url(../images/new/subnav_bg.gif);
+    background-repeat: repeat-x;
+}
+
+#menuTabView .ui-tabs-panel{
+    float:left;
+    width: 100%;
+}
+
+#menuTabView .ui-tabs-nav {
+    list-style: none;
+}
+
+#menuTabView .ui-tabs-nav .ui-tab-separator {
+    width:auto;
+    min-width: 0px;
+}
+
+#menuTabView .ui-tabs-nav li {
+    float: left;
+    margin: 0 0 0 1px;
+    min-width: 84px; /* be nice to Opera */
+}
+
+#menuTabView .ui-tabs-nav a, #menuTabView .ui-tabs-nav a span {
+    display: block;
+    height: 28px;
+    padding: 10px 30px 10px 30px;
+}
+
+#menuTabView .tab-sub-nav .ui-tabs-nav a, #menuTabView .tab-sub-nav .ui-tabs-nav a div {
+    color: #0057ec;
+    display: block;
+    height: auto;
+    font-size: 14px;
+}
+
+#menuTabView .tab-sub-nav .ui-tabs-nav a:visited{
+    color: #0057ec;
+}
+
+#menuTabView .ui-tabs-selected a, #menuTabView .ui-tabs-nav a:hover {
+    z-index: 2;
+    background-image: url(../images/new/navbar_active_bg.gif);
+    background-repeat: repeat-x;
+}
+
+#menuTabView .tab-sub-nav .ui-tabs-selected a, #menuTabView .tab-sub-nav .ui-tabs-nav a:hover {
+    z-index: 2;
+    background-image: none;
+    text-decoration: underline;
+}
+
+#menuTabView .ui-tabs-selected a .navHeader, #menuTabView .ui-tabs-nav a:hover .navHeader{
+    color: black
+}
+
+/* Additional IE specific bug fixes... */
+* html #menuTabView .ui-tabs-nav { /* auto clear, @ IE 6 & IE 7 Quirks Mode */
+    display: inline-block;
+}
+*:first-child+html #menuTabView .ui-tabs-nav  { /* @ IE 7 Standards Mode - do not group selectors, otherwise IE 6 will ignore complete rule (because of the unknown + combinator)... */
+    display: inline-block;
+}

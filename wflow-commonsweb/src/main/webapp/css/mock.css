@@ -1,0 +1,597 @@
+
+body {
+    font-family: "Trebuchet MS", Verdana, Arial;
+    font-size: 11px;
+    margin: 0;
+    padding: 0;
+}
+
+input, textarea, select, button {
+    font-family:inherit;
+    font-size:inherit;
+    font-weight:inherit;
+}
+
+#doc {
+    width: 980px;
+    padding: 0px;
+    margin: auto;
+    border-left: solid 1px #dddddd;
+    border-right: solid 1px #dddddd;
+}
+
+#hd {
+
+    background: transparent url(../images/mock/page_top.jpg) repeat-x scroll 0pt 0px;
+}
+
+#hd h1 {
+
+    height: 1.1em;
+    font-weight: bold;
+    font-family: "Trebuchet MS", Verdana, Arial;
+    font-size: 1.5em;
+    color: #223333;
+    margin: 0 0 0 0;
+    padding: 0.6em;
+    display: block;
+    text-decoration: none;
+
+}
+
+#hd .heading {
+    color: #455560;
+}
+
+#hd .alternate {
+    color: #277CB4;
+}
+
+#hd .version {
+    color: red;
+    font-size: 0.5em;
+}
+
+#subheader {
+
+    margin-left: 50px;
+    margin-right: 50px;
+    font-size: 1em;
+    height: 15px;
+    width: 400px;
+    position: absolute;
+    top: 5px;
+    left: 500px;
+    border: none 1px silver;
+    padding: 5px;
+    z-index: 1001;
+
+}
+
+#subheader-title {
+
+    float: left;
+
+}
+
+#header-login {
+
+    float: right;
+
+}
+
+#header-login li {
+
+    list-style:none inside; float:left; padding:0 0 1em 1em; margin-top:0px; margin-left:0px
+
+}
+
+#header-login-user {
+
+    color: gray;
+
+}
+
+#menu span {
+
+    font-size:1.1em;
+
+}
+
+#menu span.tab-header {
+
+    font-size:1.3em;
+    line-height:1.8em;
+}
+
+#menu .ui-tabs-nav {
+    font-size:1em;
+    width: 976px;
+}
+
+#menu .ui-tabs-panel {
+    font-size:1em;
+}
+
+#menuDropDown ul{
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    z-index: 1000;
+}
+
+#menuDropDown ul li{
+    position: relative;
+    display: inline;
+    float: left;
+    z-index: 1000;
+    border-bottom: solid 1px #eeeeff;
+}
+
+#menuDropDown ul li a{
+    display: block;
+    padding: 5px 7px 4px 7px;
+    margin-right: 0px; /*spacing between tabs*/
+    margin-left: -1px;
+    border-left: 1px solid #808080;
+    border-right: 1px solid #808080;
+    border-bottom-width: 0;
+    color: #2d2b2b;
+    text-decoration: none;
+}
+
+#menuDropDown ul li a:hover{
+    background-image: url(../js/jquery/jquerycssmenu/tintbluedark.gif) /*tab link background during hover state*/
+}
+
+#menuDropDown ul li ul{
+    position: absolute;
+    left: 0;
+    display: block;
+    visibility: hidden;
+    border-top: 1px solid black;
+}
+
+#menuDropDown ul li ul li{
+    display: list-item;
+    float: none;
+    z-index: 1000;
+}
+
+#menuDropDown ul li ul li ul{
+    top: 0;
+    z-index: 1000;
+}
+
+#menuDropDown ul li ul li a{
+    width: 160px; /*width of sub menus*/
+    background: white;
+    color: black;
+    padding: 4px 5px;
+    margin: 0;
+    border-top-width: 0;
+    border-bottom: 1px solid black;
+}
+
+#menuDropDown ul li ul li a:hover{ /*sub menus hover style*/
+                                   background: #eff9ff;
+                                   color: black;
+}
+
+#menuDropDown .downarrowclass{
+    position: absolute;
+    top: 7px;
+    right: 5px;
+    background: transparent url(../js/jquery/jquerycssmenu/menubaritem_submenuindicator.png) no-repeat;
+    height: 16px;
+    width: 12px;
+    border-bottom: none;
+    text-decoration: none;
+}
+
+#menuDropDown .rightarrowclass{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: transparent url(../js/jquery/jquerycssmenu/menuitem_submenuindicator.png) no-repeat;
+    height: 12px;
+    width: 12px;
+    border-bottom: none;
+    text-decoration: none;
+}
+
+#bd {
+    width: 1000px;
+    margin-top: 5px;
+}
+
+#main {
+    width: 670px;
+    float: left;
+    position: relative;
+    left: 0px;
+    border: none 1px silver;
+    margin-left: 10px;
+    padding: 0em;
+    background: transparent url(../images/mock/main_body.jpg) repeat-y;
+}
+
+#main-body-path {
+    margin-left: 0px;
+    padding-top: 2px;
+    font-size: 1em;
+    height: 20px;
+    width: 100%;
+    background: #F2F8FF url(../images/mock/main_top.jpg) repeat-y;
+    border-top: solid 1px #EFEFEF;
+}
+
+#main-body-path ul {
+
+    padding:0 0 0 1em;
+    margin:0;
+
+}
+
+#main-body-path ul li {
+
+    background:url(../images/mock/breadcrumb.gif) top left no-repeat;
+    display:inline;
+    float:left;
+    padding:0 5px 0 15px;
+    margin-top:0px;
+    margin-left:0px;
+    margin-right:4px;
+
+}
+
+#main-body-header {
+
+    clear: both;
+    padding: 0.5em;
+    background: #F2F8FF url(../images/mock/main_top.jpg) repeat-y;
+    color:#315194;
+    font-family:Georgia,"Times New Roman",Times,serif;
+    font-size:1.4em;
+    font-style:normal;
+    font-variant:normal;
+    font-weight:normal;
+
+}
+
+#main-body-subheader {
+
+    padding: 0.5em;
+    background: white url(../images/mock/main_body.jpg) repeat-y;
+    border-bottom: none 1px silver;
+    font-family:Georgia,"Times New Roman",Times,serif;
+    margin: 0 10px 0 5px;
+    text-decoration: line-through;
+
+}
+
+#main-body-content-subheader {
+    clear: both;
+    margin-top: 20px;
+    margin-bottom: 5px;
+    padding: 5px;
+    color:#00111A;
+    background: #F5FFFA;
+    border-top: solid 1px #CED7DE;
+    border-bottom: dotted 1px silver;
+    font-family:Georgia,"Times New Roman",Times,serif;
+    font-style:normal;
+    font-variant:normal;
+    font-weight:normal;
+}
+
+#main-body-message {
+
+    color: red;
+
+}
+
+#main-body-side {
+
+    display: block;
+    height: 100%;
+    padding: 1em 1.5em 1em 1em;
+    max-width: 300px;
+
+}
+
+#main-body-content {
+
+    background: white url(../images/mock/main_body.jpg) repeat-y;
+    padding: 1em 1.5em 1em 1em;
+    min-height: 220px;
+
+}
+
+#main-body-content-filter {
+
+}
+
+#main-body-actions {
+
+    display: table;
+    margin-top: 2em;
+    padding: 0.5em;
+    border: none 1px silver;
+
+}
+
+#main-body-footer {
+
+    display: none;
+    clear: both;
+    padding: 1em;
+    border: none 1px silver;
+
+}
+
+#main-footer {
+    background: white url(../images/mock/main_bottom.jpg) no-repeat;
+    height: 11px;
+}
+
+#sidebar {
+    min-height: 325px;
+    position: relative;
+    left: 0px;
+    margin: 0px 20px 20px 20px;
+    padding: 0px;
+    float: left;
+    width: 250px;
+    background: #E9EAEB;
+}
+
+#sidebar p, #sidebar div {
+    padding: 0 10px 0 10px;
+}
+
+#sidebar h2 {
+
+    backgroundx: #ABABAB url(../images/mock/sidebar_top.gif) no-repeat;
+    background: #ABABAB;
+    color:white;
+    border-bottom: dotted 1px silver;
+    display:block;
+    font-family:Georgia,"Times New Roman",Times,serif;
+    font-style:normal;
+    font-variant:normal;
+    font-weight:normal;
+    margin:0px 0px 6px 0px;
+    padding:5px 5px 5px 20px;
+    font-size:1.5em;
+
+}
+
+.sidebarTree {
+    border: none 1px silver;
+    width: 180px;
+    font-size: 1em;
+    margin-bottom: 10px;
+}
+
+.sidebarTreeRefresh {
+    font-size: 1em;
+    color: blue;
+}
+
+#watermark {
+    clear: both;
+    background: transparent url(../images/mock/watermark.jpg) no-repeat scroll 0pt;
+    height: 100px;
+    padding: 0px;
+    margin: 0px;
+}
+
+#ft {
+
+    margin: 0px 0 0 0;
+    padding: 2px;
+    clear: both;
+    border-top: solid 1px #D9D9D9;
+    background: #F3F3F3;
+    font-family: "Trebuchet MS",Arial,Helvetica,sans-serif;
+    text-align: center;
+    display: block;
+    position: relative;
+
+}
+
+#ft p {
+    padding: 5px;
+}
+
+#ft .copyright {
+    background:#F3F3F3 none repeat scroll 0%;
+    color:#04496D;
+}
+
+#ft .message {
+    background:#F3F3F3 none repeat scroll 0%;
+    color:#444444;
+    display:block;
+    font-size: 1em;
+}
+
+.form {
+
+
+}
+
+.form-header {
+
+    margin:0.5em 0 0 0;
+    clear: both;
+    padding: 1em;
+    border: dotted 1px silver;
+    font-weight: bold;
+
+}
+
+.form fieldset {
+
+    margin:0.5em 0 0.5em 0;
+    clear: both;
+    padding: 0.5em;
+    border: dotted 1px silver;
+    background: none;
+
+}
+
+.form fieldset legend {
+
+    font-weight: bold;
+
+}
+
+.form-footer {
+
+    margin:0.5em 0 0.5em 0;
+    clear: both;
+    padding: 1em;
+    border: dotted 1px silver;
+
+}
+
+.form-errors {
+
+}
+
+.form-row {
+
+    clear: both;
+    display: table-row;
+    width: 100%;
+    text-align: left;
+
+}
+
+.form-row label {
+
+    display: table-cell;
+    display: inline-block;
+    padding: 0.25em;
+    width: 40%;
+    min-width: 100px;
+    text-align: left;
+    vertical-align: top;
+
+}
+
+.form-row .form-input {
+
+    padding: 0.25em;
+    display: table-cell;
+    display: inline-block;
+    text-align: left;
+
+}
+
+.form-row .form-input-error {
+
+}
+
+.form-row .form-input-message {
+
+}
+
+.form-buttons {
+
+    margin:0.5em 0 0.5em 0;
+    clear: both;
+    padding: 1em;
+    border-left: none 1px silver;
+    border-right: none 1px silver;
+    border-bottom: none 1px silver;
+
+}
+
+.form-buttons .form-button, button, #main-body-actions input, .row-button input {
+    backgroundx: #B4DFDC;
+    colorx: #333333;
+    borderx: solid 1px #CED7E7;
+    padding: 2px 6px 2px 6px;
+    cursor: hand;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+dl {
+    line-height: 2em;
+    margin: 0em 0em;
+    width: 100%;
+}
+
+dt {
+    font-weight: bold;
+    padding-left: 4px;
+    vertical-align: top;
+    max-width: 200px;
+}
+
+dd {
+    margin-left: 200px;
+    margin-top: -2em;
+    vertical-align: top;
+    min-width: 100px;
+    display: table;
+}
+
+.yuimenuitemseparator{
+    border-bottom: 1px solid #d5d5d5;
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
+.main-body-row{
+    clear:both;
+    min-height: 40px;
+    border-bottom: 1px dotted #CCC;
+    margin-top: 5px;
+    padding: 0.5em;
+}
+
+.main-body-row:hover {
+    background: #ffffef;
+}
+
+.row-content{
+    float: left;
+    text-align: left;
+}
+
+.row-button {
+    float: right;
+}
+
+.row-button input {
+    padding: 2px 6px 2px 6px;
+    margin: 1px;
+}
+
+#datatable-checkbox-buttons {
+    text-align: right;
+    margin-top: 5px;
+}
+
+#jqueryDialogFrame {
+    border: none;
+}
+
+#jqueryDialogDiv iframe {
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+#jqueryDialogDiv {
+    padding: 0px;
+}
+
+div.ui-dynatree-container {
+    background: none;
+}

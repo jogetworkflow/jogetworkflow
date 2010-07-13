@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class entity-name="ParticipantDirectory" lazy="false" name="org.joget.workflow.model.ParticipantDirectory" table="wf_participant_directory">
+    <id name="id" type="string">
+      <generator class="uuid"/>
+    </id>
+    <property name="packageId" type="string"/>
+    <property name="processId" type="string"/>
+    <property name="version" type="integer"/>
+    <property name="participantId" type="string"/>
+    <property name="type" type="string"/>
+    <property name="value" type="text"/>
+    <property name="pluginProperties" type="text"/>
+  </class>
+</hibernate-mapping>

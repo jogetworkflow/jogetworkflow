@@ -1,0 +1,15 @@
+<%@ tag import="org.springframework.security.context.SecurityContextHolder"%>
+<%@ include file="/WEB-INF/jsp/includes/taglibs.jsp" %>
+<%@ attribute name="title" %>
+<c:if test="${empty title}"><c:set var="title"><fmt:message key="general.header.appTitle"/></c:set></c:if>
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>${title}</title>
+
+        <jsp:include page="/WEB-INF/jsp/includes/css.jsp" />
+        <jsp:include page="/WEB-INF/jsp/includes/scripts.jsp" />
+    </head>
+    <body class="popupBody">

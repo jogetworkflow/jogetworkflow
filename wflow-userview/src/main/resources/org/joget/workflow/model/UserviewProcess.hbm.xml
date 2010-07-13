@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class entity-name="UserviewProcess" lazy="false" name="org.joget.workflow.model.UserviewProcess" table="wf_userview_process">
+    <id name="id" type="string">
+      <generator class="uuid"/>
+    </id>
+    <property name="processDefId" type="string"/>
+    <property name="categoryId" type="string"/>
+    <property name="activityDefId" type="string"/>
+    <property name="activityLabel" type="string"/>
+    <property name="buttonSaveLabel" type="string"/>
+    <property name="buttonWithdrawLabel" type="string"/>
+    <property name="buttonCompleteLabel" type="string"/>
+    <property name="buttonCancelLabel" type="string"/>
+    <property name="buttonSaveShow" type="integer"/>
+    <property name="buttonWithdrawShow" type="integer"/>
+    <property name="sequence" type="integer"/>
+    <property name="tableName" type="string"/>
+    <property name="tableColumn" type="text"/>
+    <property name="activityFormId" type="string"/>
+    <property name="activityFormUrl" type="text"/>
+    <property name="filter" type="string"/>
+    <property name="sort" type="string"/>
+    <property name="viewType" type="integer"/>
+    <property name="permType" type="integer"/>
+    <property name="mappingType" type="string"/>
+    <property name="mappingValue" type="string"/>
+    <property name="header" type="text"/>
+    <property name="footer" type="text"/>
+    <property name="createdBy" type="string"/>
+    <property name="createdOn" type="date"/>
+    <property name="modifiedBy" type="string"/>
+    <property name="modifiedOn" type="date"/>
+    <many-to-one column="userviewSetupId" entity-name="UserviewSetup" name="dvSetup"/>
+  </class>
+</hibernate-mapping>

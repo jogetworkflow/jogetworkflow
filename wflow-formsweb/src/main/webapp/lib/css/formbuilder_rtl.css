@@ -1,0 +1,79 @@
+body{
+    direction:rtl;
+}
+
+.formbuilder_title{
+    text-align:right;
+}
+
+.popupBody .form-buttons{
+    text-align:right;
+}
+
+.formbuilder_row .formbuilder_label{
+    text-align:left;
+    float:right;
+}
+
+.formbuilder_row .formbuilder_widget_container{
+    float:right;
+    text-align:right;
+}
+
+.wym_box{
+    direction:ltr;
+    text-align:left;
+}
+
+.flexigrid{
+    text-align:right;
+    direction:ltr;
+}
+
+div#formbuilder_fieldset_mode {
+    margin-left:0;
+    margin-right:260px;
+}
+
+#formbuilder_fieldset_mode span{
+    float:right;
+    display: inline-block;
+}
+
+#formbuilder_fieldset_mode span label{
+    margin-top:3px;
+    display: inline-block;
+}
+
+#formbuilder_grid_row h2{
+    text-align:right;
+}
+
+#formbuilder_grid_row select{
+    float:right;
+    margin-bottom:5px;
+}
+
+#formbuilder_grid_ok{
+    float:right;
+}
+
+#formbuilder_grid_cancel{
+    float:right;
+}
+
+#TB_ajaxContent div{
+    clear:both;
+}
+
+#columns div{
+    text-align:right;
+}
+
+#columns div select{
+    float:none;
+}
+
+#formbuilder_export .tablist li{
+    float:right;
+}

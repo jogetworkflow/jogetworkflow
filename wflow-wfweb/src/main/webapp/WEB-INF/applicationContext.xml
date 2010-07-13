@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-2.5.xsd
+       http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.2.xsd">
+
+    <import resource="classpath:commonsApplicationContext.xml" />
+    <import resource="classpath:pluginBaseApplicationContext.xml" />
+    <import resource="classpath:directoryApplicationContext.xml" />
+    <import resource="classpath:formApplicationContext.xml" />
+    <import resource="classpath:userviewApplicationContext.xml" />
+    <import resource="classpath:wfengineApplicationContext.xml" />
+    <import resource="classpath:formwebApplicationContext.xml" />
+
+    <bean id="workflowFacade" class="org.joget.workflow.model.WorkflowFacade">
+        <property name="workflowManager" ref="workflowManager"/>
+        <property name="workflowUserManager" ref="workflowUserManager"/>
+        <property name="activityFormDao" ref="activityFormDao"/>
+        <property name="activityPluginDao" ref="activityPluginDao"/>
+        <property name="activitySetupDao" ref="activitySetupDao"/>
+        <property name="participantDirectoryDao" ref="participantDirectoryDao"/>
+        <property name="directoryManager" ref="directoryManager"/>
+        <property name="formManager" ref="formManager"/>
+        <property name="userviewProcessManager" ref="userviewProcessManager"/>
+    </bean>
+
+    <!-- START Spring Security -->
+    <bean id="springSecurityFilterChain" class="org.springframework.security.util.FilterChainProxy">
+        <security:filter-chain-map path-type="ant">
+            <security:filter-chain pattern="/**" filters="workflowHttpAuthFilter"/>
+        </security:filter-chain-map>
+    </bean>
+
+    <security:authentication-manager alias="authenticationManager"/>
+
+    <bean id="ntlmEntryPoint" class="org.springframework.security.ui.ntlm.NtlmProcessingFilterEntryPoint">
+        <property name="authenticationFailureUrl" value="/web/login"/>
+    </bean>
+
+    <bean id="exceptionTranslationFilter" class="org.springframework.security.ui.ExceptionTranslationFilter">
+        <property name="authenticationEntryPoint" ref="ntlmEntryPoint"/>
+    </bean>
+
+    <bean id="ntlmFilter" class="org.joget.workflow.security.WorkflowNtlmProcessingFilter">
+        <security:custom-filter position="NTLM_FILTER"/>
+        <property name="authenticationManager" ref="authenticationManager"/>
+    </bean>
+
+    <security:http auto-config="false" access-denied-page="/web/unauthorized" entry-point-ref="ntlmEntryPoint" servlet-api-provision="false">
+        <security:intercept-url pattern="/" access="IS_AUTHENTICATED_ANONYMOUSLY, ROLE_USER, ROLE_ADMIN"/>
+        <security:intercept-url pattern="/index.jsp" access="IS_AUTHENTICATED_ANONYMOUSLY, ROLE_USER, ROLE_ADMIN"/>
+        <security:intercept-url pattern="/web/login" access="IS_AUTHENTICATED_ANONYMOUSLY, ROLE_USER, ROLE_ADMIN"/>
+        <security:intercept-url pattern="/web/unauthorized" access="IS_AUTHENTICATED_ANONYMOUSLY, ROLE_USER, ROLE_ADMIN"/>
+        <security:intercept-url pattern="/web/index" access="IS_AUTHENTICATED_ANONYMOUSLY, ROLE_USER, ROLE_ADMIN"/>
+        <security:intercept-url pattern="/web/js/**" access="IS_AUTHENTICATED_ANONYMOUSLY, ROLE_USER, ROLE_ADMIN"/>
+        <security:intercept-url pattern="/web/images/**" access="IS_AUTHENTICATED_ANONYMOUSLY, ROLE_USER, ROLE_ADMIN"/>
+        <security:intercept-url pattern="/web/rss/**" access="IS_AUTHENTICATED_ANONYMOUSLY, ROLE_USER, ROLE_ADMIN"/>
+        <security:intercept-url pattern="/web/json/**" access="IS_AUTHENTICATED_ANONYMOUSLY, ROLE_USER, ROLE_ADMIN"/>
+        <security:intercept-url pattern="/web/json/workflow/package/deploy" access="IS_AUTHENTICATED_ANONYMOUSLY, ROLE_USER, ROLE_ADMIN"/>
+        <security:intercept-url pattern="/web/json/workflow/package/update" access="IS_AUTHENTICATED_ANONYMOUSLY, ROLE_USER, ROLE_ADMIN"/>
+        <security:intercept-url pattern="/web/admin/process/xpdl/**" access="IS_AUTHENTICATED_ANONYMOUSLY, ROLE_USER, ROLE_ADMIN"/>
+        <security:intercept-url pattern="/js/**" filters="none"/>
+        <security:intercept-url pattern="/css/**" filters="none"/>
+        <security:intercept-url pattern="/images/**" filters="none"/>
+        <security:intercept-url pattern="/lib/**" filters="none"/>
+        <security:intercept-url pattern="/web/formbuilder/submit" access="IS_AUTHENTICATED_ANONYMOUSLY, ROLE_USER, ROLE_ADMIN"/>
+        <security:intercept-url pattern="/web/formbuilder/mobileSubmit" access="IS_AUTHENTICATED_ANONYMOUSLY, ROLE_USER, ROLE_ADMIN"/>
+        <security:intercept-url pattern="/web/formbuilder/json/**" access="IS_AUTHENTICATED_ANONYMOUSLY, ROLE_USER, ROLE_ADMIN"/>
+        <security:intercept-url pattern="/web/formbuilder/getFormVariable**" access="IS_AUTHENTICATED_ANONYMOUSLY, ROLE_USER, ROLE_ADMIN"/>
+        <security:intercept-url pattern="/web/formbuilder/admin/**" access="ROLE_ADMIN"/>
+        <security:intercept-url pattern="/web/formbuilder/message" access="IS_AUTHENTICATED_ANONYMOUSLY, ROLE_USER, ROLE_ADMIN"/>
+        <security:intercept-url pattern="/web/formbuilder/**" access="ROLE_USER, ROLE_ADMIN"/>
+        <security:intercept-url pattern="/web/client/mobile/**" access="ROLE_USER, ROLE_ADMIN" />
+        <security:intercept-url pattern="/web/client/assignment/view/**" access="IS_AUTHENTICATED_ANONYMOUSLY, ROLE_USER, ROLE_ADMIN" />
+        <security:intercept-url pattern="/web/client/assignment/login/view/**" access="ROLE_USER, ROLE_ADMIN" />
+        <security:intercept-url pattern="/web/client/process/start/**" access="IS_AUTHENTICATED_ANONYMOUSLY, ROLE_USER, ROLE_ADMIN" />
+        <security:intercept-url pattern="/web/client/process/started/**" access="IS_AUTHENTICATED_ANONYMOUSLY, ROLE_USER, ROLE_ADMIN" />
+        <security:intercept-url pattern="/web/client/**" access="ROLE_USER, ROLE_ADMIN" />
+        <security:intercept-url pattern="/mobile" access="IS_AUTHENTICATED_ANONYMOUSLY, ROLE_USER, ROLE_ADMIN" />
+        <security:intercept-url pattern="/web/userview/**" access="ROLE_USER, ROLE_ADMIN" />
+        <security:intercept-url pattern="/web/directory/client/user/profile/**" access="ROLE_USER, ROLE_ADMIN" />
+        <security:intercept-url pattern="/**" access="ROLE_ADMIN" />
+
+        <security:form-login login-page="/web/login" authentication-failure-url="/web/login?login_error=1" default-target-url="/index.jsp" />
+        <security:logout logout-success-url="/web/login"/>
+        <security:anonymous />
+    </security:http>
+
+    <bean id="authenticationProvider" class="org.joget.workflow.security.WorkflowAuthenticationProvider">
+        <security:custom-authentication-provider />
+        <property name="directoryManager" ref="directoryManager"/>
+    </bean>
+
+    <bean id="workflowHttpAuthFilter" class="org.joget.workflow.security.WorkflowHttpAuthProcessingFilter">
+        <security:custom-filter before="AUTHENTICATION_PROCESSING_FILTER" />
+        <property name="authenticationManager" ref="authenticationManager" />
+        <property name="authenticationFailureUrl" value="/web/login?login_error=1" />
+        <property name="defaultTargetUrl" value="/" />
+        <property name="workflowUserManager" ref="workflowUserManager"/>
+        <property name="directoryManager" ref="directoryManager"/>
+        <property name="setupManager" ref="setupManager"/>
+    </bean>
+
+    <!--
+    <security:authentication-provider>
+        <security:password-encoder hash="md5"/>
+        <security:user-service>
+            <security:user name="rod" password="a564de63c2d0da68cf47586ee05984d7" authorities="ROLE_SUPERVISOR, ROLE_USER, ROLE_TELLER" />
+            <security:user name="dianne" password="65d15fe9156f9c4bbffd98085992a44e" authorities="ROLE_USER,ROLE_TELLER" />
+            <security:user name="scott" password="2b58af6dddbd072ed27ffc86725d7d3a" authorities="ROLE_USER" />
+            <security:user name="peter" password="22b5c9accc6e1ba628cedc63a72d57f8" authorities="ROLE_USER" />
+        </security:user-service>
+    </security:authentication-provider>
+
+    -->
+
+    <!--
+    <bean id="propertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
+          p:location="/WEB-INF/jdbc.properties" />
+
+    <bean id="dataSource"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+          p:driverClassName="${jdbc.driverClassName}"
+          p:url="${jdbc.url}"
+          p:username="${jdbc.username}"
+          p:password="${jdbc.password}" />
+
+    <security:authentication-provider>
+	<security:jdbc-user-service
+        data-source-ref="dataSource"
+	users-by-username-query="SELECT U.username, U.password, U.enabled AS 'enabled' FROM user U WHERE U.username=?"
+	authorities-by-username-query="SELECT U.username, R.name as 'authority' FROM User U JOIN Authority A ON u.id = A.user_id JOIN Role R ON R.id = A.role_id WHERE U.username=?"/>
+    </security:authentication-provider>
+    -->
+
+    <!--
+    Testing integration to EKP security service
+    <security:http auto-config="true" access-denied-page="/403.jsp">
+        <security:intercept-url pattern="/web/process/**" access="ROLE_kacang.services.security.ekms.ekmsUser" />
+        <security:intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+        <security:form-login login-page="/web/login" authentication-failure-url="/web/login?login_error=1" default-target-url="/index.jsp" />
+        <security:logout logout-success-url="/"/>
+    </security:http>
+
+    <bean id="ekpDataSource"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+          p:driverClassName="${jdbc.driverClassName}"
+          p:url="jdbc:mysql://localhost/ekpdefaultdb"
+          p:username="${jdbc.username}"
+          p:password="${jdbc.password}" />
+
+    <security:authentication-provider>
+        <security:password-encoder hash="md5"/>
+	<security:jdbc-user-service data-source-ref="ekpDataSource"
+            users-by-username-query="SELECT U.username, U.password, U.active AS 'enabled' FROM security_user U WHERE U.username=?"
+            authorities-by-username-query="SELECT DISTINCT username, CONCAT('ROLE_', permissionId) AS 'authority' FROM security_user u INNER JOIN security_user_group ug ON ug.userId=u.id INNER JOIN security_group g ON ug.groupId=g.id INNER JOIN security_principal_permission p ON p.principalId=g.id WHERE u.username = ?"/>
+    </security:authentication-provider>
+    -->
+
+    <!-- END Spring Security -->
+</beans>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class entity-name="ActivityForm" lazy="false" name="org.joget.workflow.model.ActivityForm" table="wf_activity_form">
+    <id name="id" type="string">
+      <generator class="uuid"/>
+    </id>
+    <property name="processId" type="string"/>
+    <property name="version" type="integer"/>
+    <property name="activityId" type="string"/>
+    <property name="formId" type="string"/>
+    <property name="formUrl" type="string"/>
+    <property name="formIFrameStyle" type="text"/>
+    <property name="type" type="string"/>
+  </class>
+</hibernate-mapping>

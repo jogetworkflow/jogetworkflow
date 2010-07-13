@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+    
+    <!--bean id="propertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
+          p:location="jdbc.properties" /-->
+    <import resource="classpath:commonsApplicationContext.xml" />
+
+    <bean id="formDataSource" class="org.joget.commons.util.DynamicDataSource" destroy-method="close">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://127.0.0.1:3306/wflowdb?characterEncoding=UTF-8" />
+        <property name="username" value="root" />
+        <property name="password" value="" />
+        <property name="minEvictableIdleTimeMillis" value="21600000" />
+        <property name="timeBetweenEvictionRunsMillis" value="1800000" />
+        <property name="numTestsPerEvictionRun" value="-1" />
+        <property name="minIdle" value="1" />
+        <property name="datasourceName" value="form" />
+    </bean>
+
+    <!-- Hibernate SessionFactory -->
+    <bean id="formSessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+        <property name="dataSource" ref="formDataSource"/>
+        <property name="mappingResources">
+            <list>
+                <value>/org/joget/form/model/Form.hbm.xml</value>
+                <value>/org/joget/form/model/Category.hbm.xml</value>
+                <value>/org/joget/form/model/FormVariable.hbm.xml</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.show_sql">false</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+            </props>
+        </property>
+    </bean>
+    
+    <!-- Transaction manager for a single Hibernate SessionFactory (alternative to JTA) -->
+    <bean id="formTransactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory" ref="formSessionFactory"/>
+    </bean>
+    
+    <bean id="formDao" class="org.joget.form.model.dao.FormDao">
+        <property name="sessionFactory" ref="formSessionFactory"/>
+        <property name="localSessionFactory" ref="&amp;formSessionFactory"/>
+    </bean>
+    
+    <bean id="formManager" class="org.joget.form.model.service.FormManager">
+        <property name="formDao" ref="formDao"/>
+        <property name="categoryDao" ref="categoryDao"/>
+        <property name="dynamicFormDao" ref="dynamicFormDao"/>
+    </bean>
+
+    <bean id="formUtil" class="org.joget.form.util.FormUtil">
+    </bean>
+
+    <bean id="categoryDao" class="org.joget.form.model.dao.CategoryDao">
+        <property name="sessionFactory" ref="formSessionFactory"/>
+        <property name="localSessionFactory" ref="&amp;formSessionFactory"/>
+    </bean>
+
+    <bean id="formVariableDao" class="org.joget.form.model.dao.FormVariableDao">
+        <property name="sessionFactory" ref="formSessionFactory"/>
+        <property name="localSessionFactory" ref="&amp;formSessionFactory"/>
+    </bean>
+
+    <bean id="fileUtil" class="org.joget.form.util.FileUtil"></bean>
+
+    <bean id="dynamicFormDao" class="org.joget.form.model.dao.DynamicFormDao" >
+        <property name="sessionFactory" ref="formSessionFactory"/>
+        <property name="dao" ref="formDao"/>
+        <lookup-method name="loadCustomSessionFactory" bean="customSessionFactory" />
+    </bean>
+    
+    <bean id="customSessionFactory" class="org.joget.form.util.DynamicLocalSessionFactoryBean" scope="prototype">
+        <property name="dataSource" ref="formDataSource"/>
+        <property name="dao" ref="dynamicFormDao"/>
+        <property name="hibernateProperties">
+            <props>
+                <!--prop key="hibernate.dialect">org.hibernate.dialect.OracleDialect</prop-->
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.show_sql">false</prop>
+            </props>
+        </property>
+    </bean>
+</beans>

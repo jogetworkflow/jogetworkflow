@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class entity-name="ActivitySetup" lazy="false" name="org.joget.workflow.model.ActivitySetup" table="wf_activity_setup">
+    <id name="id" type="string">
+      <generator class="uuid"/>
+    </id>
+    <property name="processId" type="string"/>
+    <property name="activityId" type="string"/>
+    <property name="continueNextAssignment" type="integer"/>
+  </class>
+</hibernate-mapping>

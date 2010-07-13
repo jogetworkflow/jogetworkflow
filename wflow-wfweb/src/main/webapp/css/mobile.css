@@ -1,0 +1,141 @@
+body {
+    font-size: 14px;
+}
+
+#mobileAppInfo{
+    width:100%;
+    text-align:center;
+    padding: 5px 0px;
+    font-weight: bold;
+    font-size: 16px;
+    color: #b3cb5e;
+    background-color:#4C5B28;
+    border-bottom:#B4D752 2px solid;
+}
+
+#mobileMenu{
+    width:100%;
+    background-color:#61A008;
+    border-bottom:#B4D752 2px solid;
+    float: left;
+    margin: 0;
+    text-align: center;
+}
+
+#mobileMenu a{
+    display: block;
+    float:left;
+    line-height: 12px;
+    font-weight:bold;
+    font-size: 16px;
+    text-align:center;
+    text-decoration:none;
+    padding: 8px 8px;
+    color: white;
+    width: 20%;
+}
+
+#mobileMenu a#runProcess{
+    width: 40%;
+}
+
+.mobileInfo{
+    clear:both;
+    margin-left:5px;
+    padding: 8px 0px;
+}
+
+.mobileInfo a{
+    color: #505050;
+}
+
+.mobileInfo p{
+    padding-left:5px;
+}
+
+.mobileListing ul{
+    list-style-type: none;
+    padding-left:0px;
+}
+
+.mobileListing ul li{
+    list-style-type: none;
+    border-bottom:gray 1px dotted;
+    padding: 2px 0 2px 5px;
+    text-decoration:none;
+}
+
+.mobileListing ul li:first-child{
+    border-top:gray 1px dotted;
+}
+
+.mobileListing ul li span.date{
+    font-size: 12px;
+    color: gray;
+    display:block;
+}
+
+.mobileListing ul li a{
+    color: black;
+}
+
+.mobileListing ul li a:hover{
+    color: #505050;
+}
+
+#start-process-content{
+    clear:both;
+    padding-top:15px;
+}
+
+#mobile-start-process-title{
+    margin: 15px 5px;
+    color: #4C5B28;
+    font-weight:bold;
+    font-size: 16px;
+    text-align:center;
+}
+
+#mobile-start-process-title #packageName{
+    display: block;
+}
+
+#processForm, #assignmentForm{
+    display: block;
+    text-align:center;
+    padding:10px 0 30px 0;
+}
+
+.mobileMoreInfo a{
+    width:100%;
+    display: block;
+    color: #505050;
+    text-align:center;
+}
+
+.mobileMoreInfo{
+    display: block;
+    font-size: 11px;
+    margin: 20px 0;
+    padding-left:5px;
+}
+
+.mobileMoreInfo div span.label{
+    font-weight:bold;
+}
+
+#main-body-header{
+    clear:both;
+    margin: 5px;
+    padding: 5px;
+}
+
+#main-body-header-title, #main-body-header-subtitle, #main-body-header-date{
+    font-weight:bold;
+    color: #4C5B28;
+}
+
+.mobileFormErrors{
+    font-size: 11px;
+    padding-left: 14px;
+}

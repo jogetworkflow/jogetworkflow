@@ -1,0 +1,516 @@
+div#formbuilder_main {
+    font-family: Tahoma, Helvetica, Arial, sans-serif;
+    font-size: 100%;
+    background: #f8f8f8;
+}
+
+div#formbuilder_main {
+    font-size: 11px;
+    width: 960px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0.5em 1em;
+}
+
+#content_container {
+    width: 918px;
+    padding: 6px 20px 6px 20px;
+    background-color: #FFFFFF;
+    border-left: 1px solid #cfcfcf;
+    border-right: 1px solid #cfcfcf;
+}
+
+div#formbuilder_controls{
+    border: solid 1px #808080;
+    background: #aaaaaa;
+    padding: 1%;
+    margin: 2% 0% 1% 0%;
+}
+
+div#formbuilder_controls a{
+    margin-right: 2%;
+    color: white;
+    font-weight: bold;
+    display: inline;
+    font-size: 160%;
+    text-decoration: none;
+}
+
+/*
+div#formbuilder_property #formbuilder_property_row
+{
+float:right
+}
+
+div#formbuilder_property input
+{
+float:right
+}
+
+div#formbuilder_property p
+{
+display: inline;
+float:left
+}
+*/
+
+.subform_header{
+    border-bottom: 1px solid black;
+    font-size: 11pt;
+    font-weight: bold
+}
+
+.subformLink{
+    padding: 0.5em;
+    font-size: 120%;
+    text-align: center;
+}
+
+.subform_content fieldset, .subform_content legend{
+    background: none;
+    xborder: 1px solid #aaa;
+}
+
+div#formbuilder_property .formbuilder_property_row
+{
+    margin-bottom: 8px
+}
+
+div#formbuilder_property input, div#formbuilder_property select
+{
+    margin-left: 20px
+}
+
+div#formbuilder_property p
+{
+    font-weight: bold;
+}
+
+
+div#formbuilder_property
+{
+    position: absolute;
+    left:200px;
+    top:100px;
+    width:250px;
+    background-color:#f4f4f4;
+    border: 1px solid #000;
+    z-index: 50;
+    font-size: 10pt;
+    font-family: Verdana, Arial;
+}
+div#formbuilder_property_handle
+{
+    background-color:#9a9a9a;
+    padding:4px;
+    text-align:center;
+    font-weight:bold;
+    color: #FFFFFF;
+    vertical-align:middle;
+    cursor: move;
+}
+div#formbuilder_property_content
+{
+    padding:5px;
+}
+div#formbuilder_property_close
+{
+    float:right;
+    text-decoration:none;
+    color:#FFFFFF;
+}
+
+
+/* EDITED */
+div#formbuilder_widgets_list{
+    border: solid 1px #9e9e9e;
+    background: #aaa;
+    padding: 1%;
+    float: right;
+    width: 20%;
+    margin: 1% 2% 1% 1%;
+    position: relative;
+}
+div#formbuilder_widgets_list li img{
+    border: 0px;
+    vertical-align: middle;
+    margin-right: 2px;
+}
+div#formbuilder_widgets_list li a{
+    text-decoration: none;
+    color: black;
+}
+div#formbuilder_widgets_list li{
+    list-style-type: none;
+    display: block;
+    border: solid 1px #9c9c9c;
+    background: white url(../img/formbuilder_widgets_listbg.gif) repeat-x left bottom;
+    padding: 0.5em;
+    margin: 0.5em 0;
+}
+div#formbuilder_widgets_list li:hover{
+    list-style-type: none;
+    display: block;
+    border: solid 1px #9c9c9c;
+    background: white url(../img/formbuilder_widgets_listbg_hover.gif) repeat-x left top;
+    padding: 0.5em;
+    margin: 0.5em 0;
+	cursor: hand;
+}
+div#formbuilder_widgets_list ul{
+    padding: 0;
+    margin: 0;
+}
+div#formbuilder_widgets_list a.textfield_icn{
+    color: #191919;
+    text-decoration: none;
+    font-weight: bold;
+	background: url(img/textfield_add.png) no-repeat left center;
+	padding: 0 0 0 1.8em;
+}
+div#formbuilder_widgets_list a.fieldset_icn{
+    color: #191919;
+    text-decoration: none;
+    font-weight: bold;
+	background: url(img/fieldset_add.png) no-repeat left center;
+	padding: 0 0 0 1.8em;
+}
+div#formbuilder_widgets_list a.textarea_icn{
+    color: #191919;
+    text-decoration: none;
+    font-weight: bold;
+	background: url(img/text_area.png) no-repeat left center;
+	padding: 0 0 0 1.8em;
+}
+div#formbuilder_widgets_list a.dropdown_icn{
+    color: #191919;
+    text-decoration: none;
+    font-weight: bold;
+	background: url(img/drop_down_list.png) no-repeat left center;
+	padding: 0 0 0 1.8em;
+}
+div#formbuilder_widgets_list a.checkbox_icn{
+    color: #191919;
+    text-decoration: none;
+    font-weight: bold;
+	background: url(img/check_box.png) no-repeat left center;
+	padding: 0 0 0 1.8em;
+}
+div#formbuilder_widgets_list a.ratio_icn{
+    color: #191919;
+    text-decoration: none;
+    font-weight: bold;
+	background: url(img/ratio.png) no-repeat left center;
+	padding: 0 0 0 1.8em;
+}
+div#formbuilder_widgets_list a.html_icn{
+    color: #191919;
+    text-decoration: none;
+    font-weight: bold;
+	background: url(img/html.png) no-repeat left center;
+	padding: 0 0 0 1.8em;
+}
+div#formbuilder_widgets_list a.subform_icn{
+    color: #191919;
+    text-decoration: none;
+    font-weight: bold;
+	background: url(img/sub_form.png) no-repeat left center;
+	padding: 0 0 0 1.8em;
+}
+div#formbuilder_widgets_list a.upload_icn{
+    color: #191919;
+    text-decoration: none;
+    font-weight: bold;
+	background: url(img/download_field.png) no-repeat left center;
+	padding: 0 0 0 1.8em;
+}
+div#formbuilder_widgets_list a.grid_icn{
+    color: #191919;
+    text-decoration: none;
+    font-weight: bold;
+	background: url(img/grid.png) no-repeat left center;
+	padding: 0 0 0 1.8em;
+}
+
+div#formbuilder_fieldset_mode {
+    margin-left: 2%;
+    font-size: 12px
+}
+
+div#formbuilder_widgets_area {
+    margin: 1% 1% 1% 2%;
+    float: left;
+    width: 68%;
+    padding: 1%;
+    background: #eee;
+    border: solid 1px #d7d7d7;
+}
+/* EDITED END*/
+
+
+div#formbuilder_widgets_area .description,  .description input,   .description textarea{
+    font-style: italic;
+    font-size: 100%;
+}
+
+.label, .label input,  legend input, .label textarea{
+    font-weight: bold;
+    /*display: inline;*/
+    font-size: 100%;
+}
+
+.label input {
+    display: inline;
+}
+
+div#formbuilder_widgets_area .formbuilder_title, .formbuilder_title input{
+    font-weight: bold;
+    font-size: 20px;
+}
+
+div#formbuilder_widgets_area option,  div#formbuilder_widgets_area select{
+    font-size: 100%;
+}
+
+div#formbuilder_widgets_area .formbuilder_widget {
+    background-color: #FFFCC2;
+}
+
+div#formbuilder_rows {
+    width: 100%;
+}
+
+div#_ex_formbuilder_rows .formbuilder_row {
+    border-bottom: 0px dotted silver;
+}
+
+div#_ex_formbuilder_rows .formbuilder_label p {
+    margin: 0;
+    margin-bottom: 3px;
+}
+
+div#_ex_formbuilder_rows .formbuilder_label p.description{
+    font-style: italic;
+}
+
+#formbuilder_flash_message {
+    border: solid 2px gray;
+    background: lightgreen;
+    margin: 1% 2% 1% 1%;
+    padding: 1%;
+    float: right;
+    width: 20%;
+    clear: right;
+    font-weight: bold;
+    text-align: center;
+}
+
+
+.formbuilder_widget_control img,  .formbuilder_widget_control2 img{
+    border: none;
+    vertical-align: middle;
+}
+
+div.formbuilder_widget_control, div.formbuilder_widget_control2 {
+    display: block;
+    float: left;
+    width: 25px;
+}
+
+p.formbuilder_widget_control, p.formbuilder_widget_control2 {
+    display: inline;
+}
+
+p.formbuilder_widget_control a, p.formbuilder_widget_control2 a{
+    text-decoration: none;
+    vertical-align: middle;
+}
+
+.formbuilder_row {
+    width: 100%;
+    border: solid 0px transparent;
+    clear: both;
+    padding-bottom: 10px;
+}
+
+.formbuilder_row textarea {
+    height: 150px;
+}
+
+.formbuilder_required_marker {
+    color: red;
+    font-weight: bold;
+    font-size: 100%;
+    position: relative;
+    left: 8px;
+    top: -18px;
+}
+
+.formbuilder_required .formbuilder_required_marker {
+    position: inherit;
+    left: 0px;
+    top: 0px;
+}
+
+.formbuilder_editable  {
+    border: solid 0px transparent;
+}
+.formbuilder_editable input {
+    border: solid 1px gray;
+}
+
+input {
+    displayx: inline;
+}
+
+textarea{
+    width:100%
+}
+
+.error {
+    color: red;
+}
+
+.formbuilder_row_end {
+    width: 90%;
+    height: 1px;
+    clear: both;
+}
+
+.highlight {
+    /*border: solid 1px yellow;*/
+    background : #e5e5e5;
+}
+.current_row {
+    border: dotted 1px red;
+}
+
+.current_fieldset {
+    border: dotted 1px red;
+}
+
+div.formbuilder_label, div.formbuilder_widget_container {
+    display: block;
+    float: left;
+    width: 40%;
+    margin: 0;
+    text-align: right;
+    padding: 0.5em;
+}
+
+div.formbuilder_widget_container {
+    text-align: left;
+    margin: 0px;
+    padding: 5px;
+}
+
+.subform_background {
+    background: #DDD;
+}
+
+.subform_disabled {
+    background: #CCC;
+}
+
+.formbuilder_legend, fieldset {
+    xborder: solid 1px #c0c0c0;
+    x-moz-border-radius: 7pt;
+}
+
+.formbuilder_legend  {
+    font-weight: bold;
+    color: black;
+    padding: 0.2em;
+    margin: 0.5em;
+    font-size: 1.5em;
+    background: none;
+}
+
+fieldset {
+    xwidth: 100%;
+    background: white;
+    padding: 1px 10px 1px 10px;
+}
+
+div.row {
+    width: 100%;
+}
+
+.checkbox_label input,
+.radio_label input {
+    font-size: 100%;
+}
+
+.gridTable{
+    width: 100%
+}
+
+.gridTable td, .gridTable th{
+    vertical-align: top;
+    padding: 2px;
+}
+
+#footer {
+    background-image: url(../img/container_bottom.gif);
+    background-repeat: repeat-x;
+    height: 58px;
+    width: 944px;
+    padding-top: 14px;
+    float:left;
+    text-align: center;
+    color: #717171;
+}
+
+/* fieldset as tabs */
+#formbuilder_export .tablist {
+  list-style-type: none;
+  margin: 0 !important;
+  overflow: hidden;
+}
+
+  #formbuilder_export .tablist li {
+    float: left;
+    background: #ccc;
+    border: 1px outset #ccc;
+    border-bottom: 1px solid #bbb;
+    color: #333;
+    padding: 0.5em;
+    margin-right: 2px;
+    font-weight: bold;
+  }
+
+    #formbuilder_export .tablist li:hover {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    #formbuilder_export .tablist li.active {
+      background-color: #ddd;
+      border-color: #ddd;
+    }
+
+#formbuilder_export .tab {
+  display: none;
+  background: #ddd;
+  border: 1px outset #ddd;
+  border-top: none;
+  padding: 1em;
+}
+
+  #formbuilder_export .tabTitle {
+    display: none;
+  }
+
+  #formbuilder_export .tab.active {
+    display: block;
+  }
+
+.validation-error-message{
+
+}
+
+.hideShowButton{
+    font-size: 80%;
+}

@@ -1,0 +1,238 @@
+body{
+    direction:rtl;
+}
+
+ul#nav{
+    float:right;
+    padding:0;
+}
+
+ul#nav li{
+    float:right;
+}
+
+ul#nav li div.dropdown ul li a{
+    padding-right:12px;
+}
+
+ul#nav li .dropdown .top_home{
+    background:transparent url(../images/v2/d_menu_top_home_rtl.png) no-repeat scroll -4px 0;
+}
+
+ul#nav li .dropdown .top_setting{
+    background:transparent url(../images/v2/d_menu_top_setting_rtl.png) no-repeat scroll -4px 0;
+}
+
+ul#nav li .dropdown.last {
+    left:2px;
+}
+
+ul#nav li.active-home .dropdown, ul#nav li.home .dropdown{
+    left:-198px;
+}
+
+#header h1{
+    float:right;
+}
+
+#header .static{
+    text-align:left;
+}
+
+#content_header .float_left{
+    float:right;
+    background:transparent url(../images/joget/content_header_left_rtl.gif) no-repeat scroll 0 0;
+}
+
+#content_header #title{
+    text-align:right;
+    float:right;
+}
+
+#content_header .float_right{
+    float:left;
+    background:transparent url(../images/joget/content_header_right_rtl.gif) no-repeat scroll 0 0;
+}
+
+ul#guide{
+    margin:0;
+    padding-right:20px;
+}
+
+#package-design-image, #package-upload-image{
+    float:right;
+}
+
+#package-design-body, #package-upload-body {
+    width:220px;
+    text-align:right;
+}
+
+#package-upload-buttons{
+    clear:both;
+}
+
+.row-content {
+    float:right;
+    text-align:right;
+}
+
+.row-button{
+    float:left;
+}
+
+.form-row label{
+    float:right;
+    text-align:right;
+}
+
+.form-row .form-input{
+    width:50%;
+    float:right;
+    text-align:right;
+}
+
+.form-row input[type="checkbox"]{
+    float:right;
+}
+
+#main-body-content .ui-tabs-nav li{
+    float:right;
+}
+
+dl{
+    text-align:right;
+}
+
+dd{
+    display:table;
+    margin-right:200px;
+    margin-top:-2em;
+}
+
+/*userview*/
+.categoryBlock .button{
+    float:left;
+}
+
+.categoryBlock .collapsible {
+    float:right;
+    padding-right:5px;
+}
+
+.categoryBlockContent div span.button{
+    padding-left:20px;
+}
+
+.categoryPermission b{
+    float:right;
+}
+
+#userviewDetail .main-body-subrow .row-button{
+    float:left;
+}
+
+#userviewDetail .main-body-subrow .activityBlock{
+    float:right;
+}
+
+.form-input:after{
+    content: ".";
+    display: block;
+    height: 0;
+    font-size:0;
+    clear: both;
+    visibility:hidden;
+}
+
+#main-body-content-subheader{
+    text-align:right;
+}
+
+#activityDetailPlaceHolder{
+    text-align:center;
+}
+
+#activityDetailColumnList{
+    float:right;
+}
+
+#activityViewType, #activityPermType{
+    clear:both;
+    text-align:right;
+}
+
+#activityViewType label, #activityPermType label{
+    float:right;
+    width:40%;
+    display:inline-block;
+}
+
+#activityViewType span, #activityPermType span{
+    text-align:right;
+}
+
+.step-buttons{
+    clear:both;
+}
+
+#main-body-content .steps .optional .form-row .form-input {
+    clear:both;
+    display:block;
+}
+
+#selectedColumnLabels .form-row input[type="checkbox"]{
+    float:none;
+}
+
+#selectedColumnLabels .form-row span{
+    display:inline-block;
+}
+
+#userviewBodyLeftMenu{
+    float:right;
+    text-align:right;
+}
+
+#userviewBodyContent #userview h3{
+    text-align:right;
+}
+
+#activityList ul, #customUserviewMenu ul{
+    padding-right:0;
+    margin-right:0;
+}
+
+#availableColumnsContainer, #selectedColumnsContainer {
+    float:right;
+}
+
+#selectedColumnsContainer {
+    margin-left:0;
+    margin-right:20px;
+}
+
+/*Json table*/
+.flexigrid{
+    text-align:right;
+    direction:ltr;
+}
+
+/*Form*/
+.formbuilder_title{
+    text-align:right;
+}
+
+.popupBody .form-buttons{
+    text-align:right;
+}
+
+.formbuilder_row .formbuilder_label{
+    text-align:left;
+    float:right;
+}
+
+.formbuilder_row .formbuilder_widget_container{
+    float:right;
+    text-align:right;
+}

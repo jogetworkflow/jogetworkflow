@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-2.5.xsd
+       http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.2.xsd">
+
+    <import resource="classpath:commonsApplicationContext.xml" />
+
+    <!-- START Spring Security -->
+    <bean id="springSecurityFilterChain" class="org.springframework.web.filter.DelegatingFilterProxy">
+    </bean>
+
+    <security:http auto-config="true" access-denied-page="/403.jsp">
+        <security:intercept-url pattern="/web/process/**" access="ROLE_SUPERVISOR" />
+        <security:intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+        <security:form-login login-page="/web/login" authentication-failure-url="/web/login?login_error=1" default-target-url="/index.jsp" />
+        <security:logout logout-success-url="/"/>
+    </security:http>
+
+    <security:authentication-manager alias="authenticationManager"/>
+    <bean id="authenticationProcessingFilter" class="org.springframework.security.ui.webapp.AuthenticationProcessingFilter">  
+        <security:custom-filter before="AUTHENTICATION_PROCESSING_FILTER" />  
+        <property name="authenticationManager" ref="authenticationManager" />  
+        <property name="authenticationFailureUrl" value="/web/login" />
+        <property name="defaultTargetUrl" value="/" />  
+    </bean>  
+
+    <security:authentication-provider>
+        <security:user-service>
+            <security:user name="admin" password="admin" authorities="ROLE_SUPERVISOR, ROLE_USER" />
+            <security:user name="user" password="user" authorities="ROLE_USER" />
+        </security:user-service>
+    </security:authentication-provider>
+
+    <!--
+    <security:authentication-provider>
+        <security:password-encoder hash="md5"/>
+        <security:user-service>
+            <security:user name="rod" password="a564de63c2d0da68cf47586ee05984d7" authorities="ROLE_SUPERVISOR, ROLE_USER, ROLE_TELLER" />
+            <security:user name="dianne" password="65d15fe9156f9c4bbffd98085992a44e" authorities="ROLE_USER,ROLE_TELLER" />
+            <security:user name="scott" password="2b58af6dddbd072ed27ffc86725d7d3a" authorities="ROLE_USER" />
+            <security:user name="peter" password="22b5c9accc6e1ba628cedc63a72d57f8" authorities="ROLE_USER" />
+        </security:user-service>
+    </security:authentication-provider>
+
+    -->
+
+    <!--
+    <bean id="propertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
+          p:location="/WEB-INF/jdbc.properties" />
+    
+    <bean id="dataSource"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+          p:driverClassName="${jdbc.driverClassName}"
+          p:url="${jdbc.url}"
+          p:username="${jdbc.username}"
+          p:password="${jdbc.password}" />
+    
+    <security:authentication-provider>
+	<security:jdbc-user-service 
+        data-source-ref="dataSource"
+	users-by-username-query="SELECT U.username, U.password, U.enabled AS 'enabled' FROM user U WHERE U.username=?"
+	authorities-by-username-query="SELECT U.username, R.name as 'authority' FROM User U JOIN Authority A ON u.id = A.user_id JOIN Role R ON R.id = A.role_id WHERE U.username=?"/>
+    </security:authentication-provider>
+    -->
+
+    <!--
+    Testing integration to EKP security service
+    <security:http auto-config="true" access-denied-page="/403.jsp">
+        <security:intercept-url pattern="/web/process/**" access="ROLE_kacang.services.security.ekms.ekmsUser" />
+        <security:intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+        <security:form-login login-page="/web/login" authentication-failure-url="/web/login?login_error=1" default-target-url="/index.jsp" />
+        <security:logout logout-success-url="/"/>
+    </security:http>
+
+    <bean id="ekpDataSource"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+          p:driverClassName="${jdbc.driverClassName}"
+          p:url="jdbc:mysql://localhost/ekpdefaultdb"
+          p:username="${jdbc.username}"
+          p:password="${jdbc.password}" />
+
+    <security:authentication-provider>
+        <security:password-encoder hash="md5"/>
+	<security:jdbc-user-service data-source-ref="ekpDataSource"
+            users-by-username-query="SELECT U.username, U.password, U.active AS 'enabled' FROM security_user U WHERE U.username=?"
+            authorities-by-username-query="SELECT DISTINCT username, CONCAT('ROLE_', permissionId) AS 'authority' FROM security_user u INNER JOIN security_user_group ug ON ug.userId=u.id INNER JOIN security_group g ON ug.groupId=g.id INNER JOIN security_principal_permission p ON p.principalId=g.id WHERE u.username = ?"/>
+    </security:authentication-provider>
+    -->
+    
+    <!-- END Spring Security -->
+</beans>

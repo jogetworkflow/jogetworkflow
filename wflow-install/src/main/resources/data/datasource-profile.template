@@ -1,0 +1,23 @@
+#
+#Thu Aug 20 19:45:52 MYT 2009
+workflowUser=@@db.user@@
+sharkDriver=com.mysql.jdbc.Driver
+workflowPassword=@@db.password@@
+formUrl=jdbc\:mysql\://@@db.host@@\:@@db.port@@/@@db.name@@?characterEncoding\=UTF-8
+sharkPassword=@@db.password@@
+directoryPassword=@@db.password@@
+workflowDriver=com.mysql.jdbc.Driver
+reportUrl=jdbc\:mysql\://@@db.host@@\:@@db.port@@/@@db.name@@?characterEncoding\=UTF-8
+workflowUrl=jdbc\:mysql\://@@db.host@@\:@@db.port@@/@@db.name@@?characterEncoding\=UTF-8
+profileName=
+directoryUrl=jdbc\:mysql\://@@db.host@@\:@@db.port@@/@@db.name@@?characterEncoding\=UTF-8
+directoryDriver=com.mysql.jdbc.Driver
+reportPassword=@@db.password@@
+directoryUser=@@db.user@@
+sharkUser=@@db.user@@
+formUser=@@db.user@@
+reportUser=@@db.user@@
+sharkUrl=jdbc\:mysql\://@@db.host@@\:@@db.port@@/@@db.name@@?characterEncoding\=UTF-8
+formDriver=com.mysql.jdbc.Driver
+formPassword=@@db.password@@
+reportDriver=com.mysql.jdbc.Driver

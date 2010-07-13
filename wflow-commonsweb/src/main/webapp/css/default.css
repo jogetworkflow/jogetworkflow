@@ -1,0 +1,389 @@
+div.yui-b p {
+
+    margin: 0 0 .5em 0;
+    color: #999;
+
+}
+
+div.yui-b p strong {
+
+    font-weight: bold;
+    color: #000;
+
+}
+
+div.yui-b p em {
+
+    color: #000;
+
+}            
+
+#doc {
+
+    width: 100%;
+    min-width: 1000px;
+
+}
+
+#hd {
+
+    margin: 0 0 0 0;
+    font-weight: bold;
+    background-color: #eee;
+
+}
+
+#hd h1 {
+
+    font-weight: bold;
+    font-family: Times New Roman, serif;
+    font-size: 1.5em;
+    margin: 0 0 0 0;
+    padding: 1em;
+    background-color: #ccc;
+
+}
+
+#subheader {
+
+    margin: 0 0 0 0;
+    padding: 0.5em;
+    font-weight: bold;
+    background-color: #eee;
+
+}
+
+#subheader-title {
+
+    float: left;
+
+}
+
+#header-login {
+
+    float: right;
+
+}
+
+#header-login li {
+
+    list-style:none inside; float:left; padding:0 0 1em 1em; margin-top:0px; margin-left:0px
+
+}
+
+#header-login-user {
+
+    color: gray;
+
+}
+
+
+#menu {
+
+    clear: both;
+    margin: 0 0 10px 0;
+
+}
+
+#menu ul{
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    z-index: 1000;
+}
+
+#menu ul li{
+    position: relative;
+    display: inline;
+    float: left;
+    z-index: 1000;
+}
+
+#menu ul li a{
+    display: block;
+    background: white url(../js/jquery/jquerycssmenu/tintblue.gif) top center repeat-x;; /*background of tabs (default state)*/
+    padding: 5px 7px 4px 7px;
+    margin-right: 3px; /*spacing between tabs*/
+    border: 1px solid #778;
+    border-bottom-width: 0;
+    color: #2d2b2b;
+    text-decoration: none;
+}
+
+#menu ul li a:hover{
+    background-image: url(../js/jquery/jquerycssmenu/tintbluedark.gif) /*tab link background during hover state*/
+}
+
+#menu ul li ul{
+    position: absolute;
+    left: 0;
+    display: block;
+    visibility: hidden;
+    border-top: 1px solid black;
+}
+
+#menu ul li ul li{
+    display: list-item;
+    float: none;
+    z-index: 1000;
+}
+
+#menu ul li ul li ul{
+    top: 0;
+    z-index: 1000;
+}
+
+#menu ul li ul li a{
+    width: 160px; /*width of sub menus*/
+    background: white;
+    color: black;
+    padding: 4px 5px;
+    margin: 0;
+    border-top-width: 0;
+    border-bottom: 1px solid black;
+}
+
+#menu ul li ul li a:hover{ /*sub menus hover style*/
+                           background: #eff9ff;
+                           color: black;
+}
+
+#menu .downarrowclass{
+    position: absolute;
+    top: 7px;
+    right: 5px;
+    background: transparent url(../js/jquery/jquerycssmenu/arrow-down.gif) no-repeat;
+    height: 16px;
+    width: 12px;
+    border-bottom: none;
+    text-decoration: none;
+}
+
+#menu .rightarrowclass{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: transparent url(../js/jquery/jquerycssmenu/arrow-right.gif) no-repeat;
+    height: 12px;
+    width: 12px;
+    border-bottom: none;
+    text-decoration: none;
+}
+
+#main-body-path ul li {
+
+    list-style:circle inside; float:left; padding:0 0 1em 1em; margin-top:0px; margin-left:0px
+
+}
+
+#main-body-header {
+
+    clear: both;
+    padding: 0.5em;
+    border: dotted 1px silver;
+    font-size: 1.5em;
+    font-family: Times New Roman, serif;
+    font-weight: bold;
+
+}
+
+#main-body-subheader {
+
+    padding: 1em;
+    border: dotted 1px silver;
+
+}
+
+#main-body-content-subheader {
+    clear: both;
+    padding: 0.5em;
+    border: dotted 1px silver;
+    font-size: 1.2em;
+    font-family: Times New Roman, serif;
+    font-weight: bold;
+}
+
+#main-body-message {
+
+    color: red;
+
+}
+
+#main-body-side {
+
+    padding: 1em;
+    border: dotted 1px silver;
+    float: left;
+    min-height: 200px;
+
+}
+
+#main-body-content {
+
+    float: left;
+    padding: 1em;
+    border: dotted 1px silver;
+    min-height: 200px;
+    min-width: 500px;
+    max-width: 100%;
+
+}
+
+#main-body-content-filter {
+
+}
+
+#main-body-actions {
+
+    display: table;
+    margin-top: 2em;
+    padding: 0.5em;
+    border: dotted 1px silver;
+
+}
+
+#main-body-footer {
+
+    clear: both;
+    padding: 1em;
+    border: dotted 1px silver;
+
+}
+
+#sidebar {
+
+    min-height: 400px;
+    border: dotted 1px silver;
+
+}
+
+#ft {
+
+    margin-top: 1em;
+    padding: 1em;
+    border: dotted 1px silver;
+    clear: both;
+
+}
+
+.form {
+
+
+}
+
+.form-header {
+
+    margin:0.5em 0 0 0;
+    clear: both;
+    padding: 1em;
+    border: dotted 1px silver;
+    font-weight: bold;
+
+}
+
+.form fieldset {
+
+    margin:0.5em 0 0.5em 0;
+    clear: both;
+    padding: 0.5em;
+    border: dotted 1px silver;
+    background: #eeeeee;
+
+}
+
+.form-footer {
+
+    margin:0.5em 0 0.5em 0;
+    clear: both;
+    padding: 1em;
+    border: dotted 1px silver;
+
+}
+
+.form-errors {
+
+}
+
+.form-row {
+
+    clear: both;
+    display: table-row;
+
+}
+
+.form-row label {
+
+    display: table-cell;
+    padding: 0.25em;
+    width: 40%;
+
+}
+
+.form-row .form-input {
+
+    padding: 0.25em;
+    display: table-cell;
+
+}
+
+.form-row .form-input-error {
+
+}
+
+.form-row .form-input-message {
+
+}
+
+.form-buttons {
+
+    margin:0.5em 0 0.5em 0;
+    clear: both;
+    padding: 1em;
+    border: dotted 1px silver;
+
+}
+
+.form-buttons .form-button {
+
+}
+
+dl {
+    line-height: 2em;
+    margin: 0em 0em;
+    width: 100%;
+}
+
+dt {
+    font-weight: bold;
+    padding-left: 4px;
+    vertical-align: top;
+    float: left;
+    clear: left;
+    width: 30%;
+}
+
+dd {
+    vertical-align: top;
+    float: left;
+}
+
+.yuimenuitemseparator{
+    border-bottom: 1px solid #d5d5d5;
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
+.main-body-row{
+    clear:both;
+    min-height: 40px;
+    border-bottom: 1px solid #CCC
+}
+
+.row-content{
+    float: left;
+    text-align: left;
+}
+
+.row-button{
+    float: right;
+}

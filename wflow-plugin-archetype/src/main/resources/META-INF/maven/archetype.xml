@@ -1,0 +1,9 @@
+<archetype>
+  <id>wflow-plugin-archetype</id>
+  <sources>
+    <source>src/main/java/MyPlugin.java</source>
+  </sources>
+  <testSources>
+    <source>src/test/java/TestMyPlugin.java</source>
+  </testSources>
+</archetype>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class entity-name="ActivityApplication" lazy="false" name="org.joget.workflow.model.ActivityApplication" table="wf_activity_application">
+    <id name="id" type="string">
+      <generator class="uuid"/>
+    </id>
+    <property name="processId" type="string"/>
+    <property name="version" type="integer"/>
+    <property name="activityId" type="string"/>
+    <property name="customClass" type="string"/>
+    <property name="customScript" type="text"/>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,98 @@
+<project name="joget" basedir=".">
+
+    <description>
+        Joget setup and auto update
+    </description>
+
+    <!-- Name of project and version -->
+    <property name="name" value="joget"/>
+    <property name="title" value="joget"/>
+    <property name="vendor" value="Joget"/>
+    <property name="url" value="http://www.joget.org"/>
+
+    <!-- set global properties for this build -->
+    <property name="updates" value="updates"/>
+    <property name="updateFile" value="joget-updates.zip"/>
+    <property name="updateUrl" value="http://dev.joget.org/svn/joget-updates/updates/${updateFile}"/>
+    <property name="updateUsername" value="public"/>
+    <property name="updatePassword" value="public"/>
+    <property name="tomcat" value="apache-tomcat-6.0.18"/>
+
+    <!-- set class path -->
+    <path id="lib.class.path">
+        <pathelement path="${servlet.lib}"/>
+        <pathelement path="${jsp.lib}"/>
+        <fileset dir="${lib}">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+
+    <!-- Update files -->
+    <target name="update" depends="download,delete,unzip" description="download and unzip update file">
+    </target>
+
+    <!-- Download file -->
+    <target name="download" description="download update file">
+        <!-- Create the download directory -->
+        <mkdir dir="${updates}"/>
+        <!-- Download latest zip file -->
+        <get src="${updateUrl}" dest="${updates}/${updateFile}" username="${updateUsername}" password="${updatePassword}" usetimestamp="true" />
+    </target>
+
+    <!-- Delete existing exploded WAR files -->
+    <target name="delete" description="delete existing files">
+        <deltree dir="${tomcat}/webapps/wflow-designerweb" />
+        <deltree dir="${tomcat}/webapps/wflow-wfweb" />
+    </target>
+
+    <!-- Update files -->
+    <target name="unzip" description="unzip update file">
+        <unzip src="${updates}/${updateFile}" dest="."/>
+    </target>
+
+    <!-- Setup for database and profile -->
+    <target name="setup" description="setup db and profile" depends="create-db,create-profile">
+
+    </target>
+
+    <!-- Get database settings -->
+    <target name="setup-db" description="get database settings">
+        <input message="Please enter MySQL host name:" addproperty="db.host" defaultvalue="localhost"/>
+        <input message="Please enter MySQL port:" addproperty="db.port" defaultvalue="3306"/>
+        <input message="Please enter MySQL database name:" addproperty="db.name" defaultvalue="wflowdb"/>
+        <input message="Please enter MySQL username:" addproperty="db.user" defaultvalue="root"/>
+        <input message="Please enter MySQL password:" addproperty="db.password" defaultvalue=""/>
+    </target>
+
+    <!-- Create default database -->
+    <target name="create-db" description="create default database" depends="setup-db">
+        <echo message="Creating database, please wait..." />
+        <exec executable="mysql" input="data/wflowdb-empty.sql">
+            <arg value="--host=${db.host}"/>
+            <arg value="-P ${db.port}"/>
+            <arg value="--user=${db.user}"/>
+            <arg value="-p${db.password}"/>
+            <arg value="${db.name}"/>
+        </exec>
+    </target>
+
+    <!-- Create profile -->
+    <target name="create-profile" description="create profile" depends="setup-db">
+        <input message="Please enter profile name to create:" addproperty="profile.name" defaultvalue="default"/>
+        <copy file="data/datasource-profile.template" tofile="wflow/datasource-${profile.name}.properties" overwrite="true" />
+        <replace file="wflow/datasource-${profile.name}.properties" token="@@db.host@@" value="${db.host}"/>
+        <replace file="wflow/datasource-${profile.name}.properties" token="@@db.port@@" value="${db.port}"/>
+        <replace file="wflow/datasource-${profile.name}.properties" token="@@db.name@@" value="${db.name}"/>
+        <replace file="wflow/datasource-${profile.name}.properties" token="@@db.user@@" value="${db.user}"/>
+        <replace file="wflow/datasource-${profile.name}.properties" token="@@db.password@@" value="${db.password}"/>
+        <copy file="data/datasource.template" tofile="wflow/datasource.properties" overwrite="true" />
+        <replace file="wflow/datasource.properties" token="@@profile.name@@" value="${profile.name}"/>
+    </target>
+
+    <!-- Clean up -->
+    <target name="clean" description="clean up">
+        <!-- Delete the ${updates} directory -->
+        <delete dir="${updates}"/>
+    </target>
+
+</project>

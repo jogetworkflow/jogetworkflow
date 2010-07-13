@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class entity-name="FormMetaDataModal" lazy="false" name="org.joget.form.model.FormMetaData" table="formmetadata">
+    <id name="id" type="string">
+      <generator class="uuid"/>
+    </id>
+    <property name="activityId" type="string"/>
+    <property name="activityDefId" type="string"/>
+    <property name="participantId" type="string"/>
+    <property name="pendingUsers" type="text"/>
+    <property name="username" type="string"/>
+    <property name="created" type="timestamp"/>
+    <property name="dynamicFormId" type="string"/>
+    <property name="latest" type="integer"/>
+
+    <many-to-one column="dynamicFormId" entity-name="FormDataModal" insert="false" name="dynamicForm" update="false"/>
+  </class>
+</hibernate-mapping>

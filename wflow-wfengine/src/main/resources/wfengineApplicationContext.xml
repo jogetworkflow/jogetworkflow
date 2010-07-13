@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+              http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+    <import resource="classpath:commonsApplicationContext.xml" />
+    <import resource="classpath:pluginBaseApplicationContext.xml" />
+    <import resource="classpath:directoryApplicationContext.xml" />
+    <import resource="classpath:formApplicationContext.xml" />
+    <import resource="classpath:userviewApplicationContext.xml" />
+
+    <bean id="workflowManager" class="org.joget.workflow.model.service.WorkflowManagerImpl">
+        <constructor-arg><ref bean="sharkDataSource" /></constructor-arg>
+        <constructor-arg><ref bean="jtaTransactionManager" /></constructor-arg>
+        <property name="workflowUserManager" ref="workflowUserManager"/>
+        <property name="activityFormDao" ref="activityFormDao"/>
+        <property name="activityPluginDao" ref="activityPluginDao"/>
+        <property name="activitySetupDao" ref="activitySetupDao"/>
+        <property name="participantDirectoryDao" ref="participantDirectoryDao"/>
+        <property name="formDao" ref="formDao"/>
+        <property name="setupManager" ref="setupManager"/>
+        <property name="auditTrailManager" ref="auditTrailManager"/>
+        <property name="workflowReportManager" ref="workflowReportManager"/>
+        <property name="workflowProcessLinkDao" ref="workflowProcessLinkDao"/>
+    </bean>
+
+    <bean id="importExportManager" class="org.joget.workflow.model.service.ImportExportManager">
+        <property name="activityFormDao" ref="activityFormDao"/>
+        <property name="activityPluginDao" ref="activityPluginDao"/>
+        <property name="participantDirectoryDao" ref="participantDirectoryDao"/>
+        <property name="formDao" ref="formDao"/>
+        <property name="categoryDao" ref="categoryDao"/>
+        <property name="formVariableDao" ref="formVariableDao"/>
+        <property name="directoryManager" ref="directoryManager"/>
+        <property name="workflowManager" ref="workflowManager"/>
+        <property name="pluginManager" ref="pluginManager"/>
+        <property name="userviewSetupManager" ref="userviewSetupManager"/>
+        <property name="userviewProcessManager" ref="userviewProcessManager"/>
+        <property name="activitySetupDao" ref="activitySetupDao"/>
+    </bean>
+
+    <bean id="workflowUtil" class="org.joget.workflow.util.WorkflowUtil">
+    </bean>
+
+    <bean id="pluginUtil" class="org.joget.workflow.util.PluginUtil">
+    </bean>
+
+     <bean id="jotm" class="org.springframework.transaction.jta.JotmFactoryBean"/>
+
+     <bean id="jtaTransactionManager" class="org.springframework.transaction.jta.JtaTransactionManager">
+         <property name="userTransaction" ref="jotm"/>
+     </bean>
+
+    <tx:advice id="txAdvice" transaction-manager="jtaTransactionManager">
+        <tx:attributes>
+            <tx:method name="*" timeout="300" />
+        </tx:attributes>
+    </tx:advice>
+
+    <aop:config>
+        <aop:pointcut id="workflowManagerMethods" expression="execution(* org.joget.workflow.model.service.WorkflowManager.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="workflowManagerMethods"/>
+    </aop:config>
+
+    <bean id="workflowUserManager" class="org.joget.workflow.model.service.WorkflowUserManager">
+    </bean>
+
+    <!--bean id="sharkDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"-->
+    <bean id="sharkDataSource" class="org.joget.commons.util.DynamicDataSource" destroy-method="close">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://127.0.0.1:3306/wflowdb?characterEncoding=UTF-8" />
+        <property name="username" value="root" />
+        <property name="password" value="" />
+        <property name="minEvictableIdleTimeMillis" value="21600000" />
+        <property name="timeBetweenEvictionRunsMillis" value="1800000" />
+        <property name="numTestsPerEvictionRun" value="-1" />
+        <property name="minIdle" value="1" />
+        <property name="maxActive" value="50" />
+        <property name="datasourceName" value="shark" />
+    </bean>
+
+    <bean id="workflowDataSource" class="org.joget.commons.util.DynamicDataSource" destroy-method="close">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://127.0.0.1:3306/wflowdb?characterEncoding=UTF-8" />
+        <property name="username" value="root" />
+        <property name="password" value="" />
+        <property name="minEvictableIdleTimeMillis" value="21600000" />
+        <property name="timeBetweenEvictionRunsMillis" value="1800000" />
+        <property name="numTestsPerEvictionRun" value="-1" />
+        <property name="minIdle" value="1" />
+        <property name="maxActive" value="50" />
+        <property name="datasourceName" value="workflow" />
+    </bean>
+    
+    <bean id="reportDataSource" class="org.joget.commons.util.DynamicDataSource" destroy-method="close">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://127.0.0.1:3306/wflowdb?characterEncoding=UTF-8" />
+        <property name="username" value="root" />
+        <property name="password" value="" />
+        <property name="minEvictableIdleTimeMillis" value="21600000" />
+        <property name="timeBetweenEvictionRunsMillis" value="1800000" />
+        <property name="numTestsPerEvictionRun" value="-1" />
+        <property name="minIdle" value="1" />
+        <property name="maxActive" value="50" />
+        <property name="datasourceName" value="report" />
+    </bean>
+
+    <!-- Hibernate SessionFactory -->
+    <bean id="workflowSessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+        <qualifier value="workflow"/>
+        <property name="dataSource" ref="workflowDataSource"/>
+        <property name="mappingResources">
+            <list>
+                <value>/org/joget/workflow/model/ActivityForm.hbm.xml</value>
+                <value>/org/joget/workflow/model/ActivityApplication.hbm.xml</value>
+                <value>/org/joget/workflow/model/ActivityPlugin.hbm.xml</value>
+                <value>/org/joget/workflow/model/ActivitySetup.hbm.xml</value>
+                <value>/org/joget/workflow/model/AuditTrailPluginConfiguration.hbm.xml</value>
+                <value>/org/joget/workflow/model/ParticipantDirectory.hbm.xml</value>
+                <value>/org/joget/workflow/model/AuditTrail.hbm.xml</value>
+                <value>/org/joget/workflow/model/PluginDefaultProperties.hbm.xml</value>
+                <value>/org/joget/workflow/model/WorkflowProcessLink.hbm.xml</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.show_sql">false</prop>
+            </props>
+        </property>
+    </bean>
+    
+    <!-- Hibernate SessionFactory for report-->
+    <bean id="reportSessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+        <qualifier value="report"/>
+        <property name="dataSource" ref="reportDataSource"/>
+        <property name="mappingResources">
+            <list>
+                <value>/org/joget/workflow/model/WorkflowReport.hbm.xml</value>
+                <value>/org/joget/workflow/model/WorkflowPackage.hbm.xml</value>
+                <value>/org/joget/workflow/model/WorkflowProcess.hbm.xml</value>
+                <value>/org/joget/workflow/model/WorkflowActivity.hbm.xml</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.show_sql">false</prop>               
+            </props>
+        </property>
+    </bean>
+
+    <!-- Transaction manager for a single Hibernate SessionFactory (alternative to JTA) -->
+    <bean id="workflowTransactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory" ref="workflowSessionFactory"/>
+    </bean>
+    
+    <bean id="activityFormDao" class="org.joget.workflow.model.dao.ActivityFormDao">
+        <property name="sessionFactory" ref="workflowSessionFactory"/>
+        <property name="localSessionFactory" ref="&amp;workflowSessionFactory"/>
+    </bean>
+    
+    <bean id="participantDirectoryDao" class="org.joget.workflow.model.dao.ParticipantDirectoryDao">
+        <property name="sessionFactory" ref="workflowSessionFactory"/>
+        <property name="localSessionFactory" ref="&amp;workflowSessionFactory"/>
+    </bean>
+    
+    <bean id="activityApplicationDao" class="org.joget.workflow.model.dao.ActivityApplicationDao">
+        <property name="sessionFactory" ref="workflowSessionFactory"/>
+        <property name="localSessionFactory" ref="&amp;workflowSessionFactory"/>
+    </bean>
+
+    <bean id="activityPluginDao" class="org.joget.workflow.model.dao.ActivityPluginDao">
+        <property name="sessionFactory" ref="workflowSessionFactory"/>
+        <property name="localSessionFactory" ref="&amp;workflowSessionFactory"/>
+    </bean>
+
+    <bean id="activitySetupDao" class="org.joget.workflow.model.dao.ActivitySetupDao">
+        <property name="sessionFactory" ref="workflowSessionFactory"/>
+        <property name="localSessionFactory" ref="&amp;workflowSessionFactory"/>
+    </bean>
+
+    <bean id="auditTrailPluginDao" class="org.joget.workflow.model.dao.AuditTrailPluginDao">
+        <property name="sessionFactory" ref="workflowSessionFactory"/>
+        <property name="localSessionFactory" ref="&amp;workflowSessionFactory"/>
+    </bean>
+
+    <bean id="pluginDefaultPropertiesDao" class="org.joget.workflow.model.dao.PluginDefaultPropertiesDao">
+        <property name="sessionFactory" ref="workflowSessionFactory"/>
+        <property name="localSessionFactory" ref="&amp;workflowSessionFactory"/>
+    </bean>
+
+    <bean id="workflowProcessLinkDao" class="org.joget.workflow.model.dao.WorkflowProcessLinkDao">
+        <property name="sessionFactory" ref="workflowSessionFactory"/>
+        <property name="localSessionFactory" ref="&amp;workflowSessionFactory"/>
+    </bean>
+    
+    <!-- Audit Trail AOP -->
+    <aop:config>
+        <aop:advisor advice-ref="auditTrailInterceptor" pointcut-ref="auditTrailPointcut" order="1" />
+    </aop:config>
+
+    <bean id="auditTrailInterceptor" class="org.joget.workflow.util.AuditTrailInterceptor">
+        <property name="auditTrailManager" ref="auditTrailManager"/>
+    </bean>
+
+    <bean id="auditTrailPointcut"
+          class="org.springframework.aop.support.JdkRegexpMethodPointcut">
+        <property name="patterns">
+            <list>
+                <value>org.joget.directory.model.dao..*Dao.*(..)</value>
+                <value>org.joget.workflow.model.service.WorkflowManager.*(..)</value>
+            </list>
+        </property>
+   </bean>
+
+   <bean id="auditTrailDao" class="org.joget.workflow.model.dao.AuditTrailDao">
+       <property name="sessionFactory" ref="workflowSessionFactory"/>
+       <property name="localSessionFactory" ref="&amp;workflowSessionFactory"/>
+  </bean>
+   
+   <bean id="auditTrailManager" class="org.joget.workflow.model.service.AuditTrailManager">
+       <property name="workflowUserManager" ref="workflowUserManager"/>
+       <property name="auditTrailDao" ref="auditTrailDao"/>
+       <property name="pluginManager" ref="pluginManager"/>
+       <property name="auditTrailPluginDao" ref="auditTrailPluginDao"/>
+   </bean>
+   
+   <!-- Audit Trail Report Dao -->
+   <bean id="workflowReportDao" class="org.joget.workflow.model.dao.WorkflowReportDao">
+       <property name="sessionFactory" ref="reportSessionFactory"/>
+       <property name="localSessionFactory" ref="&amp;reportSessionFactory"/>
+   </bean>
+
+   <bean id="workflowPackageDao" class="org.joget.workflow.model.dao.WorkflowPackageDao">
+       <property name="sessionFactory" ref="reportSessionFactory"/>
+       <property name="localSessionFactory" ref="&amp;reportSessionFactory"/>
+   </bean>
+
+   <bean id="workflowProcessDao" class="org.joget.workflow.model.dao.WorkflowProcessDao">
+       <property name="sessionFactory" ref="reportSessionFactory"/>
+       <property name="localSessionFactory" ref="&amp;reportSessionFactory"/>
+   </bean>
+
+   <bean id="workflowActivityDao" class="org.joget.workflow.model.dao.WorkflowActivityDao">
+       <property name="sessionFactory" ref="reportSessionFactory"/>
+       <property name="localSessionFactory" ref="&amp;reportSessionFactory"/>
+   </bean>
+   
+   <!-- Audit Trail Report Manager -->
+   <bean id="workflowReportManager" class="org.joget.workflow.model.service.WorkflowReportManager">
+       <property name="workflowReportDao" ref="workflowReportDao"/>
+       <property name="workflowPackageDao" ref="workflowPackageDao"/>
+       <property name="workflowProcessDao" ref="workflowProcessDao"/>
+       <property name="workflowActivityDao" ref="workflowActivityDao"/>
+   </bean>
+
+</beans>

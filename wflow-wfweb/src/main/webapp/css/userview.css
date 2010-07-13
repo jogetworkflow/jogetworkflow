@@ -1,0 +1,131 @@
+.popupBody{
+}
+
+#startProcess{
+    margin-bottom: 5px
+}
+
+#startProcessLabel {
+    background:url(../images/joget/icn_arrowblack.gif) no-repeat;
+    padding-left:30px;
+}
+
+#startProcessLabel a{
+     color:black;
+}
+
+#inbox{
+    margin-bottom: 20px
+}
+
+#inboxLabel {
+    background:url(../images/joget/icn_arrowblack.gif) no-repeat;
+    padding-left:30px;
+}
+
+#inboxLabel a{
+     color:black;
+}
+
+#container{
+    width: 1000px;
+    margin:auto;
+
+}
+
+#userview{
+    background-color: #FFFFFF;
+    padding: 8px;
+    border: 1px solid #ccc;
+}
+
+#userviewHeader{
+    background:url(../images/joget/header.jpg);
+    height: 132px;
+    width: 1000px;
+}
+
+#userviewHeaderTitle{
+    font-weight:bold;
+    color:#00529C;
+    font-size:20px;
+    padding:30px 30px 50px 0;
+}
+
+#userviewHeaderDate{
+    float:left;
+    font-weight:normal;
+    padding-left:10px;
+    font-size:10px;
+    color:#555555;
+}
+
+#userviewHeaderUser{
+    font-size:10px;
+    color:#004997;
+    padding-left:10px;
+    float:left;
+}
+
+#userviewHeaderLogout{
+    background:url(../images/joget/icn_logout.gif);
+    background-repeat:no-repeat;
+    padding-left: 20px;
+    padding-right:12px;
+    float:right;
+    font-size:11px;
+    font-weight:normal;
+}
+
+#userviewHeaderLogout a{
+    color:#555555;
+
+}
+#userviewHeaderLogout a:hover{
+    color:#00529C;
+}
+
+#userviewBody{
+    height: 80px;
+    padding-top:1em;
+}
+
+#userviewBodyLeftMenu{
+    width:250px;
+    float:left;
+}
+
+#userviewBodyContent{
+    width:700px;
+    float:left;
+    padding: 8px;
+    background-color:#D5E3EF;
+    margin-left: 30px;
+}
+
+ul{
+    padding-left: 0px;
+    margin:0px 10px 0 0;
+    list-style-position:inside;
+    width: 100%;
+}
+
+li{
+    border-bottom: 1px dotted #757471;
+    padding: 6px 6px 6px 22px;
+    list-style-type: square;
+    padding-left: 10px;
+
+}
+li a{
+    color:black;
+    font-weight:normal;
+}
+
+.categoryLabel{
+    color: white;
+    background-color: #5A8EC0;
+    font-size: 12px;
+    padding: 0.5em 0.5em 0.5em 1em;
+    font-weight: bold;
+}

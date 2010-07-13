@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class entity-name="Form" lazy="false" name="org.joget.form.model.Form" table="form_form">
+    <id name="id" type="string"/>
+    <property name="name" type="string"/>
+    <property name="data" type="text"/>
+    <property name="tableName" type="string"/>
+    <property name="categoryId" type="string"/>
+    <property name="created" type="date"/>
+    <property name="modified" type="date"/>
+    <dynamic-component insert="true" name="customProperties" optimistic-lock="true" unique="false" update="true"/>
+    <many-to-one column="categoryId" entity-name="Category" insert="false" name="category" update="false"/>
+  </class>
+</hibernate-mapping>
