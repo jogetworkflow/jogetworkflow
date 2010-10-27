@@ -51,7 +51,7 @@ public class Update extends ActionBase {
                 HttpClient httpClient = new HttpClient();
 
                 String packageId = JaWEManager.getInstance().getJaWEController().getMainPackageId();
-                String url = Designer.URLPATH + "/web/json/workflow/package/update?packageId=" + packageId;
+                String url = Designer.URLPATH + "/web/json/workflow/package/update?packageId=" + packageId + "&j_username=" + Designer.USERNAME + "&hash=" + Designer.HASH;;
 
                 PostMethod post = new PostMethod(url);
                 try {

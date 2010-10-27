@@ -73,5 +73,9 @@ response.addDateHeader("Last-Modified", java.util.Calendar.getInstance().getTime
         <c:if test="${!empty param.locale}">
             <argument>locale:${param.locale}</argument>
         </c:if>
+            <c:if test="${!empty param.username && !empty param.hash}">
+            <argument>username:${param.username}</argument>
+            <argument>hash:${param.hash}</argument>
+        </c:if>
     </application-desc>
 </jnlp>

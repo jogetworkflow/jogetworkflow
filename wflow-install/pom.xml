@@ -37,7 +37,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>buildnumber-maven-plugin</artifactId>
-                <version>1.0-beta-1</version>
+                <version>1.0-beta-4</version>
                 <executions>
                     <execution>
                         <phase>validate</phase>
@@ -49,6 +49,7 @@
                 <configuration>
                     <doCheck>false</doCheck>
                     <doUpdate>false</doUpdate>
+                    <revisionOnScmFailure>0</revisionOnScmFailure>
                 </configuration>
             </plugin>
             <plugin>
@@ -110,7 +111,13 @@
                                 <copy file="src/main/resources/build.xml" todir="target"/>
                                 <copy file="src/main/resources/setup.sh" todir="target"/>
                                 <copy file="src/main/resources/tomcat6.sh" todir="target"/>
-                                
+
+                                <mkdir dir="downloads"/>
+                                <get src="http://dev.joget.org/svn/joget/tags/1.1.3/wflow-install/src/main/resources/apache-tomcat-${tomcat.version}.tar.gz" dest="downloads/apache-tomcat-${tomcat.version}.tar.gz" username="public" password="public" usetimestamp="true" />
+                                <get src="http://dev.joget.org/svn/joget/tags/1.1.3/wflow-install/src/main/resources/apache-ant-${apache-ant.version}-bin.tar.gz" dest="downloads/apache-ant-${apache-ant.version}-bin.tar.gz" username="public" password="public" usetimestamp="true" />
+                                <get src="http://dev.joget.org/svn/joget/tags/1.1.3/wflow-install/src/main/resources/mysql-noinstall-${mysql.version}-win32.zip" dest="downloads/mysql-noinstall-${mysql.version}-win32.zip" username="public" password="public" usetimestamp="true" />
+                                <get src="http://dev.joget.org/svn/joget/tags/1.1.3/wflow-install/src/main/resources/jdk${jdk.version}.zip" dest="downloads/jdk${jdk.version}.zip" username="public" password="public" usetimestamp="true" />
+
                                 <mkdir dir="downloads"/>
                                 <get src="http://dev.joget.org/svn/joget/tags/1.1.3/wflow-install/src/main/resources/apache-tomcat-${tomcat.version}.tar.gz" dest="downloads/apache-tomcat-${tomcat.version}.tar.gz" username="public" password="public" usetimestamp="true" />
                                 <get src="http://dev.joget.org/svn/joget/tags/1.1.3/wflow-install/src/main/resources/apache-ant-${apache-ant.version}-bin.tar.gz" dest="downloads/apache-ant-${apache-ant.version}-bin.tar.gz" username="public" password="public" usetimestamp="true" />

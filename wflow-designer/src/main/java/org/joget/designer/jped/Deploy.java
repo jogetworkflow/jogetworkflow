@@ -50,7 +50,7 @@ public class Deploy extends ActionBase {
             if (checkValidity(jc)) {
 
                 HttpClient httpClient = new HttpClient();
-                String url = Designer.URLPATH + "/web/json/workflow/package/deploy";
+                String url = Designer.URLPATH + "/web/json/workflow/package/deploy?j_username=" + Designer.USERNAME + "&hash=" + Designer.HASH;
 
 
                 PostMethod post = new PostMethod(url);

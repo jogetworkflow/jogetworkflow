@@ -203,6 +203,11 @@ public class FormManager {
     public void mergeDraftToLive(String tableName, String processId, String activityId) {
         Form liveForm = loadDynamicFormByProcessId(tableName, processId);
         Form draftForm = loadDraftDynamicForm(tableName, processId, activityId);
+
+        if(draftForm == null){
+            return;
+        }
+
         draftForm.setValueOfCustomField("modified", new Date());
         if (liveForm != null) {
             liveForm.setTableName(tableName);

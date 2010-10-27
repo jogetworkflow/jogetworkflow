@@ -4,7 +4,7 @@
 <commons:popupHeader title="${headerTitle}" />
 
     <c:if test="${!empty param.css}">
-        <link rel="stylesheet" type="text/css" href="${param.css}">
+        <link rel="stylesheet" type="text/css" href="<c:out value="${param.css}" escapeXml="true"/>">
     </c:if>
 
     <c:if test="${param.embed != 'true' || empty param.embed}">
@@ -32,13 +32,13 @@
             </c:if>
 
             <c:if test="${param.complete != 'false'}">
-                <span class="button"><input type="button" id="complete" value="${completeLabel}" onclick="formComplete('${param.complete}')" /></span>
+                <span class="button"><input type="button" id="complete" value="<c:out value="${completeLabel}" escapeXml="true"/>" onclick="formComplete('<c:out value="${param.complete}" escapeXml="true"/>')" /></span>
             </c:if>
             <c:if test="${param.reset == 'true'}">
-                <span class="button"><input type="button" id="reset" value="<fmt:message key="wflowClient.assignment.view.label.reset"/>" onclick="resetForm('${param.reset}')" /></span>
+                <span class="button"><input type="button" id="reset" value="<fmt:message key="wflowClient.assignment.view.label.reset"/>" onclick="resetForm('<c:out value="${param.reset}" escapeXml="true"/>')" /></span>
             </c:if>
             <c:if test="${param.cancel != 'false'}">
-                <span class="button"><input id="cancel" type="button" value="${cancelLabel}" onclick="closeDialog('${param.cancel}')" /></span>
+                <span class="button"><input id="cancel" type="button" value="<c:out value="${cancelLabel}" escapeXml="true"/>" onclick="closeDialog('<c:out value="${param.cancel}" escapeXml="true"/>')" /></span>
             </c:if>
         </div>
 
@@ -46,7 +46,7 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-        var cancel = '${param.cancel}';
+        var cancel = '<c:out value="${param.cancel}" escapeXml="true"/>';
 
         if(cancel == '' || cancel == 'false'){
             if(window.parent == window)

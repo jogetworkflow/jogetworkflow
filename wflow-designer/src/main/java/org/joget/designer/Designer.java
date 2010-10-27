@@ -9,6 +9,10 @@ import org.enhydra.jawe.base.editor.XPDLElementEditor;
 public class Designer {
 
     public static String URLPATH = "";
+
+    public static String USERNAME = "";
+    public static String HASH = "";
+
     public static boolean DEPLOY = false;
     public static boolean UPDATE = false;
 
@@ -42,6 +46,10 @@ public class Designer {
                 DEPLOY = true;
             } else if (args[i].startsWith("update:")) {
                 UPDATE = true;
+            } else if (args[i].startsWith("username:")) {
+                USERNAME = args[i].substring(9, args[i].length());
+            } else if (args[i].startsWith("hash:")) {
+                HASH = args[i].substring(5, args[i].length());
             } else if (args[i].startsWith("locale:")) {
                 argument[1] = args[i].substring(7, args[i].length());
             } else {

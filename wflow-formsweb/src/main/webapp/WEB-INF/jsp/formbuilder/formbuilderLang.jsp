@@ -43,6 +43,7 @@ var fb_lang = {
     ,   msg_help           : '<fmt:message key="formbuilder.msg_help"/>'
     ,   msg_error_in_form  : '<fmt:message key="formbuilder.msg_error_in_form"/>'
     ,   msg_loading        : '<fmt:message key="formbuilder.msg_loading"/>'
+    ,   msg_err_loading    : '<fmt:message key="formbuilder.msg_err_loading"/>'
     ,   msg_form_saved     : '<fmt:message key="formbuilder.msg_form_saved"/>'
     // UI
     ,   formtitle         : '<fmt:message key="formbuilder.formtitle"/>'

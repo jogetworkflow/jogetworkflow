@@ -73,7 +73,7 @@
                 
                 $.getScript(loginUrlPath_${id}+url,null);
 
-                if(${loginCallback} !='loginCallback'){
+                if(typeof ${loginCallback} != "undefined" && ${loginCallback} !='loginCallback'){
                      ${loginCallback}.success();
                 }
             }

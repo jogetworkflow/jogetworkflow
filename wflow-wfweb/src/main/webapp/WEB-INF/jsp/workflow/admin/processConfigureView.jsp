@@ -412,7 +412,7 @@
             %>
             var url = "${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/web/admin/process/xpdl/${process.encodedId}";
             var path = 'http://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}';
-            document.location = '<%= designerwebBaseUrl %>/wflow-designerweb/designer/webstart.jsp?url=' + encodeURIComponent(url) + '&path=' + encodeURIComponent(path) + '&update=update&locale=<%= locale %>';
+            document.location = '<%= designerwebBaseUrl %>/wflow-designerweb/designer/webstart.jsp?url=' + encodeURIComponent(url) + '&path=' + encodeURIComponent(path) + '&update=update&locale=<%= locale %>&username=${username}&hash=${loginHash}';
         }
 
         function goLatest(){

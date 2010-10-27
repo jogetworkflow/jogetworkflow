@@ -69,25 +69,10 @@ public class ParticipantDirectoryDao extends AbstractSpringDao {
     }
     
     public Collection<ParticipantDirectory> getMappingByParticipantId(String packageId, String processId, Integer version, String participantId) {
-        Collection<ParticipantDirectory> result = null;
-
-        ParticipantDirectory example = new ParticipantDirectory();
-        example.setPackageId(packageId);
-        
         if(processId != null){
-            example.setProcessId(processId);
-        }
-        
-        example.setVersion(version);
-        example.setParticipantId(participantId);
-
-        result = findByExample(example);
-
-        if(result != null && result.size() != 0){
-            return result;
+            return super.find(ENTITY_NAME, "WHERE e.packageId = ? AND e.processId = ? AND e.version = ? AND e.participantId = ?", new Object[]{packageId, processId, version, participantId}, null, null, null, null);
         }else{
-            example.setProcessId(null);
-            return findByExample(example);
+            return super.find(ENTITY_NAME, "WHERE e.packageId = ? AND e.version = ? AND e.participantId = ?", new Object[]{packageId, version, participantId}, null, null, null, null);
         }
     }
 
@@ -174,14 +159,6 @@ public class ParticipantDirectoryDao extends AbstractSpringDao {
     
     public String setPluginAsParticipant(String plugin, String packageId, String processId, Integer version, String participantId) {
         return setAsParticipant(TYPE_PLUGIN, plugin, packageId, processId, version, participantId);
-    }
-    
-    public Collection<ParticipantDirectory> getMappings(String packageId, String processId, Integer version, String participantId){
-        if(processId != null){
-            return super.find(ENTITY_NAME, "WHERE e.packageId = ? AND e.processId = ? AND e.version = ? AND e.participantId = ?", new Object[]{packageId, processId, version, participantId}, null, null, null, null);
-        }else{
-            return super.find(ENTITY_NAME, "WHERE e.packageId = ? AND e.version = ? AND e.participantId = ?", new Object[]{packageId, version, participantId}, null, null, null, null);
-        }
     }
     
     public void removeMapping(String id){

@@ -48,7 +48,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>buildnumber-maven-plugin</artifactId>
-                <version>1.0-beta-1</version>
+                <version>1.0-beta-4</version>
                 <executions>
                     <execution>
                         <phase>validate</phase>
@@ -60,6 +60,7 @@
                 <configuration>
                     <doCheck>false</doCheck>
                     <doUpdate>false</doUpdate>
+                    <revisionOnScmFailure>0</revisionOnScmFailure>
                 </configuration>
             </plugin>
         </plugins>

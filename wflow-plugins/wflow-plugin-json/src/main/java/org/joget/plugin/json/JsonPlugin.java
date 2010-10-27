@@ -42,7 +42,7 @@ public class JsonPlugin extends DefaultPlugin implements ApplicationPlugin {
     }
 
     public String getVersion() {
-        return "1.0.7";
+        return "1.0.8";
     }
 
     public PluginProperty[] getPluginProperties() {

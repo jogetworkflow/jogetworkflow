@@ -52,6 +52,7 @@ import org.joget.workflow.util.WorkflowUtil;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -126,13 +127,33 @@ public class WorkflowWebController {
     }
 
     @RequestMapping(value = "/client/process/start/(*:processId)")
-    public String processStart(ModelMap map, HttpServletRequest request, @RequestParam("processId") String processDefId, @RequestParam(required=false, value="parentProcessId") String parentProcessId) {
+    public String processStart(ModelMap map, HttpServletRequest request, @RequestParam("processId") String processDefId, @RequestParam(required=false, value="parentProcessId") String parentProcessId) throws Exception {
 
         //decode process def id (to default value)
         processDefId = processDefId.replaceAll(":", "#");
         processDefId = workflowFacade.getConvertedLatestProcessDefId(processDefId);
 
-        map.addAttribute("queryString", request.getQueryString());
+        //escape every parameters in query string to prevent xss
+        String encodedQueryString = "";
+        String queryString = request.getQueryString();
+        if (queryString != null) {
+            String[] paramPairs = queryString.split("&");
+            for(String paramPair : paramPairs){
+                String[] temp = paramPair.split("=");
+                if(temp.length == 2){
+                    String decodedParam = URLDecoder.decode(temp[1], "UTF-8");
+                    decodedParam = decodedParam.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+
+                    encodedQueryString += temp[0] + "=" + URLEncoder.encode(decodedParam, "UTF-8") + "&";
+                }else if(temp.length == 1){
+                    encodedQueryString += temp[0] + "&";
+                }
+            }
+            //remove trailing '&'
+            encodedQueryString = encodedQueryString.substring(0, encodedQueryString.length() - 1);
+        }
+
+        map.addAttribute("queryString", encodedQueryString);
         map.addAttribute("complete", request.getParameter("complete"));
 
         Enumeration enumeration = request.getParameterNames();
@@ -448,12 +469,12 @@ public class WorkflowWebController {
 
     @RequestMapping(value = "/monitoring/workflow/sla/list")
     public String slaList(ModelMap map) {
-        map.addAttribute("processDefinitionList", workflowFacade.getWorkflowSLAProcessDefinitions());
+        map.addAttribute("processDefinitionList", workflowFacade.getProcessList("name", false, 0, -1, "", true, false));
         return "workflow/sla";
     }
 
     @RequestMapping("/client/process/view/(*:processId)")
-    public String processView(ModelMap map, HttpServletRequest request, @RequestParam("processId") String processId, @RequestParam(value="runDirectly", required = false) String runDirectly) throws IOException {
+    public String processView(ModelMap map, HttpServletRequest request, @RequestParam("processId") String processId, @RequestParam(value="runDirectly", required = false) String runDirectly) throws Exception {
 
         if(runDirectly != null &&  "true".equals(runDirectly)){
             return processStart(map, request, processId, null);
@@ -509,7 +530,7 @@ public class WorkflowWebController {
     @RequestMapping(value = "/client/assignment/inbox")
     public String assignmentInbox(ModelMap map, @RequestParam(value = "sort", required = false) String sort, @RequestParam(value = "desc", required = false) Boolean desc, @RequestParam(value = "start", required = false) Integer start, @RequestParam(value = "rows", required = false) Integer rows) throws IOException {
         User user = directoryManager.getUserByUsername(workflowUserManager.getCurrentUsername());
-        
+
         if(user != null){
             map.addAttribute("rssLink", "/web/rss/workflow/assignment/list?j_username="+user.getUsername()+"&hash="+user.getLoginHash());
         }
@@ -715,7 +736,10 @@ public class WorkflowWebController {
     }
 
     @RequestMapping("/admin/package/upload")
-    public String packageUpload() throws IOException {
+    public String packageUpload(ModelMap map) throws IOException {
+        User user = directoryManager.getUserByUsername(workflowUserManager.getCurrentUsername());
+        map.addAttribute("loginHash", user.getLoginHash());
+        map.addAttribute("username", user.getUsername());
         return "workflow/admin/packageUpload";
     }
 
@@ -874,9 +898,9 @@ public class WorkflowWebController {
             List mappedObject = new ArrayList();
 
             if (!participant.isPackageLevel()) {
-                participantDirectoryList = participantDirectoryDao.getMappings(process.getPackageId(), processId, Integer.parseInt(process.getVersion()), participant.getId());
+                participantDirectoryList = participantDirectoryDao.getMappingByParticipantId(process.getPackageId(), processId, Integer.parseInt(process.getVersion()), participant.getId());
             } else {
-                participantDirectoryList = participantDirectoryDao.getMappings(process.getPackageId(), null, Integer.parseInt(process.getVersion()), participant.getId());
+                participantDirectoryList = participantDirectoryDao.getMappingByParticipantId(process.getPackageId(), null, Integer.parseInt(process.getVersion()), participant.getId());
             }
 
             for (ParticipantDirectory pd : participantDirectoryList) {
@@ -894,6 +918,11 @@ public class WorkflowWebController {
         map.addAttribute("participantList", participantList);
         map.addAttribute("participantMap", participantMap);
         map.addAttribute("activitySetupList", activitySetupList);
+
+        //for launching workflow designer
+        User user = directoryManager.getUserByUsername(workflowUserManager.getCurrentUsername());
+        map.addAttribute("loginHash", user.getLoginHash());
+        map.addAttribute("username", user.getUsername());
 
         return "workflow/admin/processConfigureView";
     }
@@ -996,7 +1025,7 @@ public class WorkflowWebController {
             activity.setId("runProcess");
             activity.setName("Run Process");
         }
-        
+
         Collection<ActivityForm> existingFormList = activityFormDao.getFormByActivity(processId, Integer.parseInt(version), activityId);
         if (existingFormList.iterator().hasNext()) {
             ActivityForm af = existingFormList.iterator().next();
@@ -1186,9 +1215,8 @@ public class WorkflowWebController {
             group = group.substring(0, group.length() -1);
         }
 
-        Collection<ParticipantDirectory> list = participantDirectoryDao.getMappings(packageId, processId, Integer.parseInt(version), participantId);
         //remove all existing mapping
-        for (ParticipantDirectory temp : list) {
+        for (ParticipantDirectory temp : existingUserList) {
             participantDirectoryDao.removeMapping(temp.getId());
         }
 
@@ -1250,20 +1278,21 @@ public class WorkflowWebController {
             @RequestParam("plugin") String pluginName) throws IOException {
         WorkflowParticipant participant = workflowFacade.getParticipantMap(processId).get(participantId);
 
-        if (participant.isPackageLevel()) {
-            processId = null;
+        String tempProcessId = processId;
+        if (participant != null && participant.isPackageLevel()) {
+            tempProcessId = null;
         }
 
-        Collection<ParticipantDirectory> list = participantDirectoryDao.getMappings(packageId, processId, Integer.parseInt(version), participantId);
+        Collection<ParticipantDirectory> list = participantDirectoryDao.getMappingByParticipantId(packageId, tempProcessId, Integer.parseInt(version), participantId);
         //remove all existing mapping
         for (ParticipantDirectory temp : list) {
             participantDirectoryDao.removeMapping(temp.getId());
         }
 
-        String participantDirectoryId = participantDirectoryDao.setPluginAsParticipant(pluginName, packageId, processId, Integer.parseInt(version), participantId);
+        String participantDirectoryId = participantDirectoryDao.setPluginAsParticipant(pluginName, packageId, tempProcessId, Integer.parseInt(version), participantId);
 
         //go to plugin configuration
-        String paramString = "participantId=" + participantId + "&packageId=" + packageId + "&processId=" + processId + "&version=" + version;
+        String paramString = "participantId=" + participantId + "&packageId=" + packageId + "&processId=" + URLEncoder.encode(processId, "UTF-8") + "&version=" + version;
         writer.write(paramString);
     }
 
@@ -1273,6 +1302,13 @@ public class WorkflowWebController {
             @RequestParam("processId") String processId,
             @RequestParam("version") String version,
             @RequestParam("participantId") String participantId) throws Exception {
+
+        WorkflowParticipant participant = workflowFacade.getParticipantMap(processId).get(participantId);
+
+        if (participant != null && participant.isPackageLevel()) {
+            processId = null;
+        }
+
         Collection<ParticipantDirectory> participantDirectoryList = participantDirectoryDao.getMappingByParticipantId(packageId, processId, Integer.parseInt(version), participantId);
         ParticipantDirectory participantDirectory = participantDirectoryList.iterator().next();
 
@@ -1335,6 +1371,12 @@ public class WorkflowWebController {
 
     @RequestMapping(value = "/admin/process/participant/user/remove", method = RequestMethod.POST)
     public String participantRemoveUser(@RequestParam("participantId") String participantId, @RequestParam("packageId") String packageId, @RequestParam("processId") String processId, @RequestParam("version") String version) {
+        WorkflowParticipant participant = workflowFacade.getParticipantMap(processId).get(participantId);
+
+        if (participant != null && participant.isPackageLevel()) {
+            processId = null;
+        }
+
         Collection<ParticipantDirectory> participantMappingList = participantDirectoryDao.getMappingByParticipantId(packageId, processId, Integer.parseInt(version), participantId);
         for (ParticipantDirectory pd : participantMappingList) {
             participantDirectoryDao.removeMapping(pd.getId());
@@ -1344,6 +1386,12 @@ public class WorkflowWebController {
 
     @RequestMapping(value = "/admin/process/participant/user/removeSingle", method = RequestMethod.POST)
     public String participantRemoveUserSingle(@RequestParam("participantId") String participantId, @RequestParam("packageId") String packageId, @RequestParam("processId") String processId, @RequestParam("version") String version, @RequestParam("value") String value) {
+        WorkflowParticipant participant = workflowFacade.getParticipantMap(processId).get(participantId);
+
+        if (participant != null && participant.isPackageLevel()) {
+            processId = null;
+        }
+
         String existingValue = "";
         String participantType = "";
         Collection<ParticipantDirectory> participantMappingList = participantDirectoryDao.getMappingByParticipantId(packageId, processId, Integer.parseInt(version), participantId);

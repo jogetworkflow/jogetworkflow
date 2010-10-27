@@ -80,7 +80,7 @@
         %>
                 
         var path = 'http://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}';
-        document.location = '<%= designerwebBaseUrl %>/wflow-designerweb/designer/webstart.jsp?path=' + encodeURIComponent(path) + '&deploy=deploy&locale=<%= locale %>';
+        document.location = '<%= designerwebBaseUrl %>/wflow-designerweb/designer/webstart.jsp?path=' + encodeURIComponent(path) + '&deploy=deploy&locale=<%= locale %>&username=${username}&hash=${loginHash}';
     }
 </script>
 

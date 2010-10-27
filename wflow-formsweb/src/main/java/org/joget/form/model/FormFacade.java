@@ -171,8 +171,10 @@ public class FormFacade {
                     value = processInstanceId;
                 }
 
-                form.setValueOfCustomField(prefix + paramName, value);
-                LogUtil.debug(getClass().getName(), paramName + ":" + value);
+                if(!paramName.equals("parentProcessId")){
+                    form.setValueOfCustomField(prefix + paramName, value);
+                    LogUtil.debug(getClass().getName(), paramName + ":" + value);
+                }
             }
         }
         form.setValueOfCustomField("formId", formId);
@@ -230,16 +232,16 @@ public class FormFacade {
                 finalForm = liveForm;
             }
 
+            //get workflow variable (even if there's no final form)
+            Collection<WorkflowVariable> variableList = workflowManager.getActivityVariableList(activityInstanceId);
+            for (WorkflowVariable variable : variableList) {
+                if (variable.getVal() != null) {
+                    data.put("var_" + variable.getId(), (String) variable.getVal());
+                }
+            }
+
             if (finalForm != null) {
                 Map<String, String> customProperties = finalForm.getCustomProperties();
-
-                //get workflow variable
-                Collection<WorkflowVariable> variableList = workflowManager.getActivityVariableList(activityInstanceId);
-                for (WorkflowVariable variable : variableList) {
-                    if (variable.getVal() != null) {
-                        data.put("var_" + variable.getId(), (String) variable.getVal());
-                    }
-                }
 
                 Iterator it = customProperties.entrySet().iterator();
                 while (it.hasNext()) {

@@ -2955,7 +2955,7 @@ CREATE TABLE `wf_userview_setup` (
   `menu` text,
   `css` text,
   `cssLink` varchar(255) DEFAULT NULL,
-  `categories` varchar(255) DEFAULT NULL,
+  `categories` text,
   `createdBy` varchar(255) DEFAULT NULL,
   `createdOn` date DEFAULT NULL,
   `modifiedBy` varchar(255) DEFAULT NULL,

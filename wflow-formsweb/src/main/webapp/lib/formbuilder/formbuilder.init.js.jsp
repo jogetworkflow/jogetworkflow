@@ -5,10 +5,10 @@
 */
 var fb_compressed      = false;
 var contextPath        = '${pageContext.request.contextPath}/';
-var processRequesterId = '${param.processRequesterId}';
-var currentProcessId   = '${param.processId}';
-var currentFormId      = '${param.id}';
-var currentActivityId  = '${param.activityId}';
+var processRequesterId = '<c:out value="${param.processRequesterId}" escapeXml="true"/>';
+var currentProcessId   = '<c:out value="${param.processId}" escapeXml="true"/>';
+var currentFormId      = '<c:out value="${param.id}" escapeXml="true"/>';
+var currentActivityId  = '<c:out value="${param.activityId}" escapeXml="true"/>';
 var overlay            = false;
 var fileBaseLink       = '${pageContext.request.contextPath}/web/formbuilder/file/get';
 var fb_lib_path        = '${pageContext.request.contextPath}/lib/';
@@ -31,7 +31,7 @@ var fb_jquery_plugins  = [ // List of jquery lib and plugins to be loaded at sta
                           'jquery.ajaxfileupload.js'
                          ];
 var fb_css             = ['thickbox.css']; // List of css to load
-var fb_loadform_ep     = '${pageContext.request.contextPath}/web/formbuilder/json/getFormData/${param.id}?activityId=${param.activityId}';
+var fb_loadform_ep     = '${pageContext.request.contextPath}/web/formbuilder/json/getFormData/<c:out value="${param.id}?activityId=${param.activityId}" escapeXml="true"/>';
 var fb_loadsubform_ep  = '${pageContext.request.contextPath}/web/formbuilder/json/getSubForm/';
 var fb_saveform_ep     = '${pageContext.request.contextPath}/web/formbuilder/admin/json/save';
 var fb_formbuilder_mod = ['formbuilder.core.js', 'formbuilder.templates.js'];
@@ -57,10 +57,10 @@ var fb_current_row     = null;
 var customHtmlIds = [];
 
 <c:if test="${!empty param.numOfSubForm}">
-    var numOfSubForm = ${param.numOfSubForm};
+    var numOfSubForm = <c:out value="${param.numOfSubForm}" escapeXml="true"/>;
 
     //number of subforms plus itself
-    var numOfGetData = ${param.numOfSubForm} + 1;
+    var numOfGetData = <c:out value="${param.numOfSubForm}" escapeXml="true"/> + 1;
 </c:if>
 <c:if test="${empty param.numOfSubForm}">
     var numOfSubForm = 0;
@@ -68,6 +68,8 @@ var customHtmlIds = [];
 </c:if>
 var subFormCounter = 0;
 var getDataCounter = 0;
+
+var getSubFormDataList = new Array();
 
 /**
 * Function to load js scripts on demand
@@ -137,33 +139,33 @@ for (var i = 0; i < fb_css.length; i++){
 //for form viewing submission
 function appendHiddenFields(){
     $('#formbuilder_export_form').append('<input type="hidden" name="id" value="' + currentFormId + '">');
-    $('#formbuilder_export_form').append('<input type="hidden" id="processId" name="processId" value="${param.processId}">');
-    $('#formbuilder_export_form').append('<input type="hidden" id="processDefId" name="processDefId" value="${param.processDefId}">');
-    $('#formbuilder_export_form').append('<input type="hidden" id="activityId" name="activityId" value="${param.activityId}">');
-    $('#formbuilder_export_form').append('<input type="hidden" id="version" name="version" value="${param.version}">');
-    $('#formbuilder_export_form').append('<input type="hidden" id="username" name="username" value="${param.username}">');
-    $('#formbuilder_export_form').append('<input type="hidden" id="parentProcessId" name="parentProcessId" value="${param.parentProcessId}">');
+    $('#formbuilder_export_form').append('<input type="hidden" id="processId" name="processId" value="<c:out value="${param.processId}" escapeXml="true"/>">');
+    $('#formbuilder_export_form').append('<input type="hidden" id="processDefId" name="processDefId" value="<c:out value="${param.processDefId}" escapeXml="true"/>">');
+    $('#formbuilder_export_form').append('<input type="hidden" id="activityId" name="activityId" value="<c:out value="${param.activityId}" escapeXml="true"/>">');
+    $('#formbuilder_export_form').append('<input type="hidden" id="version" name="version" value="<c:out value="${param.version}" escapeXml="true"/>">');
+    $('#formbuilder_export_form').append('<input type="hidden" id="username" name="username" value="<c:out value="${param.username}" escapeXml="true"/>">');
+    $('#formbuilder_export_form').append('<input type="hidden" id="parentProcessId" name="parentProcessId" value="<c:out value="${param.parentProcessId}" escapeXml="true"/>">');
     $.unblockUI(null, setWymEditorHtml);
 }
 
 //for retrieveing form data
 //if 'formId' is not null, it's for subform
 function getFormData(formId, isFromParentProcess, skipDataLoading){
-    var currentUsername = "${param.username}";
+    var currentUsername = "<c:out value="${param.username}" escapeXml="true"/>";
 
     if(skipDataLoading == undefined || !skipDataLoading){
-        var thisFormId = '${param.id}';
+        var thisFormId = '<c:out value="${param.id}" escapeXml="true"/>';
 
-        var thisProcessId = '${param.processId}';
+        var thisProcessId = '<c:out value="${param.processId}" escapeXml="true"/>';
         if(isFromParentProcess && isFromParentProcess == 'true'){
             thisProcessId = processRequesterId;
         }
 
         if(!formId)
-            var url = contextPath + 'web/formbuilder/json/getData?id=${param.id}&processId=' + thisProcessId + '&activityId=${param.activityId}';
+            var url = contextPath + 'web/formbuilder/json/getData?id=<c:out value="${param.id}" escapeXml="true"/>&processId=' + thisProcessId + '&activityId=<c:out value="${param.activityId}" escapeXml="true"/>';
         else{
             thisFormId = formId;
-            var url = contextPath + 'web/formbuilder/json/getData?id=' + formId + '&processId=' + thisProcessId + '&activityId=${param.activityId}';
+            var url = contextPath + 'web/formbuilder/json/getData?id=' + formId + '&processId=' + thisProcessId + '&activityId=<c:out value="${param.activityId}" escapeXml="true"/>';
         }
         url += '&rnd' + new Date().valueOf().toString();
 
@@ -236,7 +238,7 @@ function getFormData(formId, isFromParentProcess, skipDataLoading){
                                     }else if($(v).attr('type') == 'file'){
                                         var widgetContainer = $(v).parent().get(0);
                                         var divId = v.id + "_" + v.name + "_fileDownload";
-                                        var fileLink = '<a href="' + fileBaseLink + '?fileName=' + encodeURI(pVal) + '&processId=${param.processId}">';
+                                        var fileLink = '<a href="' + fileBaseLink + '?fileName=' + encodeURI(pVal) + '&processId=<c:out value="${param.processId}" escapeXml="true"/>">';
                                         if($('#' + divId).length == 0){
                                             var baseString = '<div id="' + divId + '">uploaded file: ' + fileLink + pVal + '</a></div>';
                                             $(widgetContainer).append(baseString);
@@ -247,7 +249,7 @@ function getFormData(formId, isFromParentProcess, skipDataLoading){
                                         //if it's grid data
                                         if(pVal instanceof Object){
                                             //check if it's for other input fields first
-                                            if($('input[@name="' + pName + '"]').length == 1){
+                                            /*if($('input[@name="' + pName + '"]').length == 1){
                                                 var finalValue = "";
                                                 $.each(pVal, function(i, val){
                                                     val = val.replace(/^"/, '');
@@ -261,7 +263,7 @@ function getFormData(formId, isFromParentProcess, skipDataLoading){
                                                 });
 
                                                 $(v).attr("value", finalValue);
-                                            }else{
+                                            }else{*/
 
                                                 if($(v).parent().get(0).tagName == 'TD'){
 
@@ -302,7 +304,7 @@ function getFormData(formId, isFromParentProcess, skipDataLoading){
 
                                                         loadedGridId += id + "|";
                                                     }
-                                                }
+                                                //}
                                             }
                                         }else{
                                             $(v).attr("value", pVal);
@@ -390,6 +392,8 @@ function loadFormVariable(callback){
             return;
         }
 
+        var formVariableCounter = $('*[formvariableid]').length;
+
         $.each($('*[formvariableid]'), function(i, v){
             var formVariableId = $(v).attr('formvariableid');
             if(formVariableId.indexOf('_ex_') != -1)
@@ -438,14 +442,21 @@ function loadFormVariable(callback){
                             }
                         }
                         loadedInputName += v.name + '|';
-                        if(callback){
-                            callback();
+
+                        formVariableCounter--;
+                        if(formVariableCounter == 0){
+                            if(callback){
+                                callback();
+                            }
                         }
                     //}
                 });//end getJSON
             }else{
-                if(callback){
-                    callback();
+                formVariableCounter--;
+                if(formVariableCounter == 0){
+                    if(callback){
+                        callback();
+                    }
                 }
             }
         });
@@ -608,17 +619,26 @@ function performValidation(){
 
 //to make sure every subform is completely loaded before exporting
 function subformLoadComplete(subFormId, isFromParentProcess){
+    
+    //get data for subform
+    if(subFormId != undefined && isFromParentProcess != undefined){
+        var temp = new Object();
+        temp.formId = subFormId;
+        temp.isFromParentProcess = isFromParentProcess;
+        temp.skipDataLoading = false;
+        getSubFormDataList[getSubFormDataList.length] = temp;
+    }else{
+        //skip Data loading
+        var temp = new Object();
+        temp.formId = subFormId;
+        temp.isFromParentProcess = isFromParentProcess;
+        temp.skipDataLoading = true;
+        getSubFormDataList[getSubFormDataList.length] = temp;
+    }
+
     subFormCounter++;
     if(subFormCounter == numOfSubForm)
         formbuilder_form_export('#formbuilder_main', null, true);
-
-    //get data for subform
-    if(subFormId != undefined && isFromParentProcess != undefined){
-        getFormData(subFormId, isFromParentProcess);
-    }else{
-        //skip Data loading
-        getFormData(subFormId, isFromParentProcess, true);
-    }
 }
 
 /**

@@ -102,7 +102,15 @@
             <div class="form-row">
                 <label for="${variable.name}">${variable.name}</label>
                 <span class="input">
-                    <input name="${variable.name}" type="text" id="${variable.name}" value="${variable.val}"> <input type="button" value="set" onclick="setVariable('${variable.name}')">
+                    <c:choose>
+                        <c:when test="${activity.state != 'closed.completed' && activity.state != 'closed.terminated' && activity.state != 'closed.aborted'}">
+                            <input name="${variable.name}" type="text" id="${variable.name}" value="${variable.val}"/>
+                            <input type="button" value="set" onclick="setVariable('${variable.name}')"/>
+                        </c:when>
+                        <c:otherwise>
+                            <input name="${variable.name}" type="text" id="${variable.name}" value="${variable.val}" disabled="true"/> 
+                        </c:otherwise>
+                    </c:choose>
                 </span>
             </div>
         </c:forEach>

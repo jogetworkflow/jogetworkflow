@@ -44,10 +44,11 @@
                        column1="{key: 'id', label: 'wflowAdmin.completed.process.list.label.id', sortable: true}"
                        column2="{key: 'startedTime', label: 'wflowAdmin.completed.process.list.label.startedTime', sortable: true}"
                        column3="{key: 'name', label: 'wflowAdmin.completed.process.list.label.name', sortable: true}"
-                       column4="{key: 'version', label: 'wflowAdmin.completed.process.list.label.version', sortable: false}"
-                       column5="{key: 'state', label: 'wflowAdmin.completed.process.list.label.state', sortable: false}"
-                       column6="{key: 'due', label: 'wflowAdmin.completed.process.list.label.due', sortable: false}"
-                       column7="{key: 'serviceLevelMonitor', label: 'wflowAdmin.completed.process.list.label.serviceLevelMonitor', sortable: false}"
+                       column4="{key: 'requesterId', label: 'wflowAdmin.completed.process.list.label.requester', sortable: false}"
+                       column5="{key: 'version', label: 'wflowAdmin.completed.process.list.label.version', sortable: false}"
+                       column6="{key: 'state', label: 'wflowAdmin.completed.process.list.label.state', sortable: false}"
+                       column7="{key: 'due', label: 'wflowAdmin.completed.process.list.label.due', sortable: false}"
+                       column8="{key: 'serviceLevelMonitor', label: 'wflowAdmin.completed.process.list.label.serviceLevelMonitor', sortable: false}"
                        />
     </div>
 

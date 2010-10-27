@@ -150,9 +150,7 @@ public class FormController {
                 ass = formFacade.getMockAssignment(activityInstanceId);
             }
 
-            if(ass != null){
-                formData = WorkflowUtil.processVariable(formData, form.getTableName(), ass, StringUtil.TYPE_JSON);
-            }
+            formData = WorkflowUtil.processVariable(formData, form.getTableName(), ass, StringUtil.TYPE_JSON);
         }
 
         writer.write(formData);
@@ -173,9 +171,7 @@ public class FormController {
                 ass = formFacade.getMockAssignment(activityInstanceId);
             }
 
-            if(ass != null){
-                formData = WorkflowUtil.processVariable(formData, form.getTableName(), ass, StringUtil.TYPE_JSON);
-            }
+            formData = WorkflowUtil.processVariable(formData, form.getTableName(), ass, StringUtil.TYPE_JSON);
         }
 
         writer.write(formData);
@@ -239,12 +235,11 @@ public class FormController {
         byte[] bbuf = new byte[65536];
 
         try {
+            response.addHeader("Content-Disposition", "attachment; filename=" + fileName);
             int length = 0;
             while ((in != null) && ((length = in.read(bbuf)) != -1)) {
                 stream.write(bbuf, 0, length);
             }
-            
-            response.addHeader("Content-Disposition", "attachment; filename=" + fileName);
         } finally {
             in.close();
             stream.flush();

@@ -61,6 +61,10 @@ public abstract class DynamicFormDaoSupport extends HibernateDaoSupport {
     Map<String, HibernateTemplate> templateMap = new HashMap<String, HibernateTemplate>();
 
     protected HibernateTemplate getHibernateTemplate(String formTableName) {
+        return getHibernateTemplate(formTableName, null);
+    }
+
+    protected HibernateTemplate getHibernateTemplate(String formTableName, Form form) {
         String path = SetupManager.getBaseDirectory();
         if(!path.endsWith(File.separator)){
             path += File.separator;
@@ -74,7 +78,7 @@ public abstract class DynamicFormDaoSupport extends HibernateDaoSupport {
         
         //if not exists, generate a new template
         if(!mappingFile.exists()){
-            return generateHibernateTemplate(formTableName); 
+            return generateHibernateTemplate(formTableName, null);
         }
         
         //get existing mapping fields
@@ -86,6 +90,10 @@ public abstract class DynamicFormDaoSupport extends HibernateDaoSupport {
         Iterator i = customComponent.getPropertyIterator();
         
         List<String> newFormFields = getUniqueFormFields(formTableName);
+
+        if(form != null){
+            newFormFields = getUniqueFormFields(newFormFields, form);
+        }
         
         //check for difference
         boolean different = false;
@@ -109,27 +117,26 @@ public abstract class DynamicFormDaoSupport extends HibernateDaoSupport {
         if(!different){
             HibernateTemplate template = templateMap.get(formTableName);
             if (template == null) {
-                template = generateHibernateTemplate(formTableName);
+                template = generateHibernateTemplate(formTableName, newFormFields);
             }
             return template;
         }else{
-            return generateHibernateTemplate(formTableName);
+            return generateHibernateTemplate(formTableName, newFormFields);
         }
     }
 
-    protected HibernateTemplate generateHibernateTemplate(String formTableName) {
-        
+    protected HibernateTemplate generateHibernateTemplate(String formTableName, List<String> formFields) {
+        SessionFactory factory = null;
         try {
             // check for and remove existing
             HibernateTemplate template = templateMap.get(formTableName);
             if (template != null) {
-                SessionFactory factory = template.getSessionFactory();
-                factory.close();
+                factory = template.getSessionFactory();
                 templateMap.remove(formTableName);
             }
-
+       
             // load default class mapping
-            setCurrentFormTableName(formTableName);
+            setCurrentForm(formTableName, formFields);
             
             HibernateTemplate ht = new HibernateTemplate(loadCustomSessionFactory());
 
@@ -137,21 +144,24 @@ public abstract class DynamicFormDaoSupport extends HibernateDaoSupport {
             templateMap.put(formTableName, ht);
 
             return ht;
-        }
-        catch(Exception e) {
+        }catch(Exception e) {
             throw new RuntimeException("Error generating HibernateTemplate: " + e.toString(), e);
+        }finally{
+            if(factory != null){
+                factory.close();
+            }
         }
     }
 
-    ThreadLocal threadFormTableName = new ThreadLocal();
+    ThreadLocal threadCurrentForm = new ThreadLocal();
     
-    public String getCurrentFormTableName() {
-        String formTableName = (String)threadFormTableName.get();
-        return formTableName;
+    public Object getCurrentForm() {
+        return threadCurrentForm.get();
     }
     
-    public void setCurrentFormTableName(String formTableName) {
-        threadFormTableName.set(formTableName);
+    public void setCurrentForm(String formTableName, List<String> formFields) {
+        Object form[] = new Object[]{formTableName, formFields};
+        threadCurrentForm.set(form);
     }
     
     public Configuration customizeConfiguration(Configuration config) throws DOMException, HibernateException, ParserConfigurationException, SAXException, IOException, MappingException, TransformerException {
@@ -168,11 +178,17 @@ public abstract class DynamicFormDaoSupport extends HibernateDaoSupport {
         Document document = XMLUtil.loadDocument(is);
 
         // set entity name for form
-        String formTableName = getCurrentFormTableName();
+        Object form[] = (Object[])getCurrentForm();
+        String formTableName = form[0].toString();
         pc.setEntityName(formTableName);
 
         // TODO: add custom fields here, to read from definition?
-        List<String> formFields = getUniqueFormFields(formTableName);
+        List<String> formFields = null;
+        if(form[1] == null){
+            formFields = getUniqueFormFields(formTableName);
+        }else{
+            formFields = (List<String>)form[1];
+        }
         
         for(String field : formFields){
             SimpleValue simpleValue = new SimpleValue();
@@ -355,5 +371,23 @@ public abstract class DynamicFormDaoSupport extends HibernateDaoSupport {
         formFields.add("refName");
         return formFields;
     }
-    
+
+    public List<String> getUniqueFormFields(List<String> fields, Form form){
+        for(Object key: form.getCustomProperties().keySet()){
+            String name = key.toString();
+            if(name.startsWith("c_")){
+                boolean found = false;
+                for(String field : fields){
+                    if(field.equalsIgnoreCase(name)){
+                        found = true;
+                        break;
+                    }
+                }
+                if(!found){
+                    fields.add(name);
+                }
+            }
+        }
+        return fields;
+    }
 }

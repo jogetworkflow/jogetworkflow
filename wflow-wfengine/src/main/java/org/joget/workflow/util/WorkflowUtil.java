@@ -77,7 +77,7 @@ public class WorkflowUtil implements ApplicationContextAware {
 
             Collection<ParticipantDirectory> results = null;
             if(!par.isPackageLevel()){
-                results = participantDirectoryDao.getMappingByParticipantId(packageId, procDefId, null, participantId);
+                results = participantDirectoryDao.getMappingByParticipantId(packageId, procDefId, Integer.parseInt(version), participantId);
             }else{
                 results = participantDirectoryDao.getMappingByParticipantId(packageId, null, Integer.parseInt(version), participantId);
             }
@@ -367,7 +367,7 @@ public class WorkflowUtil implements ApplicationContextAware {
                             content = content.replaceAll(var, "");
                         }
 
-                    }else if(tempVar.startsWith(WORKFLOW_ASSIGNMENT)){
+                    }else if(tempVar.startsWith(WORKFLOW_ASSIGNMENT) && wfAssignment != null){
                         tempVar = tempVar.replace(WORKFLOW_ASSIGNMENT + ".", "");
 
                         //convert first character to upper case
@@ -383,7 +383,7 @@ public class WorkflowUtil implements ApplicationContextAware {
 
                         content = content.replaceAll(var, StringUtil.escapeString(returnResult, escapeFormat, replaceMap));
 
-                    }else if(tempVar.startsWith(WORKFLOW_VARIABLE)){
+                    }else if(tempVar.startsWith(WORKFLOW_VARIABLE) && wfAssignment != null){
                         tempVar = tempVar.replace(WORKFLOW_VARIABLE + ".", "");
                         String varVal = variableData.get(tempVar);
                         if(varVal != null){
@@ -436,7 +436,7 @@ public class WorkflowUtil implements ApplicationContextAware {
                             LogUtil.error(WorkflowUtil.class.getName(), ex, "");
                         }
 
-                    } else if (tempVar.startsWith(PERFORMER)) {
+                    } else if (tempVar.startsWith(PERFORMER) && wfAssignment != null) {
                         tempVar = tempVar.replace(PERFORMER + ".", "");
 
                         try {

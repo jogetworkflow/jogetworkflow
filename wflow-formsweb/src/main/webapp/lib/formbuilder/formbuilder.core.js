@@ -98,13 +98,20 @@ function formbuilder_load(fb_div, view){
         if(data == ''){
             $.unblockUI();
         } else {
-            data = eval('(' + data + ')');
-            flash_message(gettext('msg_ok_load'));
-            formbuilder_parse(data, view);
-            if(view && view == true){
-                if(numOfSubForm == 0){
-                    formbuilder_form_export(fb_div, null, view);
+            try{
+                data = eval('(' + data + ')');
+                flash_message(gettext('msg_ok_load'));
+                formbuilder_parse(data, view);
+                if(view && view == true){
+                    if(numOfSubForm == 0){
+                        formbuilder_form_export(fb_div, null, view);
+                    }
                 }
+            }catch(err){
+                if(view && view == true){
+                    $(fb_div).html(gettext('msg_err_loading'));
+                }
+                $.unblockUI();
             }
         }
     });
@@ -672,7 +679,13 @@ function formbuilder_form_export(fb_div, html, view){
        $('#formbuilder_export').show();
        $('#formbuilder_widgets_area').remove();
 
-       loadFormVariable(function(){ getFormData(); });
+       loadFormVariable(function(){
+           //Load subform data
+           for(i=0;i<getSubFormDataList.length;i++){
+               getFormData(getSubFormDataList[i].formId, getSubFormDataList[i].isFromParentProcess, getSubFormDataList[i].skipDataLoading);
+           }
+           getFormData();
+       });
 
        //reattach datepicker as the id has already changed to "_ex_xxx"
        removeDatePicker();

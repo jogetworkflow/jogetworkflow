@@ -163,7 +163,14 @@ public class FormWebController {
         Map propertyMap = CsvUtil.getPluginPropertyMap(properties);
         propertyMap.put("pluginManager", pluginManager);
         FormVariablePlugin plugin = (FormVariablePlugin) pluginManager.getPlugin(formVariable.getPluginName());
-        Map result = plugin.getVariableOptions(PluginUtil.getDefaultProperties(formVariable.getPluginName(), propertyMap));
+
+        Map result = new HashMap();
+
+        try{
+            result = plugin.getVariableOptions(PluginUtil.getDefaultProperties(formVariable.getPluginName(), propertyMap));
+        }catch(Throwable t){
+            LogUtil.error(getClass().getName(), t, "");
+        }
         //end preview
 
         map.addAttribute("resultPreview", result);

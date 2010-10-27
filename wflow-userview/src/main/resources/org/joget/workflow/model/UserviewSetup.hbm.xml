@@ -13,7 +13,7 @@
     <property name="menu" type="text"/>
     <property name="css" type="text"/>
     <property name="cssLink" type="string"/>
-    <property name="categories" type="string"/>
+    <property name="categories" type="text"/>
     <property name="createdBy" type="string"/>
     <property name="createdOn" type="date"/>
     <property name="modifiedBy" type="string"/>

@@ -124,6 +124,8 @@ public class ResourceBundleMessageWebController {
         }catch(IOException e){
             
         }
+
+        map.addAttribute("localeList", getSortedLocalList());
         return "message/messageList";
     }
 }

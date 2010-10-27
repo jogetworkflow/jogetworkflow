@@ -27,11 +27,17 @@
 
 <script type="text/javascript">
     var submit = false;
+    var submitExportUserview = false;
     window.onbeforeunload = warning;
 
     function warning(){
         if(!submit){
-            return "<fmt:message key="wflowClient.userview.msg.closing"/>";
+            if(!submitExportUserview){
+                return "<fmt:message key="wflowClient.userview.msg.closing"/>";
+            }else{
+                submitExportUserview = false;
+                return "<fmt:message key="wflowClient.userview.msg.exportUserView"/>";
+            }
         }else{
             submit = false;
         }
@@ -575,6 +581,7 @@
     }
 
     function exportUserview(){
+        submitExportUserview = true;
         document.location = '${pageContext.request.contextPath}/web/admin/userview/export/${userviewSetupId}';
     }
 

@@ -48,7 +48,7 @@
 
             var text = "";
 
-            var existingGroupId = $(div).find('input[name="permission"]').val();
+            var existingGroupId = $(div).find('input[name="categoryPermission"]').val()
             var newId = new Array();
             var j = 0;
 
@@ -66,12 +66,16 @@
             if(newId.length > 0){
                 $(div).find('.categoryPermissionValue').html( $(div).find('.categoryPermissionValue').html() + " " + text);
                 $(div).find('input[name="categoryPermission"]').val( $(div).find('input[name="categoryPermission"]').val() + "," + newId);
-                $(div).find('input[name="permission"]').val( $(div).find('input[name="permission"]').val() + "," + newId);
+                if($(div).find('input[name="permission"]').val() != undefined){
+                    $(div).find('input[name="permission"]').val( $(div).find('input[name="permission"]').val() + "," + newId);
+                }
 
                 //remove extra comma
                 var regex = new RegExp("^,|,$","g");
                 $(div).find('input[name="categoryPermission"]').val( $(div).find('input[name="categoryPermission"]').val().replace(regex,""));
-                $(div).find('input[name="permission"]').val( $(div).find('input[name="permission"]').val().replace(regex,""));
+                if($(div).find('input[name="permission"]').val() != undefined){
+                    $(div).find('input[name="permission"]').val( $(div).find('input[name="permission"]').val().replace(regex,""));
+                }
             }
         }
         window.parent.popupDialog.close();

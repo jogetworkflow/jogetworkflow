@@ -24,6 +24,8 @@ public class WorkflowProcess implements Serializable {
     private String timeConsumingFromDateCreated;
     private String timeConsumingFromDateStarted;
     private String state;
+    private String requesterId;
+
     boolean latest;
 
     public String getEncodedId() {
@@ -180,5 +182,13 @@ public class WorkflowProcess implements Serializable {
 
     public void setTimeConsumingFromDateStarted(String timeConsumingFromDateStarted) {
         this.timeConsumingFromDateStarted = timeConsumingFromDateStarted;
+    }
+
+    public String getRequesterId() {
+        return requesterId;
+    }
+
+    public void setRequesterId(String requesterId) {
+        this.requesterId = requesterId;
     }
 }

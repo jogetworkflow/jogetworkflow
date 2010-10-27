@@ -1082,7 +1082,7 @@ public class WorkflowManagerImpl implements WorkflowManager {
                         participantList.add(processStartWhiteList);
                         for (WorkflowParticipant participant : participantList) {
                             if (!participant.isPackageLevel()) {
-                                Collection<ParticipantDirectory> previousVersionUserList = participantDirectoryDao.getMappings(packageId, previousVersionProcessId, previousVersion, participant.getId());
+                                Collection<ParticipantDirectory> previousVersionUserList = participantDirectoryDao.getMappingByParticipantId(packageId, previousVersionProcessId, previousVersion, participant.getId());
 
                                 if (previousVersionUserList != null && previousVersionUserList.size() > 0) {
                                     for (ParticipantDirectory participantDirectory : previousVersionUserList) {
@@ -1102,7 +1102,7 @@ public class WorkflowManagerImpl implements WorkflowManager {
                         if (!packageLevelCopied) {
                             for (WorkflowParticipant participant : participantList) {
                                 if (participant.isPackageLevel()) {
-                                    Collection<ParticipantDirectory> previousVersionUserList = participantDirectoryDao.getMappings(packageId, null, previousVersion, participant.getId());
+                                    Collection<ParticipantDirectory> previousVersionUserList = participantDirectoryDao.getMappingByParticipantId(packageId, null, previousVersion, participant.getId());
 
                                     if (previousVersionUserList != null && previousVersionUserList.size() > 0) {
                                         for (ParticipantDirectory participantDirectory : previousVersionUserList) {
@@ -1326,6 +1326,7 @@ public class WorkflowManagerImpl implements WorkflowManager {
                 workflowProcess.setState(wfProcess.state());
                 workflowProcess.setPackageId(MiscUtilities.getProcessMgrPkgId(manager.name()));
                 workflowProcess.setVersion(manager.version());
+                workflowProcess.setRequesterId(getUserByProcessIdAndActivityDefId(workflowProcess.getId(), workflowProcess.getInstanceId(), "runProcess"));
 
                 WorkflowProcess trackWflowProcess = getRunningProcessInfo(wfProcess.key());
                 workflowProcess.setStartedTime(trackWflowProcess.getStartedTime());
@@ -1469,6 +1470,7 @@ public class WorkflowManagerImpl implements WorkflowManager {
                 workflowProcess.setState(wfProcess.state());
                 workflowProcess.setPackageId(MiscUtilities.getProcessMgrPkgId(manager.name()));
                 workflowProcess.setVersion(manager.version());
+                workflowProcess.setRequesterId(getUserByProcessIdAndActivityDefId(workflowProcess.getId(), workflowProcess.getInstanceId(), "runProcess"));
 
                 WorkflowProcess trackWflowProcess = getRunningProcessInfo(wfProcess.key());
                 workflowProcess.setStartedTime(trackWflowProcess.getStartedTime());
@@ -1662,14 +1664,8 @@ public class WorkflowManagerImpl implements WorkflowManager {
             WfActivity[] wfActivityList = ai.get_next_n_sequence(0);
 
             for (int i = 0; i < wfActivityList.length; ++i) {
-                WfActivity wfActivity = wfActivityList[i];
-                WMEntity entity = admin.getActivityDefinitionInfo(sessionHandle, wfActivity.container().key(), wfActivity.key());
-
-                WorkflowActivity workflowActivity = new WorkflowActivity();
-                workflowActivity.setId(wfActivity.key());
-                workflowActivity.setActivityDefId(entity.getId());
-                workflowActivity.setName(wfActivity.name());
-                workflowActivity.setState(wfActivity.state());
+                WfActivity wfActivity = wfActivityList[i];               
+                WorkflowActivity workflowActivity = getActivityById(wfActivity.key());
 
                 WorkflowActivity trackWflowActivity = getRunningActivityInfo(sc, wfActivity, false);
                 if (trackWflowActivity != null) {
@@ -1782,6 +1778,24 @@ public class WorkflowManagerImpl implements WorkflowManager {
                 workflowActivity.setProcessVersion(manager.version());
                 workflowActivity.setPriority(String.valueOf(wfActivity.priority()));
                 workflowActivity.setProcessStatus(process.state());
+                // check for hash variable
+                if (WorkflowUtil.containsHashVariable(wfActivity.name())) {
+                    WorkflowAssignment ass = new WorkflowAssignment();
+                    ass.setProcessId(workflowActivity.getProcessId());
+                    ass.setProcessDefId(workflowActivity.getProcessDefId());
+                    ass.setProcessName(workflowActivity.getProcessName());
+                    ass.setProcessVersion(workflowActivity.getProcessVersion());
+                    ass.setProcessRequesterId(getUserByProcessIdAndActivityDefId(workflowActivity.getProcessDefId(), workflowActivity.getProcessId(), "runProcess"));
+                    ass.setDescription(workflowActivity.getDescription());
+                    ass.setActivityId(activityId);
+                    ass.setActivityName(workflowActivity.getName());
+                    ass.setActivityDefId(workflowActivity.getActivityDefId());
+                    ass.setAssigneeId(workflowActivity.getPerformer());
+
+                    ass.setProcessVariableList(new ArrayList(getProcessVariableList(workflowActivity.getProcessId())));
+                    //process activity name variable
+                    workflowActivity.setName(WorkflowUtil.processVariable(wfActivity.name(), null, ass));
+                }
             }
 
         } catch (Exception ex) {
@@ -5438,7 +5452,7 @@ public class WorkflowManagerImpl implements WorkflowManager {
 
         String currentUsername = getWorkflowUserManager().getCurrentUsername();
 
-        List<String> userlist = WorkflowUtil.getAssignmentUsers(tempInfo[0], processDefId, "", tempInfo[2], "", "", "processStartWhiteList");
+        List<String> userlist = WorkflowUtil.getAssignmentUsers(tempInfo[0], processDefId, "", tempInfo[1], "", "", "processStartWhiteList");
         if (userlist != null && userlist.size() > 0) {
             boolean inWhiteList = false;
             for (String username : userlist) {

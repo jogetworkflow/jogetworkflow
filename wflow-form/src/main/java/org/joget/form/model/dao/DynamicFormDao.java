@@ -3,7 +3,6 @@ package org.joget.form.model.dao;
 import org.joget.form.model.Form;
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import org.hibernate.HibernateException;
@@ -23,7 +22,7 @@ public class DynamicFormDao extends DynamicFormDaoSupport {
 
     public Serializable save(Form form) {
         String tableName = form.getTableName();
-        return getHibernateTemplate(tableName).save(FORM_ID_PREFIX + tableName, form);
+        return getHibernateTemplate(tableName, form).save(FORM_ID_PREFIX + tableName, form);
     }
 
     public void saveOrUpdateMetaData(FormMetaData formMetaData, String tableName) {
@@ -32,7 +31,7 @@ public class DynamicFormDao extends DynamicFormDaoSupport {
 
     public void saveOrUpdate(Form form) {
         String tableName = form.getTableName();
-        getHibernateTemplate(tableName).saveOrUpdate(FORM_ID_PREFIX + tableName, form);
+        getHibernateTemplate(tableName, form).saveOrUpdate(FORM_ID_PREFIX + tableName, form);
     }
 
     public List<Form> loadAllDynamicForm(final String tableName) {

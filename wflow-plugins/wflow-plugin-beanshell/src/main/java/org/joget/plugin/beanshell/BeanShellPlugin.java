@@ -22,7 +22,7 @@ public class BeanShellPlugin extends DefaultPlugin implements ApplicationPlugin,
     }
 
     public String getVersion() {
-        return "1.0.2";
+        return "1.0.5";
     }
 
     public String getDescription() {
@@ -47,6 +47,7 @@ public class BeanShellPlugin extends DefaultPlugin implements ApplicationPlugin,
     public Map getVariableOptions(Map properties) {
         Map resultMap = null;
         String script = (String) properties.get("script");
+        script = WorkflowUtil.processVariable(script, "", null);
         Object result = executeScript(script, properties);
         if (result instanceof Map) {
             resultMap = (Map) result;
@@ -81,6 +82,7 @@ public class BeanShellPlugin extends DefaultPlugin implements ApplicationPlugin,
 
     public Collection<String> getActivityAssignments(Map properties) {
         String script = (String) properties.get("script");
+        script = WorkflowUtil.processVariable(script, "", null);
         return (Collection<String>) executeScript(script, properties);
     }
 }

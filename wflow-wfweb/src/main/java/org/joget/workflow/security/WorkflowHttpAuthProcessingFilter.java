@@ -67,13 +67,17 @@ public class WorkflowHttpAuthProcessingFilter extends AuthenticationProcessingFi
                     master.setUsername(masterLoginUsername.trim());
                     master.setPassword(masterLoginPassword.trim());
 
-                    if ((password != null && (username.trim().equals(master.getUsername()) && password.trim().equals(master.getPassword()))) ||
-                            (loginHash != null && loginHash.trim().equalsIgnoreCase(master.getLoginHash()))) {
+                    if ( username.trim().equals(master.getUsername()) &&
+                         ((password != null && password.trim().equals(master.getPassword())) ||
+                          (loginHash != null && loginHash.trim().equalsIgnoreCase(master.getLoginHash())))) {
                         currentUser = directoryManager.getUserByUsername(loginAs);
                     }
                 }
             } else {
-                if (username != null && password != null) {
+                if (username != null && (password != null || loginHash != null) ) {
+                    if(loginHash != null ){
+                        password = loginHash;
+                    }
                     // TODO: pluggable authentication, use existing authentication manager for now
                     try {
                         UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(username.trim(), password.trim());
@@ -83,11 +87,6 @@ public class WorkflowHttpAuthProcessingFilter extends AuthenticationProcessingFi
                         }
                     } catch (BadCredentialsException be) {
                         // ignore
-                    }
-                } else if (loginHash != null && loginHash.trim().length() == 32) {
-                    currentUser = directoryManager.getUserByUsername(username);
-                    if (currentUser != null && !loginHash.trim().equalsIgnoreCase(currentUser.getLoginHash())) {
-                        currentUser = null;
                     }
                 }
             }

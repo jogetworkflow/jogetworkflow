@@ -117,24 +117,6 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
         <property name="gradeDao" ref="gradeDao" />
         <property name="roleDao" ref="roleDao" />
     </bean>
-    <!--
-    <bean id="ldapDirectoryManager" class="org.joget.directory.model.service.DirectoryManagerLdapImpl">
-        <qualifier value="ldap" />
-        <property name="ldapTemplate" ref="ldapTemplate" />
-    </bean>
-
-    <bean id="contextSource"
-        class="org.springframework.ldap.support.LdapContextSource">
-        <property name="url" value="ldap://192.168.200.36:389" />
-        <property name="base" value="cn=Users,dc=shoppe,dc=com,dc=my" />
-        <property name="userName" value="cn=temp,cn=Users,dc=shoppe,dc=com,dc=my" />
-        <property name="password" value="88" />
-    </bean>
-    
-    <bean id="ldapTemplate" class="org.springframework.ldap.LdapTemplate">
-        <constructor-arg ref="contextSource" />
-    </bean>
-    -->
     <aop:config>
         <aop:advisor advice-ref="directoryHibernateInterceptor"
             pointcut="execution(* org.joget.directory.model.dao..*Dao.*(..))" order="1" />

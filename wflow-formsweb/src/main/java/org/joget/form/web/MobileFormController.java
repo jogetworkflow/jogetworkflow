@@ -201,9 +201,10 @@ public class MobileFormController {
         }
 
         WorkflowAssignment ass = formFacade.getAssignment(activityInstanceId);
-        if(ass != null){
-            html = WorkflowUtil.processVariable(html, form.getTableName(), ass);
+        if(ass == null){
+                ass = formFacade.getMockAssignment(activityInstanceId);
         }
+        html = WorkflowUtil.processVariable(html, form.getTableName(), ass);
 
         map.addAttribute("html", html);
         map.addAttribute("id", form.getId());

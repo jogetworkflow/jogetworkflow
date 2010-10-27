@@ -613,7 +613,7 @@
                 var div = $('#${param.activityDivId}', window.parent.document);
             </c:when>
             <c:otherwise>
-                var div = $('#modal', window.parent.document).clone();
+                var div = window.parent.$('#modal').clone();
                 var id = new Date().valueOf().toString();
                 $(div).attr('id', id);
             </c:otherwise>

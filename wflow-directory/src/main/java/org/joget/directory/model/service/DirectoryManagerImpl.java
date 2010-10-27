@@ -34,6 +34,10 @@ public class DirectoryManagerImpl implements DirectoryManager {
         User user = getUserByUsername(username);
         boolean validLogin = (user != null && user.getPassword() != null && user.getPassword().equals(password));
 
+        if(!validLogin){
+            validLogin = (user != null && user.getPassword() != null && user.getLoginHash().equalsIgnoreCase(password));
+        }
+
         if (!validLogin) {
             return false;
         } else {

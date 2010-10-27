@@ -51,11 +51,11 @@ public abstract class AbstractSpringDao extends HibernateDaoSupport {
                         sf.openSession().reconnect(ds.getConnection());
                         super.setSessionFactory(sf);
                         this.dataSourceUrl = url;
-
-                        // close old session factory
-                        sf.close();
                     } catch (Exception ex) {
                         LogUtil.error(getClass().getName(), ex, ex.getMessage());
+                    }finally{
+                        // close old session factory
+                        sf.close();
                     }
                 }
             }

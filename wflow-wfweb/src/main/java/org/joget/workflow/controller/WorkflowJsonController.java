@@ -250,6 +250,7 @@ public class WorkflowJsonController {
             data.put("state", workflowProcess.getState());
             data.put("version", workflowProcess.getVersion());
             data.put("startedTime", workflowProcess.getStartedTime());
+            data.put("requesterId", workflowProcess.getRequesterId());
             data.put("due", workflowProcess.getDue() != null ? workflowProcess.getDue() : "-");
 
             if (serviceLevelMonitor > 0) {
@@ -298,6 +299,7 @@ public class WorkflowJsonController {
             data.put("version", workflowProcess.getVersion());
             data.put("state", workflowProcess.getState());
             data.put("startedTime", workflowProcess.getStartedTime());
+            data.put("requesterId", workflowProcess.getRequesterId());
             data.put("due", workflowProcess.getDue() != null ? workflowProcess.getDue() : "-");
 
             if (serviceLevelMonitor > 0) {
@@ -607,17 +609,23 @@ public class WorkflowJsonController {
         MultipartFile packageXpdl = FileStore.getFile("packageXpdl");
         JSONObject jsonObject = new JSONObject();
 
-        try {
-            String packageId = workflowFacade.processUpload(null, packageXpdl.getBytes());
+        boolean authenticated = !workflowUserManager.isCurrentUserAnonymous();
 
-            List<WorkflowProcess> processList = workflowFacade.getProcessList("", Boolean.TRUE, 0, 10000, packageId, Boolean.FALSE, Boolean.FALSE);
-            for(WorkflowProcess process : processList){
-                XpdlImageUtil.generateXpdlImage(workflowFacade.getDesignerwebBaseUrl(request), process.getId(), true);
+        if(authenticated){
+            try {
+                String packageId = workflowFacade.processUpload(null, packageXpdl.getBytes());
+
+                List<WorkflowProcess> processList = workflowFacade.getProcessList("", Boolean.TRUE, 0, 10000, packageId, Boolean.FALSE, Boolean.FALSE);
+                for(WorkflowProcess process : processList){
+                    XpdlImageUtil.generateXpdlImage(workflowFacade.getDesignerwebBaseUrl(request), process.getId(), true);
+                }
+
+                jsonObject.accumulate("status", "complete");
+            } catch (Exception e) {
+                jsonObject.accumulate("errorMsg", e.getMessage().replace(":", ""));
             }
-
-            jsonObject.accumulate("status", "complete");
-        } catch (Exception e) {
-            jsonObject.accumulate("errorMsg", e.getMessage().replace(":", ""));
+        }else{
+            jsonObject.accumulate("errorMsg", "unauthenticated");
         }
         writeJson(writer, jsonObject, null);
     }
@@ -627,23 +635,28 @@ public class WorkflowJsonController {
         MultipartFile packageXpdl = FileStore.getFile("packageXpdlUpdate");
         JSONObject jsonObject = new JSONObject();
 
-        try {
-            if (!workflowFacade.isPackageIdExist(packageId)) {
-                jsonObject.accumulate("status", "error");
-            } else {
-                workflowFacade.processUpload(packageId, packageXpdl.getBytes());
+        boolean authenticated = !workflowUserManager.isCurrentUserAnonymous();
 
-                List<WorkflowProcess> processList = workflowFacade.getProcessList("", Boolean.TRUE, 0, 10000, packageId, Boolean.FALSE, Boolean.FALSE);
-                for(WorkflowProcess process : processList){
-                    XpdlImageUtil.generateXpdlImage(workflowFacade.getDesignerwebBaseUrl(request), process.getId(), true);
+        if(authenticated){
+            try {
+                if (!workflowFacade.isPackageIdExist(packageId)) {
+                    jsonObject.accumulate("status", "error");
+                } else {
+                    workflowFacade.processUpload(packageId, packageXpdl.getBytes());
+
+                    List<WorkflowProcess> processList = workflowFacade.getProcessList("", Boolean.TRUE, 0, 10000, packageId, Boolean.FALSE, Boolean.FALSE);
+                    for(WorkflowProcess process : processList){
+                        XpdlImageUtil.generateXpdlImage(workflowFacade.getDesignerwebBaseUrl(request), process.getId(), true);
+                    }
+
+                    jsonObject.accumulate("status", "complete");
                 }
-
-                jsonObject.accumulate("status", "complete");
+            } catch (Exception e) {
+               jsonObject.accumulate("errorMsg", e.getMessage().replace(":", ""));
             }
-        } catch (Exception e) {
-           jsonObject.accumulate("errorMsg", e.getMessage().replace(":", ""));
+        }else{
+            jsonObject.accumulate("errorMsg", "unauthenticated");
         }
-
         writeJson(writer, jsonObject, null);
     }
 
