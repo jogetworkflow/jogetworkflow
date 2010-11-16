@@ -31,7 +31,7 @@ public class FormDataEtlPlugin extends DefaultPlugin implements ApplicationPlugi
     }
 
     public String getVersion() {
-        return "1.0.10";
+        return "1.0.11";
     }
 
     public PluginProperty[] getPluginProperties() {
