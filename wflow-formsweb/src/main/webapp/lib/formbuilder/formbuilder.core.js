@@ -119,7 +119,7 @@ function formbuilder_load(fb_div, view){
 };
 
 function formbuilder_load_subformAsLink(formId, title, disabled, sequenceNumber, isFromParentProcess, fieldsetId, row_id){
-    $.getJSON(fb_loadsubform_ep + formId, function(data){
+    $.getJSON(fb_loadsubform_ep + formId + '?view=' + view, function(data){
 
         if( typeof(data) == 'object' && data.fieldsets != undefined){
 
@@ -171,7 +171,7 @@ function formbuilder_load_subform(formId, title, disabled, sequenceNumber, isFro
         activityId += "?activityId=" + currentActivityId;
     }
 
-    $.getJSON(fb_loadsubform_ep + formId + activityId, function(data){
+    $.getJSON(fb_loadsubform_ep + formId + activityId + '?view=' + view, function(data){
             if( typeof(data) == 'object' && data.fieldsets != undefined){
                 tb_remove();
 

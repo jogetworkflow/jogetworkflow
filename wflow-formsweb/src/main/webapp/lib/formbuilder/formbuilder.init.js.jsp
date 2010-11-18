@@ -9,6 +9,7 @@ var processRequesterId = '<c:out value="${param.processRequesterId}" escapeXml="
 var currentProcessId   = '<c:out value="${param.processId}" escapeXml="true"/>';
 var currentFormId      = '<c:out value="${param.id}" escapeXml="true"/>';
 var currentActivityId  = '<c:out value="${param.activityId}" escapeXml="true"/>';
+var isView             = false;
 var overlay            = false;
 var fileBaseLink       = '${pageContext.request.contextPath}/web/formbuilder/file/get';
 var fb_lib_path        = '${pageContext.request.contextPath}/lib/';
@@ -31,7 +32,7 @@ var fb_jquery_plugins  = [ // List of jquery lib and plugins to be loaded at sta
                           'jquery.ajaxfileupload.js'
                          ];
 var fb_css             = ['thickbox.css']; // List of css to load
-var fb_loadform_ep     = '${pageContext.request.contextPath}/web/formbuilder/json/getFormData/<c:out value="${param.id}?activityId=${param.activityId}" escapeXml="true"/>';
+var fb_loadform_ep     = '${pageContext.request.contextPath}/web/formbuilder/json/getFormData/<c:out value="${param.id}?activityId=${param.activityId}" escapeXml="true"/>&view=${param.view}';
 var fb_loadsubform_ep  = '${pageContext.request.contextPath}/web/formbuilder/json/getSubForm/';
 var fb_saveform_ep     = '${pageContext.request.contextPath}/web/formbuilder/admin/json/save';
 var fb_formbuilder_mod = ['formbuilder.core.js', 'formbuilder.templates.js'];
@@ -56,6 +57,9 @@ var fb_formbuilder_widget = [
 var fb_current_row     = null;
 var customHtmlIds = [];
 
+<c:if test="${param.view == 'true'}">
+    view = true;
+</c:if>
 <c:if test="${!empty param.numOfSubForm}">
     var numOfSubForm = <c:out value="${param.numOfSubForm}" escapeXml="true"/>;
 

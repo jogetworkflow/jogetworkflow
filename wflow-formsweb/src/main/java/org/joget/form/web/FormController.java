@@ -136,7 +136,8 @@ public class FormController {
 
     @RequestMapping("/formbuilder/json/getFormData/(*:id)")
     public void getFormData(Writer writer, @RequestParam("id") String id,
-            @RequestParam(value = "activityId", required = false) String activityInstanceId) throws IOException {
+            @RequestParam(value = "activityId", required = false) String activityInstanceId,
+            @RequestParam(value = "view", required = false) Boolean view) throws IOException {
         Form form = formFacade.getFormById(id);
 
         String formData = form.getData();
@@ -144,20 +145,22 @@ public class FormController {
         if (formData == null) {
             formData = "";
         }else{
-            WorkflowAssignment ass = formFacade.getAssignment(activityInstanceId);
+            if(view != null && view == true){
+                WorkflowAssignment ass = formFacade.getAssignment(activityInstanceId);
 
-            if(ass == null){
-                ass = formFacade.getMockAssignment(activityInstanceId);
+                if(ass == null){
+                    ass = formFacade.getMockAssignment(activityInstanceId);
+                }
+
+                formData = WorkflowUtil.processVariable(formData, form.getTableName(), ass, StringUtil.TYPE_JSON);
             }
-
-            formData = WorkflowUtil.processVariable(formData, form.getTableName(), ass, StringUtil.TYPE_JSON);
         }
 
         writer.write(formData);
     }
 
     @RequestMapping("/formbuilder/json/getSubForm/(*:id)")
-    public void getSubForm(Writer writer, @RequestParam("id") String id, @RequestParam(value = "activityId", required = false) String activityInstanceId) throws IOException, JSONException {
+    public void getSubForm(Writer writer, @RequestParam("id") String id, @RequestParam(value = "activityId", required = false) String activityInstanceId, @RequestParam(value = "view", required = false) Boolean view) throws IOException, JSONException {
         Form form = formFacade.getFormById(id);
 
         String formData = "{}";
@@ -165,13 +168,15 @@ public class FormController {
         if (form != null && form.getData() != null) {
             formData = form.getData();
 
-            WorkflowAssignment ass = formFacade.getAssignment(activityInstanceId);
+            if(view != null && view == true){
+                WorkflowAssignment ass = formFacade.getAssignment(activityInstanceId);
 
-            if(ass == null){
-                ass = formFacade.getMockAssignment(activityInstanceId);
+                if(ass == null){
+                    ass = formFacade.getMockAssignment(activityInstanceId);
+                }
+
+                formData = WorkflowUtil.processVariable(formData, form.getTableName(), ass, StringUtil.TYPE_JSON);
             }
-
-            formData = WorkflowUtil.processVariable(formData, form.getTableName(), ass, StringUtil.TYPE_JSON);
         }
 
         writer.write(formData);

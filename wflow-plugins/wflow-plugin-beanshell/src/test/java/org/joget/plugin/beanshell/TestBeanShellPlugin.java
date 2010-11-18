@@ -63,6 +63,20 @@ public class TestBeanShellPlugin {
     }
 
     @Test
+    public void testNewline(){
+        Plugin plugin = pluginManager.getPlugin(getPlugin());
+        System.out.println(" PLUGIN: " + plugin);
+        Map props = new HashMap();
+        props.put("pluginManager", pluginManager);
+
+        String x = "line1\nline2";
+        String script = "System.out.println(\"FROM BEANSHELL: " + x + "\")";
+
+        props.put("script", script);
+        pluginManager.testPlugin(getPlugin(), getPluginLocation(), props, true);
+    }
+
+    @Test
     public void testList() {
         System.out.println(" ===testList=== ");
         Collection<Plugin> list = pluginManager.list();

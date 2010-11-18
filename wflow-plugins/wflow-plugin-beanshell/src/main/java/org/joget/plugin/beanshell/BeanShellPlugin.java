@@ -22,7 +22,7 @@ public class BeanShellPlugin extends DefaultPlugin implements ApplicationPlugin,
     }
 
     public String getVersion() {
-        return "1.0.5";
+        return "1.0.6";
     }
 
     public String getDescription() {
@@ -64,6 +64,8 @@ public class BeanShellPlugin extends DefaultPlugin implements ApplicationPlugin,
     }
 
     protected Object executeScript(String script, Map properties) {
+        script = script.replaceAll("\n", "\\\\n");
+
         Object result = null;
         try {
             Interpreter interpreter = new Interpreter();
