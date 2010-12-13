@@ -108,6 +108,11 @@ for(var i = 0; i < fb_lang_avail.length; i++){
 js_load("${pageContext.request.contextPath}/web/formbuilder/message");
 
 function gettext(key){
+    if(key == 'clic_to_edit'){
+        <c:if test="${param.view == 'true'}">
+            return '';
+        </c:if>
+    }
     return fb_lang[key] ? fb_lang[key] : 'No translation for ' + key;
 };
 
