@@ -23,6 +23,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -265,6 +266,11 @@ public class WorkflowUtil implements ApplicationContextAware {
         } catch(Exception ex) {
             LogUtil.error(WorkflowUtil.class.getName(), ex, "");
         } finally {
+            // remove duplicates
+            if (resultList != null) {
+                HashSet<String> resultSet = new HashSet<String>(resultList);
+                resultList = new ArrayList<String>(resultSet);
+            }
             return resultList;
         }
     }
