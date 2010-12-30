@@ -18,8 +18,8 @@ public class TestBeanShellPlugin {
 
     @Autowired
     PluginManager pluginManager;
-    
-    private String pluginFile = "target/wflow-plugin-beanshell-2.0-SNAPSHOT.jar";
+
+    private String pluginFile = "target/wflow-plugin-beanshell-3.0-SNAPSHOT.jar";
     private String pluginName = "org.joget.plugin.beanshell.BeanShellPlugin";
 
     public String getPluginLocation() {
@@ -58,20 +58,6 @@ public class TestBeanShellPlugin {
                 + "org.apache.commons.mail.MultiPartEmail email = new org.apache.commons.mail.MultiPartEmail();"
                 + "System.out.println(email);"
                 ;
-        props.put("script", script);
-        pluginManager.testPlugin(getPlugin(), getPluginLocation(), props, true);
-    }
-
-    @Test
-    public void testNewline(){
-        Plugin plugin = pluginManager.getPlugin(getPlugin());
-        System.out.println(" PLUGIN: " + plugin);
-        Map props = new HashMap();
-        props.put("pluginManager", pluginManager);
-
-        String x = "line1\nline2";
-        String script = "System.out.println(\"FROM BEANSHELL: " + x + "\")";
-
         props.put("script", script);
         pluginManager.testPlugin(getPlugin(), getPluginLocation(), props, true);
     }

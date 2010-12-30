@@ -22,7 +22,7 @@ public class BeanShellPlugin extends DefaultPlugin implements ApplicationPlugin,
     }
 
     public String getVersion() {
-        return "1.0.6";
+        return "1.0.7";
     }
 
     public String getDescription() {
@@ -39,7 +39,11 @@ public class BeanShellPlugin extends DefaultPlugin implements ApplicationPlugin,
     public Object execute(Map properties) {
         String script = (String) properties.get("script");
         WorkflowAssignment wfAssignment = (WorkflowAssignment) properties.get("workflowAssignment");
-        script = WorkflowUtil.processVariable(script, "", wfAssignment);
+
+        Map<String, String> replaceMap = new HashMap<String, String>();
+        replaceMap.put("\n", "\\\\n");
+
+        script = WorkflowUtil.processVariable(script, "", wfAssignment, "", replaceMap);
 
         return executeScript(script, properties);
     }
@@ -64,8 +68,6 @@ public class BeanShellPlugin extends DefaultPlugin implements ApplicationPlugin,
     }
 
     protected Object executeScript(String script, Map properties) {
-        script = script.replaceAll("\n", "\\\\n");
-
         Object result = null;
         try {
             Interpreter interpreter = new Interpreter();
