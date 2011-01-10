@@ -36,7 +36,7 @@ public class EmailPlugin extends DefaultPlugin implements ApplicationPlugin {
     }
 
     public String getVersion() {
-        return "1.0.14";
+        return "1.0.15";
     }
 
     public PluginProperty[] getPluginProperties() {
@@ -77,10 +77,11 @@ public class EmailPlugin extends DefaultPlugin implements ApplicationPlugin {
         String emailMessage = (String) properties.get("message");
 
         WorkflowAssignment wfAssignment = (WorkflowAssignment) properties.get("workflowAssignment");
-        emailSubject = WorkflowUtil.processVariable(emailSubject, formDataTable, wfAssignment);
-        emailMessage = WorkflowUtil.processVariable(emailMessage, formDataTable, wfAssignment);
-
+        
         try {
+            emailSubject = WorkflowUtil.processVariable(emailSubject, formDataTable, wfAssignment);
+            emailMessage = WorkflowUtil.processVariable(emailMessage, formDataTable, wfAssignment);
+
             // create the email message
             final MultiPartEmail email = new MultiPartEmail();
             email.setHostName(smtpHost);
