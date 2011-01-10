@@ -4851,9 +4851,11 @@ public class WorkflowManagerImpl implements WorkflowManager {
         if (username == null || username.trim().length() == 0) {
             // look for performer in linked origin process
             WorkflowProcessLink link = getWorkflowProcessLink(processId);
-            String originProcessId = link.getOriginProcessId();
-            if (originProcessId != null && !originProcessId.equals(processId)) {
-                username = getPerformer(originProcessId, activityDefId);
+            if(link != null){
+                String originProcessId = link.getOriginProcessId();
+                if (originProcessId != null && !originProcessId.equals(processId)) {
+                    username = getPerformer(originProcessId, activityDefId);
+                }
             }
         }
         return username;
