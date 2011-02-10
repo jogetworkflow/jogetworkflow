@@ -9,7 +9,7 @@ var processRequesterId = '<c:out value="${param.processRequesterId}" escapeXml="
 var currentProcessId   = '<c:out value="${param.processId}" escapeXml="true"/>';
 var currentFormId      = '<c:out value="${param.id}" escapeXml="true"/>';
 var currentActivityId  = '<c:out value="${param.activityId}" escapeXml="true"/>';
-var isView             = false;
+var view               = false;
 var overlay            = false;
 var fileBaseLink       = '${pageContext.request.contextPath}/web/formbuilder/file/get';
 var fb_lib_path        = '${pageContext.request.contextPath}/lib/';
