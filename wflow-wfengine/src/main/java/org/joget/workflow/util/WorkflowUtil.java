@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.servlet.http.HttpServletRequest;
 import org.joget.commons.util.StringUtil;
 import org.joget.form.util.FormUtil;
 import org.joget.workflow.model.ActivityForm;
@@ -39,6 +40,8 @@ import org.joget.workflow.model.service.WorkflowUserManager;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 public class WorkflowUtil implements ApplicationContextAware {
 
@@ -632,5 +635,21 @@ public class WorkflowUtil implements ApplicationContextAware {
         }
         
         return variables;
+    }
+
+    /**
+     * Returns the HTTP Servlet Request associated with the current thread.
+     * @return The HTTP request if it is available. If the request is not available, e.g. when triggered from a deadline, null is returned.
+     */
+    public static HttpServletRequest getHttpServletRequest() {
+        try {
+
+            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+            return request;
+        } catch (NoClassDefFoundError e) {
+            // ignore if servlet request is not available, e.g. when triggered from a deadline
+            return null;
+        }
+
     }
 }

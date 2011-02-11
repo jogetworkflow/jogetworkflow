@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
 import org.joget.workflow.util.PluginUtil;
 
 public class WorkflowToolActivityHandler extends StandardToolActivityHandler {
@@ -79,6 +80,16 @@ public class WorkflowToolActivityHandler extends StandardToolActivityHandler {
 
                 propertyMap.put("workflowAssignment", workflowAssignment);
                 propertyMap.put("pluginManager", pluginManager);
+
+                // add HttpServletRequest into the property map
+                try {
+                    HttpServletRequest request = WorkflowUtil.getHttpServletRequest();
+                    if (request != null) {
+                        propertyMap.put("request", request);
+                    }
+                } catch (NoClassDefFoundError e) {
+                    // ignore if class is not found
+                }
 
                 LogUtil.info(getClass().getName(), "Executing tool [pluginName=" + activityPlugin.getPluginName() + ", processId=" + processId + ", version= " + version + ", activityId=" + activityId + "]");
                 auditTrailManager.addAuditTrail(this.getClass().getName(), "executeActivity", "Executing tool [pluginName=" + activityPlugin.getPluginName() + ", processId=" + processId + ", version= " + version + ", activityId=" + activityId + "]");
