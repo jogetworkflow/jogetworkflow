@@ -423,12 +423,12 @@ function loadFormVariable(callback){
 
                         for(key in json.data){
                             if(v.type == 'radio'){
-                                var baseString = '<div id="{id}"><input {disabled} class="{class}" name="{name}" columnName="{columnName}" value="{value}" id="checkbox_{id}" type="radio"/>&nbsp;<span class="radio_label">{label}</span></div>';
+                                var baseString = '<div id="{id}"><input {disabled} class="{cssClass}" name="{name}" columnName="{columnName}" value="{value}" id="checkbox_{id}" type="radio"/>&nbsp;<span class="radio_label">{label}</span></div>';
                                 var t = new Template(baseString);
                                 var val = t.run({
                                     id: v.id,
                                     name: v.name,
-                                    class: $(v).attr('class'),
+                                    cssClass: $(v).attr('class'),
                                     columnName: $(v).attr('columnName'),
                                     value: key,
                                     label: json.data[key],
@@ -436,12 +436,12 @@ function loadFormVariable(callback){
                                 });
                                 $(formbuilderWidgetContainer).append(val);
                             }else if(v.type == 'checkbox'){
-                                var baseString = '<div id="{id}"><input {disabled} class="{class}" name="{name}" columnName="{columnName}" value="{value}" id="checkbox_{id}" type="checkbox"/>&nbsp;<span class="checkbox_label">{label}</span></div>';
+                                var baseString = '<div id="{id}"><input {disabled} class="{cssClass}" name="{name}" columnName="{columnName}" value="{value}" id="checkbox_{id}" type="checkbox"/>&nbsp;<span class="checkbox_label">{label}</span></div>';
                                 var t = new Template(baseString);
                                 var val = t.run({
                                     id: v.id,
                                     name: v.name,
-                                    class: $(v).attr('class'),
+                                    cssClass: $(v).attr('class'),
                                     columnName: $(v).attr('columnName'),
                                     value: key,
                                     label: json.data[key],
@@ -630,7 +630,7 @@ function performValidation(){
 
 //to make sure every subform is completely loaded before exporting
 function subformLoadComplete(subFormId, isFromParentProcess){
-    
+
     //get data for subform
     if(subFormId != undefined && isFromParentProcess != undefined){
         var temp = new Object();
