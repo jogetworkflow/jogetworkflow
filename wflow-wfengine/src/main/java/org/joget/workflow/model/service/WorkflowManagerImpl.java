@@ -3754,7 +3754,7 @@ public class WorkflowManagerImpl implements WorkflowManager {
                 int index = 0;
                 String activityId = "";
                 WMEntity activityEntity = null;
-                while (!found) {
+                while (!found && activityList.length > index) {
                     WfActivity activity = activityList[index];
                     activityId = activity.key();
                     activityEntity = admin.getActivityDefinitionInfo(sessionHandle, wfProcess.key(), activityId);
