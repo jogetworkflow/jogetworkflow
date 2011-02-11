@@ -456,7 +456,7 @@
                                         <c:if test="${!empty directoryManagerPluginList}">
                                             <select name="directoryManagerImpl" id="directoryManagerImpl">
                                                 <c:forEach items="${directoryManagerPluginList}" var="plugin">
-                                                    <option value="${plugin.class.name}">${plugin.name} - ${plugin.version}</option>
+                                                    <option value="${plugin['class'].name}">${plugin.name} - ${plugin.version}</option>
                                                 </c:forEach>
                                             </select>
                                             <div>

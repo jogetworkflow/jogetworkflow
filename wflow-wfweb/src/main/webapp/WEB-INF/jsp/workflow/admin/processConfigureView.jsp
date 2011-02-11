@@ -97,10 +97,10 @@
                                         <c:choose>
                                             <c:when test="${isArrayList}">
                                                 <c:choose>
-                                                    <c:when test="${x[0].class.simpleName == 'Group'}">
+                                                    <c:when test="${x[0]['class'].simpleName == 'Group'}">
 
                                                             <dt><fmt:message key="wflowAdmin.processConfiguration.view.label.type"/></dt>
-                                                            <dd>${x[0].class.simpleName}&nbsp;</dd>
+                                                            <dd>${x[0]['class'].simpleName}&nbsp;</dd>
                                                             <dt><fmt:message key="wflowAdmin.processConfiguration.view.label.value"/></dt>
                                                             <dd>
                                                             <c:forEach var="y" items="${x}" varStatus="count">
@@ -112,9 +112,9 @@
                                                             </dd>
 
                                                     </c:when>
-                                                    <c:when test="${x[0].class.simpleName == 'User'}">
+                                                    <c:when test="${x[0]['class'].simpleName == 'User'}">
                                                             <dt><fmt:message key="wflowAdmin.processConfiguration.view.label.type"/></dt>
-                                                            <dd>${x[0].class.simpleName}&nbsp;</dd>
+                                                            <dd>${x[0]['class'].simpleName}&nbsp;</dd>
                                                             <dt><fmt:message key="wflowAdmin.processConfiguration.view.label.value"/></dt>
                                                             <dd>
                                                             <c:forEach var="y" items="${x}" varStatus="count">
@@ -128,7 +128,7 @@
                                                 </c:choose>
                                             </c:when>
                                             <c:otherwise>
-                                                <c:set var="simpleClassName" value="${x.class.simpleName}" />
+                                                <c:set var="simpleClassName" value="${x['class'].simpleName}" />
                                                 <c:if test="${!empty simpleClassName}">
                                                     <c:set var="cglibIndex" value="<%= pageContext.getAttribute(\"simpleClassName\").toString().indexOf(\"$$\") %>" />
                                                     <c:if test="${cglibIndex > 0}">
@@ -248,7 +248,7 @@
                                         <% Object testForm = pageContext.getAttribute("form"); %>
                                         <c:set var="isFormArrayList" value="<%= testForm instanceof java.util.ArrayList %>"/>
                                         <c:if test="${!isFormArrayList}">
-                                            <c:if test="${form.class.simpleName == 'Form'}">
+                                            <c:if test="${form['class'].simpleName == 'Form'}">
                                                 <dl>
                                                     <dt><fmt:message key="wflowAdmin.processConfiguration.view.label.formName"/></dt>
                                                     <dd><a href="${pageContext.request.contextPath}/web/admin/form/general/view/${form.id}">${form.name}</a></dd>
@@ -258,7 +258,7 @@
                                                     <dd><div><input type="button" class="smallbutton" value="<fmt:message key="wflowAdmin.activityAddForm.view.label.removeMapping"/>" onclick="activityRemoveForm('${activity.id}')"/></div></dd>
                                                 </dl>
                                             </c:if>
-                                            <c:if test="${form.class.simpleName == 'String'}">
+                                            <c:if test="${form['class'].simpleName == 'String'}">
                                                 <dl>
                                                     <dt><fmt:message key="wflowAdmin.processConfiguration.view.label.formExternal"/></dt>
                                                     <dd><a target="_blank" href="${form}">${form}</a></dd>

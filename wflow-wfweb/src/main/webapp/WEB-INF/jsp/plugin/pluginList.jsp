@@ -40,7 +40,7 @@
                 </c:choose>
                 <div class="pluginRow main-body-row ${rowStyle}">
                     <span class="row-content">
-                        <input type="checkbox" name="selectedPlugins" value="${sortedPluginList[plugin.key].class.name}"/>&nbsp;
+                        <input type="checkbox" name="selectedPlugins" value="${sortedPluginList[plugin.key]['class'].name}"/>&nbsp;
                     </span>
                     <span class="row-content">
                         <div class="pluginName">${sortedPluginList[plugin.key].name}</div>
@@ -55,9 +55,9 @@
                             org.joget.plugin.base.Plugin plugin = (org.joget.plugin.base.Plugin) map.get(ent.getKey());
                             if(plugin instanceof org.joget.plugin.base.AuditTrailPlugin){
                         %>
-                        <input type="button" value="<fmt:message key="wflowAdmin.plugin.list.label.configurePlugin"/>" onclick="configurePlugin('${sortedPluginList[plugin.key].class.name}')"/>
+                        <input type="button" value="<fmt:message key="wflowAdmin.plugin.list.label.configurePlugin"/>" onclick="configurePlugin('${sortedPluginList[plugin.key]['class'].name}')"/>
                         <%  } else if (!(plugin instanceof org.joget.directory.model.service.DirectoryManagerPlugin)){ %>
-                        <input type="button" value="<fmt:message key="wflowAdmin.plugin.list.label.configurePluginDefault"/>" onclick="configurePluginDefault('${sortedPluginList[plugin.key].class.name}')"/>
+                        <input type="button" value="<fmt:message key="wflowAdmin.plugin.list.label.configurePluginDefault"/>" onclick="configurePluginDefault('${sortedPluginList[plugin.key]['class'].name}')"/>
                         <%  } %>
                     </span>
                 </div>
@@ -70,7 +70,7 @@
         </div>
 
         <div class="form-buttons">
-            <input class="form-button" type="button" value="<fmt:message key="wflowAdmin.plugin.list.label.reloadPlugin"/>" onclick="reloadPlugin()"/>
+            <input id="reload-button" class="form-button" type="button" value="<fmt:message key="wflowAdmin.plugin.list.label.reloadPlugin"/>" onclick="reloadPlugin()"/>
             <c:if test="${!isVirtualHostEnabled}">
                 <input class="form-button" type="submit" value="<fmt:message key="wflowAdmin.plugin.list.label.uninstall"/>"/>
                 <input class="form-button" type="button" value="<fmt:message key="wflowAdmin.plugin.list.label.uploadPlugin"/>" onclick="uploadPlugin()"/>
@@ -93,6 +93,7 @@
                 }
             }
             ConnectionManager.post("${pageContext.request.contextPath}/web/settings/plugin/refresh", callback, "");
+            $("#reload-button").attr("disabled", "disabled");
         }
 
         function uninstall(){

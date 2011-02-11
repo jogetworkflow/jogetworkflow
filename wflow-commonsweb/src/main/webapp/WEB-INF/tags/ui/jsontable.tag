@@ -190,8 +190,8 @@
                     %>
                     <c:set var="labelMessageKey" value="<%= labelMessageKey %>"/>
                     <c:set var="message"><fmt:message key="${labelMessageKey}"/></c:set>
-                    <c:set var="final" value="${fn:replace(attributeMap[attrName], labelMessageKey, message)}"/>
-                    ${final}
+                    <c:set var="finalMessage" value="${fn:replace(attributeMap[attrName], labelMessageKey, message)}"/>
+                    ${finalMessage}
                     <c:set var="first" value="false"/>
                 </c:if>
             </c:forEach>
