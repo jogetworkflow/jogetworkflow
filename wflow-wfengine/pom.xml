@@ -91,7 +91,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate</artifactId>
-            <version>3.2.6.ga</version>
+            <version>3.2.7.ga</version>
             <exclusions>
                 <exclusion>
                     <artifactId>ehcache</artifactId>
@@ -102,7 +102,7 @@
         <dependency>
             <groupId>commons-dbcp</groupId>
             <artifactId>commons-dbcp</artifactId>
-            <version>1.2.2</version>
+            <version>1.3</version>
         </dependency>
         <dependency>
             <groupId>EnhydraShark</groupId>

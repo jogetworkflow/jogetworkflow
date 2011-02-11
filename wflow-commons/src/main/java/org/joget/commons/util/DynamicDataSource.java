@@ -35,6 +35,7 @@ public class DynamicDataSource extends BasicDataSource {
         if (!this.url.equals(tempUrl)) {
             //close old datasource
             super.close();
+            super.closed = false;
 
             // set new settings
             this.driverClassName = tempDriver;
