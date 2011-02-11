@@ -1,4 +1,10 @@
 <%@ include file="/WEB-INF/jsp/includes/taglibs.jsp" %>
+<%@ page import="org.joget.workflow.util.WorkflowUtil"%>
+
+<%
+    String directoryManagerImpl = WorkflowUtil.getSystemSetupValue("directoryManagerImpl");
+%>
+<c:set var="directoryManagerImpl" value="<%= directoryManagerImpl %>"/>
 
 <commons:popupHeader />
 
@@ -145,15 +151,16 @@
                                 </form>
                             </div>
                             <div id="hod">
-                                <fmt:message key="wflowAdmin.participantMapping.view.label.hod.filterByOrganization"/>
-                                <select onchange="filter(hodDataTable, '&organizationId=', this.options[this.selectedIndex].value)">
-                                    <option></option>
-                                    <c:forEach items="${organizationList}" var="organization">
-                                        <c:set var="selected"><c:if test="${organization.id == param.organizationId}"> selected</c:if></c:set>
-                                        <option value="${organization.id}" ${selected}>${organization.name}</option>
-                                    </c:forEach>
-                                </select>
-                                
+                                <c:if test="${empty directoryManagerImpl}">
+                                    <fmt:message key="wflowAdmin.participantMapping.view.label.hod.filterByOrganization"/>
+                                    <select onchange="filter(hodDataTable, '&organizationId=', this.options[this.selectedIndex].value)">
+                                        <option></option>
+                                        <c:forEach items="${organizationList}" var="organization">
+                                            <c:set var="selected"><c:if test="${organization.id == param.organizationId}"> selected</c:if></c:set>
+                                            <option value="${organization.id}" ${selected}>${organization.name}</option>
+                                        </c:forEach>
+                                    </select>
+                                </c:if>
                                 <ui:jsontable url="${pageContext.request.contextPath}/web/json/directory/dynamic/admin/department/list?${pageContext.request.queryString}"
                                                var="hodDataTable"
                                                divToUpdate="hodList" 
@@ -183,26 +190,27 @@
                                                />
                             </div>
                             <div id="department">
-                                <label for="departmentGrade"><fmt:message key="wflowAdmin.participantMapping.view.label.department.filterByGrade"/></label>
-                                <span class="form-input">
-                                    <select id="departmentGrade" name="departmentGrade">
+                                <c:if test="${empty directoryManagerImpl}">
+                                    <label for="departmentGrade"><fmt:message key="wflowAdmin.participantMapping.view.label.department.filterByGrade"/></label>
+                                    <span class="form-input">
+                                        <select id="departmentGrade" name="departmentGrade">
+                                            <option></option>
+                                            <c:forEach var="grade" items="${gradeList}" varStatus="rowCounter">
+                                                <option value="${grade.id}">${grade.name}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </span>
+                                    <br><br>
+
+                                    <fmt:message key="wflowAdmin.participantMapping.view.label.department.filterByOrganization"/>
+                                    <select onchange="filter(departmentDataTable, '&organizationId=', this.options[this.selectedIndex].value)">
                                         <option></option>
-                                        <c:forEach var="grade" items="${gradeList}" varStatus="rowCounter">
-                                            <option value="${grade.id}">${grade.name}</option>
+                                        <c:forEach items="${organizationList}" var="organization">
+                                            <c:set var="selected"><c:if test="${organization.id == param.organizationId}"> selected</c:if></c:set>
+                                            <option value="${organization.id}" ${selected}>${organization.name}</option>
                                         </c:forEach>
                                     </select>
-                                </span>
-                                <br><br>
-                                    
-                                <fmt:message key="wflowAdmin.participantMapping.view.label.department.filterByOrganization"/>
-                                <select onchange="filter(departmentDataTable, '&organizationId=', this.options[this.selectedIndex].value)">
-                                    <option></option>
-                                    <c:forEach items="${organizationList}" var="organization">
-                                        <c:set var="selected"><c:if test="${organization.id == param.organizationId}"> selected</c:if></c:set>
-                                        <option value="${organization.id}" ${selected}>${organization.name}</option>
-                                    </c:forEach>
-                                </select>
-                                    
+                                </c:if>
                                 <ui:jsontable url="${pageContext.request.contextPath}/web/json/directory/dynamic/admin/department/list?${pageContext.request.queryString}"
                                                var="departmentDataTable"
                                                divToUpdate="departmentList" 

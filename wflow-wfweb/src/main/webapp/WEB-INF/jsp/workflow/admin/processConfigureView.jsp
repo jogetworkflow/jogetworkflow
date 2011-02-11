@@ -1,6 +1,11 @@
 <%@ include file="/WEB-INF/jsp/includes/taglibs.jsp" %>
 <%@ page import="org.joget.workflow.util.WorkflowUtil"%>
 
+<%
+    String directoryManagerImpl = WorkflowUtil.getSystemSetupValue("directoryManagerImpl");
+%>
+<c:set var="directoryManagerImpl" value="<%= directoryManagerImpl %>"/>
+
 <commons:header
     title="wflowAdmin.processConfiguration.view.label.title"
     path1="${pageContext.request.contextPath}/web/admin/process/configure/view/${process.encodedId}"
@@ -106,7 +111,14 @@
                                                             <c:forEach var="y" items="${x}" varStatus="count">
                                                                 <span class="participant-remove">
                                                                     <a onClick="participantRemoveMappingSingle($(this).parent(),'${participant.id}','${y.id}');"> <img src="${pageContext.request.contextPath}/images/joget/cross-circle.png"/></a>
-                                                                    <a href="${pageContext.request.contextPath}/web/directory/admin/group/view/${y.id}">${y.name}</a>
+                                                                    <c:choose>
+                                                                        <c:when test="${!empty directoryManagerImpl}">
+                                                                            ${y.name}
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            <a href="${pageContext.request.contextPath}/web/directory/admin/group/view/${y.id}">${y.name}</a>
+                                                                        </c:otherwise>
+                                                                    </c:choose>
                                                                 </span>
                                                             </c:forEach>
                                                             </dd>
@@ -120,7 +132,14 @@
                                                             <c:forEach var="y" items="${x}" varStatus="count">
                                                                 <span class="participant-remove">
                                                                     <a onClick="participantRemoveMappingSingle($(this).parent(),'${participant.id}','${y.id}');"> <img src="${pageContext.request.contextPath}/images/joget/cross-circle.png"/></a>
-                                                                    <a href="${pageContext.request.contextPath}/web/directory/admin/user/view/${y.id}">${y.username}</a>
+                                                                    <c:choose>
+                                                                        <c:when test="${!empty directoryManagerImpl}">
+                                                                            ${y.username}
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            <a href="${pageContext.request.contextPath}/web/directory/admin/user/view/${y.id}">${y.username}</a>
+                                                                        </c:otherwise>
+                                                                    </c:choose>
                                                                 </span>
                                                             </c:forEach>
                                                             </dd>
@@ -141,25 +160,61 @@
                                                             <dt><fmt:message key="wflowAdmin.processConfiguration.view.label.type"/></dt>
                                                             <dd>${simpleClassName}&nbsp;</dd>
                                                             <dt><fmt:message key="wflowAdmin.processConfiguration.view.label.value"/></dt>
-                                                            <dd><a href="${pageContext.request.contextPath}/web/directory/admin/group/view/${x.id}">${x.name}</a></dd>
+                                                            <dd>
+                                                                <c:choose>
+                                                                    <c:when test="${!empty directoryManagerImpl}">
+                                                                        ${x.name}
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        <a href="${pageContext.request.contextPath}/web/directory/admin/group/view/${x.id}">${x.name}</a>
+                                                                    </c:otherwise>
+                                                                </c:choose>
+                                                            </dd>
                                                     </c:when>
                                                     <c:when test="${simpleClassName == 'Department'}">
                                                             <dt><fmt:message key="wflowAdmin.processConfiguration.view.label.type"/></dt>
                                                             <dd>${simpleClassName}&nbsp;</dd>
                                                             <dt><fmt:message key="wflowAdmin.processConfiguration.view.label.value"/></dt>
-                                                            <dd><a href="${pageContext.request.contextPath}/web/directory/admin/organization/department/view/${x.id}">${x.name}</a></dd>
+                                                            <dd>
+                                                                <c:choose>
+                                                                    <c:when test="${!empty directoryManagerImpl}">
+                                                                        ${x.name}
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        <a href="${pageContext.request.contextPath}/web/directory/admin/organization/department/view/${x.id}">${x.name}</a>
+                                                                    </c:otherwise>
+                                                                </c:choose>
+                                                            </dd>
                                                     </c:when>
                                                     <c:when test="${simpleClassName == 'User'}">
                                                             <dt><fmt:message key="wflowAdmin.processConfiguration.view.label.type"/></dt>
                                                             <dd>${simpleClassName}&nbsp;</dd>
                                                             <dt><fmt:message key="wflowAdmin.processConfiguration.view.label.value"/></dt>
-                                                            <dd><a href="${pageContext.request.contextPath}/web/directory/admin/user/view/${x.id}">${x.username}</a></dd>
+                                                            <dd>
+                                                                <c:choose>
+                                                                    <c:when test="${!empty directoryManagerImpl}">
+                                                                        ${x.username}
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        <a href="${pageContext.request.contextPath}/web/directory/admin/user/view/${x.id}">${x.username}</a>
+                                                                    </c:otherwise>
+                                                                </c:choose>
+                                                            </dd>
                                                     </c:when>
                                                     <c:when test="${simpleClassName == 'Grade'}">
                                                             <dt><fmt:message key="wflowAdmin.processConfiguration.view.label.type"/></dt>
                                                             <dd>${simpleClassName}&nbsp;</dd>
                                                             <dt><fmt:message key="wflowAdmin.processConfiguration.view.label.value"/></dt>
-                                                            <dd><a href="${pageContext.request.contextPath}/web/directory/admin/grade/view/${x.id}">${x.name}</a></dd>
+                                                            <dd>
+                                                                <c:choose>
+                                                                    <c:when test="${!empty directoryManagerImpl}">
+                                                                        ${x.name}
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        <a href="${pageContext.request.contextPath}/web/directory/admin/grade/view/${x.id}">${x.name}</a>
+                                                                    </c:otherwise>
+                                                                </c:choose>
+                                                            </dd>
                                                     </c:when>
                                                     <c:when test="${simpleClassName == 'String'}">
                                                             <dt><fmt:message key="wflowAdmin.processConfiguration.view.label.type"/></dt>
