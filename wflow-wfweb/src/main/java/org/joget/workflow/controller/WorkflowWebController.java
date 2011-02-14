@@ -413,6 +413,10 @@ public class WorkflowWebController {
         map.addAttribute("processId", processId);
         map.addAttribute("state", state);
         map.addAttribute("processDefId", processDefId);
+
+        WorkflowActivity trackWflowActivity = workflowFacade.getRunningActivityInfo(activityId);
+        map.addAttribute("trackWflowActivity", trackWflowActivity);
+
         return "workflow/admin/activityAddSingleUser";
     }
 

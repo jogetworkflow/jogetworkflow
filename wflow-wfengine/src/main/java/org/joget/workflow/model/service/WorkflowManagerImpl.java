@@ -4723,13 +4723,27 @@ public class WorkflowManagerImpl implements WorkflowManager {
         return result;
     }
 
-    public void assignmentReassign(String processDefId ,String processId, String activityId, String username) {
+    public void assignmentReassign(String processDefId ,String processId, String activityId, String username, String replaceUser) {
         SharkConnection sc = null;
 
         try {            
             sc = connect();
             WMSessionHandle sessionHandle = sc.getSessionHandle();            
-            WfAssignment wfa = getWfAssignmentByActivityId(sc, activityId);
+            WfAssignment wfa = null;
+            Shark shark = Shark.getInstance();
+            AssignmentFilterBuilder aieb = shark.getAssignmentFilterBuilder();
+
+            WMFilter filter = aieb.addActivityIdEquals(sessionHandle, activityId);
+            filter = aieb.and(sessionHandle, filter, aieb.addUsernameEquals(sessionHandle, replaceUser));
+
+            // execute
+            WfAssignmentIterator ai = sc.get_iterator_assignment();
+            ai.set_query_expression(aieb.toIteratorExpression(sessionHandle, filter));
+            WfAssignment[] wItems = ai.get_next_n_sequence(0);
+            if (wItems != null && wItems.length > 0) {
+                wfa = wItems[0];
+            }
+
             WfResource res = sc.getResource(username);
 
             if (res == null) {
@@ -4739,7 +4753,6 @@ public class WorkflowManagerImpl implements WorkflowManager {
 
             if(wfa.get_accepted_status()){
                 wfa.set_accepted_status(false);
-                wfa = getWfAssignmentByActivityId(sc, activityId);
             }
             
             if (wfa.assignee() == null || (wfa.assignee() != null && !res.resource_key().equals(wfa.assignee().resource_key()))) {

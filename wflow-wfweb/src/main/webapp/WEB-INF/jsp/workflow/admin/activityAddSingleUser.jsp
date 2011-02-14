@@ -7,6 +7,14 @@
 </div>
 
 <div id="main-body-content" style="text-align: left">
+    <p id="userToReplace">
+        <label><fmt:message key="wflowAdmin.activity.reassign.selectUser"/></label>
+        <select id="replaceUser" name="replaceUser">
+            <c:forEach var="assignmentUser" items="${trackWflowActivity.assignmentUsers}" varStatus="index">
+                <option value="${assignmentUser}">${assignmentUser}</option>
+            </c:forEach>
+        </select>
+    </p>
     <div id="user">
         <ui:jsontable url="${pageContext.request.contextPath}/web/json/directory/dynamic/admin/user/list?${pageContext.request.queryString}"
                       var="userDataTable"
@@ -48,8 +56,13 @@
                        parent.location.reload(true);
                     }
                 }
-                var params = "username=" + escape(username) + "&state=${state}&processDefId=${processDefId}&activityId=${activityId}&processId=${processId}";
-                ConnectionManager.post('${pageContext.request.contextPath}/web/monitoring/running/activity/reassign', callback, params);
+                var replaceUser = $('#replaceUser').val();
+                if($('#replaceUser option[value="'+username+'"]').length > 0){
+                    alert('<fmt:message key="wflowAdmin.activity.reassign.error"/>');
+                }else{
+                    var params = "username=" + escape(username) + "&state=${state}&processDefId=${processDefId}&activityId=${activityId}&processId=${processId}&replaceUser=" + escape(replaceUser);
+                    ConnectionManager.post('${pageContext.request.contextPath}/web/monitoring/running/activity/reassign', callback, params);
+                }
             }
         }
     }

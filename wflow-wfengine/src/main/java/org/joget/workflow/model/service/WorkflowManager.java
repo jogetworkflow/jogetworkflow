@@ -41,7 +41,7 @@ public interface WorkflowManager {
 
     void assignmentWithdraw(String activityId);
 
-    void assignmentReassign(String processDefId, String processId, String activityId, String username);
+    void assignmentReassign(String processDefId, String processId, String activityId, String username, String replaceUser);
 
     void assignmentForceComplete(String processDefId, String processId, String activityId, String username);
 

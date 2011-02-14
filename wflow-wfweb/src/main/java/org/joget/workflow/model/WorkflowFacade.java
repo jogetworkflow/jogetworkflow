@@ -465,8 +465,8 @@ public class WorkflowFacade {
         workflowManager.assignmentComplete(activityId);
     }
 
-    public void assignmentReassign(String processDefId, String processId, String activityId, String username) {
-        workflowManager.assignmentReassign(processDefId, processId, activityId, username);
+    public void assignmentReassign(String processDefId, String processId, String activityId, String username, String replaceUser) {
+        workflowManager.assignmentReassign(processDefId, processId, activityId, username, replaceUser);
     }
 
     public void assignmentForceComplete(String processDefId, String processId, String activityId, String username) {

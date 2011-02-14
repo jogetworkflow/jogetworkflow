@@ -1279,8 +1279,8 @@ public class WorkflowJsonController {
     }
 
     @RequestMapping(value = "/monitoring/running/activity/reassign", method = RequestMethod.POST)
-    public void assignmentReassign(Writer writer, @RequestParam("state") String state, @RequestParam("processDefId") String processDefId, @RequestParam("username") String username, @RequestParam("activityId") String activityId, @RequestParam("processId") String processId) {
-        workflowFacade.assignmentReassign(processDefId, processId, activityId, username);
+    public void assignmentReassign(Writer writer, @RequestParam("state") String state, @RequestParam("processDefId") String processDefId, @RequestParam("username") String username, @RequestParam("replaceUser") String replaceUser, @RequestParam("activityId") String activityId, @RequestParam("processId") String processId) {
+        workflowFacade.assignmentReassign(processDefId, processId, activityId, username, replaceUser);
     }
 
     @RequestMapping("/monitoring/running/activity/complete")
