@@ -62,6 +62,7 @@ import java.io.FileOutputStream;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -2638,7 +2639,7 @@ public class WorkflowManagerImpl implements WorkflowManager {
 
             if (includeAssignees) {
                 List<String> users = getAssignmentResourceIds(processDefId, processInstanceId, activityInstanceId);
-
+                Collections.sort(users);
                 if (users != null) {
                     wfAct.setAssignmentUsers(users.toArray(new String[users.size()]));
                 }
