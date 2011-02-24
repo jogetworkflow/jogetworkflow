@@ -23,6 +23,7 @@
         <property name="timeBetweenEvictionRunsMillis" value="1800000" />
         <property name="numTestsPerEvictionRun" value="-1" />
         <property name="minIdle" value="1" />
+        <property name="maxActive" value="-1" />
         <property name="datasourceName" value="workflow" />
     </bean>
 
