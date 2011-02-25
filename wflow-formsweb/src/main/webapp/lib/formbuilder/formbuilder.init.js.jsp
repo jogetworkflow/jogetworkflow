@@ -230,7 +230,7 @@ function getFormData(formId, isFromParentProcess, skipDataLoading){
                                                 }
                                             });
                                         });
-                                    }else if($(v).attr('type') == 'textarea' && !$(v).attr('rowid')){
+                                    }else if(($(v).attr('type') == 'textarea' || $(v).attr('type') == 'readonlytextarea') && !$(v).attr('rowid')){
                                         if(pVal instanceof Object){
                                             var baseString = '';
                                             $.each(pVal, function(i, val){

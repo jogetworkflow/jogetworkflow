@@ -444,7 +444,7 @@ function initDataInsertionPoint(){
                     $(v).parent().html($(v).parent().html().replace(/<input([^<]+)value="([^"]+)"([^<]+)type="checkbox">/g, '<input #checkbox.' + $(v).attr('name') + '.$2# type="checkbox" value="$2"$1$3/>'));
                 }else if($(v).attr('type') == 'select-one'){
                     $(v).html($(v).html().replace(/<option value="([^"]+)">([^\/]*)<\/option>/g, '<option #select.' + $(v).attr('name') + '.$1# value="$1">$2</option>'));
-                }else if($(v).attr('type') == 'textarea' && !$(v).attr('rowid')){
+                }else if(($(v).attr('type') == 'textarea' || $(v).attr('type') == 'readonlytextarea') && !$(v).attr('rowid')){
                     if($(v).val() == ''){
                         $(v).attr('defaultValue', '#input.' + $(v).attr('name') + '#');
                     }
