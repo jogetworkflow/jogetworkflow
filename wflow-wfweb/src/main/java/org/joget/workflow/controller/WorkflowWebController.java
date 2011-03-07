@@ -695,6 +695,11 @@ public class WorkflowWebController {
         }
     }
 
+    @RequestMapping({"/client/assignment/completed"})
+    public String assignmentCompletedAndRedirect(ModelMap map) throws IOException {
+        return "workflow/assignmentCompleted";
+    }
+
     @RequestMapping("/client/assignment/view/embedded/(*:activityId)")
     public String assignmentEmbeddedView(ModelMap map,
             HttpServletRequest request,

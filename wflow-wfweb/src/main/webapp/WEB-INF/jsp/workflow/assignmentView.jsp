@@ -178,7 +178,11 @@
 
     function closeDialog(cancel) {
         if(cancel == undefined || cancel == '' || cancel == 'false'){
-            parent.PopupDialog.closeDialog();
+            if(window.parent == window){
+                document.location = "${pageContext.request.contextPath}/web/client/assignment/completed"+ '?${pageContext.request.queryString}';
+            }else{
+                parent.PopupDialog.closeDialog();
+            }
             return false;
         }else{
             document.location = cancel;
