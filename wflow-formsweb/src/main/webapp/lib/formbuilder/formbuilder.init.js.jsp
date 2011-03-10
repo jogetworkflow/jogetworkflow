@@ -368,20 +368,6 @@ function setWymEditorHtml(){
 }
 
 function initCustomHtml(){
-    /*
-    $.each($('.formbuilder_customHtml'), function(i, v){
-        var html = $(v).html();
-        html = html.replace(/id=\"_ex_/g, 'id="');
-        $(v).html(html);
-    })
-    */
-    $.each($('#formbuilder_export textarea'), function(i, v){
-        if($(v).attr('id').indexOf('customHtml') != -1){
-            var customHtmlContent = $(v).val().replace(/<!--\/textarea-->/g, "</textarea>");
-            $(v).parent().html("<div id=\"" + $(v).attr('id') + "\">" + customHtmlContent + "</div>");
-        }
-    })
-
     //perform custom javascript after loading the form (if any)
     if(typeof formbuilderOnReady == 'function'){
        formbuilderOnReady();

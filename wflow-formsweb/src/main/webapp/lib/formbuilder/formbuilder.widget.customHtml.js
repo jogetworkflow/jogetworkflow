@@ -25,7 +25,7 @@ var CustomHtml = Widget.extend({
             t = new Template('<div id="{type}_{id}">{value}</div>');
         }else{
             t = new Template('<textarea type="{type}" class="{cssClass}" name="{name}" {disabled} columnName="{columnName}" variableName="{variableName}" inputValidation="{inputValidation}" inputValidationMessage="{inputValidationMessage}" id="{type}_{id}" cols="30">{value}</textarea>');
-            this.config.value = this.config.value.replace(/<\/textarea>/g, "<!--/textarea-->");
+            this.config.value = this.config.value.replace(/<\/textarea>/g, "&lt;/textarea&gt;");
         }
 
         this.inputTpl = t.run({
