@@ -271,7 +271,7 @@ public class FormFacade {
 
                         } else if (entries.size() > 1) {
                             //for multiple row grid data
-                            Map temp = new HashMap();
+                            Map temp = new SequencedHashMap();
                             for (int i = 0; i < entries.size(); i++) {
                                 String[] row = (String[]) entries.get(i);
                                 String rowString = "";
