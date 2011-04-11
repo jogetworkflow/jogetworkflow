@@ -114,10 +114,15 @@ public class ResourceBundleMessageWebController {
     @RequestMapping(value = "/settings/resource/message/import/submit", method = RequestMethod.POST)
     public String POFileUpload(ModelMap map) throws Exception {
 
-        String systemLocale = setupManager.getSettingByProperty("systemLocale").getValue();
-        if(systemLocale == null || systemLocale.equalsIgnoreCase(""))
-            systemLocale = "en_US";
-        
+        String systemLocale = "";
+        if(setupManager.getSettingByProperty("systemLocale") != null){
+            systemLocale = setupManager.getSettingByProperty("systemLocale").getValue();
+        }
+
+        if(systemLocale.equalsIgnoreCase("")){
+                systemLocale = "en_US";
+        }
+
         try{
             MultipartFile multiPartfile = FileStore.getFile("localeFile");
             resourceBundleUtil.POFileImport(multiPartfile,systemLocale);
