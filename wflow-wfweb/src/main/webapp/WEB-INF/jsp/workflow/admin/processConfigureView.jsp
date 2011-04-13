@@ -220,8 +220,11 @@
                                                             <dt><fmt:message key="wflowAdmin.processConfiguration.view.label.type"/></dt>
                                                             <dd>${x}&nbsp;</dd>
                                                     </c:when>
+                                                    <c:when test="${simpleClassName == null}">
+                                                        <fmt:message key="wflowAdmin.processConfiguration.view.label.invalidParticipantMapping"/>
+                                                    </c:when>
                                                     <c:otherwise>
-                                                            <c:set var="isPlugin" value="true"/>
+                                                        <c:set var="isPlugin" value="true"/>
                                                             <dt><fmt:message key="wflowAdmin.processConfiguration.view.label.type"/></dt>
                                                             <dd><fmt:message key="wflowAdmin.processConfiguration.view.label.plugin"/></dd>
                                                             <dt><fmt:message key="wflowAdmin.processConfiguration.view.label.pluginName"/></dt>

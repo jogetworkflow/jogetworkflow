@@ -1506,8 +1506,7 @@ public class WorkflowWebController {
             Department department = directoryManager.getDepartmentById(departmentId);
             if(department == null) return null;
 
-            Employment hod = department.getHod();
-            return (hod != null) ? hod.getUser() : null;
+            return "Department(" + department.getName() + ")'s HOD";
 
         } else if (pd.getType().equals(ParticipantDirectoryDao.TYPE_DEPARTMENT_GRADE)) {
             String departmentId = pd.getValue();
