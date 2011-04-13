@@ -498,11 +498,11 @@ function submitForm(redirection, callback, isDraft){
                 fileElementId: fileIdList,
                 dataType: 'json',
                 success: function (response, status){
-                    response = response.responseText.replace("<pre>","").replace("</pre>","");
+                    response = response.responseText.replace( /<pre\b[^>]*>/, '').replace( '</pre>', '');
                     submitFormSuccess(redirection, callback, response);
                 },
                 error: function (response, status, e){
-                    response = response.responseText.replace("<pre>","").replace("</pre>","");
+                    response = response.responseText.replace( /<pre\b[^>]*>/, '').replace( '</pre>', '');
                     submitFormSuccess(redirection, callback, response);
                     return false;
                 }
