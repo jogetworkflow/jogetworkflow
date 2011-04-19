@@ -212,6 +212,17 @@ function getFormData(formId, isFromParentProcess, skipDataLoading){
                             //remove form field prefix
                             pName = pName.replace(/^c_/, '');
 
+                            if($(v).attr('type') != "grid" && $(v).attr('type') != "textarea"  && pVal instanceof Object){
+                                var baseString = '';
+                                $.each(pVal, function(i, val){
+                                    val = val.replace(/^"/, '');
+                                    val = val.replace(/"$/, '');
+                                    val = val.replace(/"\|"/g, ',');
+                                    baseString += val;
+                                })
+                                pVal = baseString;
+                            }
+
                             if(pName == $(v).attr('name') || (pName.replace(/^var_/, '') == $(v).attr('variablename'))){
                                 if($(v).attr('type')){
                                     if($(v).attr('type') == 'radio'){
