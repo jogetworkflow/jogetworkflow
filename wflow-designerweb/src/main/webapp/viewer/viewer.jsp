@@ -1,5 +1,5 @@
 <%@page contentType="image/jpeg" import="java.io.OutputStream,java.awt.image.BufferedImage,org.joget.designer.Viewer"%><%
-
+    request.setCharacterEncoding("UTF-8");
     String xpdl = request.getParameter("xpdl");
     String packageId = request.getParameter("packageId");
     String processDefId = request.getParameter("processId");
