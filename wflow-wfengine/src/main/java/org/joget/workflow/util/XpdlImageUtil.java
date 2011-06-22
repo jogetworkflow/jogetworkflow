@@ -83,6 +83,7 @@ public class XpdlImageUtil {
                         new NameValuePair("processId", processDefId)
                     };
                     post.setRequestBody(data);
+                    post.addRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
                     httpClient.executeMethod(post);
 
                     InputStream is = post.getResponseBodyAsStream();
