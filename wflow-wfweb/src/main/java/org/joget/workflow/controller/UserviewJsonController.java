@@ -31,6 +31,7 @@ import org.joget.workflow.model.dao.ActivityFormDao;
 import org.joget.workflow.model.service.UserviewProcessManager;
 import org.joget.workflow.model.service.UserviewSetupManager;
 import org.joget.workflow.model.service.WorkflowUserManager;
+import org.joget.workflow.util.WorkflowUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -400,21 +401,7 @@ public class UserviewJsonController {
 
             double serviceLevelMonitor = workflowFacade.getServiceLevelMonitorForRunningActivity(assignment.getActivityId());
 
-            if (serviceLevelMonitor > 0) {
-                if (serviceLevelMonitor < 25) {
-                    data.put("serviceLevelMonitor", "<span class=\"dot_green\">&nbsp;</span>");
-                } else if (serviceLevelMonitor >= 25 && serviceLevelMonitor < 50) {
-                    data.put("serviceLevelMonitor", "<span class=\"dot_green_yellow\">&nbsp;</span>");
-                } else if (serviceLevelMonitor >= 50 && serviceLevelMonitor < 75) {
-                    data.put("serviceLevelMonitor", "<span class=\"dot_yellow\">&nbsp;</span>");
-                } else if (serviceLevelMonitor >= 75 && serviceLevelMonitor < 100) {
-                    data.put("serviceLevelMonitor", "<span class=\"dot_yellow_red\">&nbsp;</span>");
-                } else {
-                    data.put("serviceLevelMonitor", "<span class=\"dot_red\">&nbsp;</span>");
-                }
-            } else {
-                data.put("serviceLevelMonitor", "-");
-            }
+            data.put("serviceLevelMonitor", WorkflowUtil.getServiceLevelIndicator(serviceLevelMonitor));
 
             data.put("id", assignment.getActivityId());
             data.put("label", assignment.getActivityName());

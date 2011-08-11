@@ -253,21 +253,7 @@ public class WorkflowJsonController {
             data.put("requesterId", workflowProcess.getRequesterId());
             data.put("due", workflowProcess.getDue() != null ? workflowProcess.getDue() : "-");
 
-            if (serviceLevelMonitor > 0) {
-                if (serviceLevelMonitor < 25) {
-                    data.put("serviceLevelMonitor", "<span class=\"dot_green\">&nbsp;</span>");
-                } else if (serviceLevelMonitor >= 25 && serviceLevelMonitor < 50) {
-                    data.put("serviceLevelMonitor", "<span class=\"dot_green_yellow\">&nbsp;</span>");
-                } else if (serviceLevelMonitor >= 50 && serviceLevelMonitor < 75) {
-                    data.put("serviceLevelMonitor", "<span class=\"dot_yellow\">&nbsp;</span>");
-                } else if (serviceLevelMonitor >= 75 && serviceLevelMonitor < 100) {
-                    data.put("serviceLevelMonitor", "<span class=\"dot_yellow_red\">&nbsp;</span>");
-                } else {
-                    data.put("serviceLevelMonitor", "<span class=\"dot_red\">&nbsp;</span>");
-                }
-            } else {
-                data.put("serviceLevelMonitor", "-");
-            }
+            data.put("serviceLevelMonitor", WorkflowUtil.getServiceLevelIndicator(serviceLevelMonitor));
 
             jsonObject.accumulate("data", data);
         }
@@ -302,21 +288,7 @@ public class WorkflowJsonController {
             data.put("requesterId", workflowProcess.getRequesterId());
             data.put("due", workflowProcess.getDue() != null ? workflowProcess.getDue() : "-");
 
-            if (serviceLevelMonitor > 0) {
-                if (serviceLevelMonitor < 25) {
-                    data.put("serviceLevelMonitor", "<span class=\"dot_green\">&nbsp;</span>");
-                } else if (serviceLevelMonitor >= 25 && serviceLevelMonitor < 50) {
-                    data.put("serviceLevelMonitor", "<span class=\"dot_green_yellow\">&nbsp;</span>");
-                } else if (serviceLevelMonitor >= 50 && serviceLevelMonitor < 75) {
-                    data.put("serviceLevelMonitor", "<span class=\"dot_yellow\">&nbsp;</span>");
-                } else if (serviceLevelMonitor >= 75 && serviceLevelMonitor < 100) {
-                    data.put("serviceLevelMonitor", "<span class=\"dot_yellow_red\">&nbsp;</span>");
-                } else {
-                    data.put("serviceLevelMonitor", "<span class=\"dot_red\">&nbsp;</span>");
-                }
-            } else {
-                data.put("serviceLevelMonitor", "-");
-            }
+            data.put("serviceLevelMonitor", WorkflowUtil.getServiceLevelIndicator(serviceLevelMonitor));
 
             jsonObject.accumulate("data", data);
         }
@@ -343,21 +315,7 @@ public class WorkflowJsonController {
             data.put("state", workflowActivity.getState());
             data.put("dateCreated", workflowActivity.getCreatedTime());
 
-            if (serviceLevelMonitor > 0) {
-                if (serviceLevelMonitor < 25) {
-                    data.put("serviceLevelMonitor", "<span class=\"dot_green\">&nbsp;</span>");
-                } else if (serviceLevelMonitor >= 25 && serviceLevelMonitor < 50) {
-                    data.put("serviceLevelMonitor", "<span class=\"dot_green_yellow\">&nbsp;</span>");
-                } else if (serviceLevelMonitor >= 50 && serviceLevelMonitor < 75) {
-                    data.put("serviceLevelMonitor", "<span class=\"dot_yellow\">&nbsp;</span>");
-                } else if (serviceLevelMonitor >= 75 && serviceLevelMonitor < 100) {
-                    data.put("serviceLevelMonitor", "<span class=\"dot_yellow_red\">&nbsp;</span>");
-                } else {
-                    data.put("serviceLevelMonitor", "<span class=\"dot_red\">&nbsp;</span>");
-                }
-            } else {
-                data.put("serviceLevelMonitor", "-");
-            }
+            data.put("serviceLevelMonitor", WorkflowUtil.getServiceLevelIndicator(serviceLevelMonitor));
 
             jsonObject.accumulate("data", data);
         }
@@ -508,19 +466,7 @@ public class WorkflowJsonController {
 
             int serviceLevelMonitor = (int) workflowReport.getRatioOnTime();
 
-            String warningLevel = WorkflowUtil.getSystemSetupValue("mediumWarningLevel");
-            int mediumWarningLevel = (warningLevel != null && warningLevel.trim().length() > 0 ? 100 - Integer.parseInt(warningLevel) : 80);
-            warningLevel = WorkflowUtil.getSystemSetupValue("criticalWarningLevel");
-            int criticalWarningLevel = (warningLevel != null && warningLevel.trim().length() > 0 ? 100 - Integer.parseInt(warningLevel) : 50);
-
-            if (serviceLevelMonitor <= criticalWarningLevel) {
-                data.put("serviceLevelMonitor", "<span class=\"dot_red\">&nbsp;</span>");
-            } else if (serviceLevelMonitor > criticalWarningLevel && serviceLevelMonitor <= mediumWarningLevel) {
-                data.put("serviceLevelMonitor", "<span class=\"dot_yellow\">&nbsp;</span>");
-            } else {
-                data.put("serviceLevelMonitor", "<span class=\"dot_green\">&nbsp;</span>");
-            }
-
+            data.put("serviceLevelMonitor", WorkflowUtil.getServiceLevelIndicator(serviceLevelMonitor));
 
             jsonObject.accumulate("data", data);
         }
@@ -795,21 +741,7 @@ public class WorkflowJsonController {
 
             double serviceLevelMonitor = workflowFacade.getServiceLevelMonitorForRunningActivity(assignment.getActivityId());
 
-            if (serviceLevelMonitor > 0) {
-                if (serviceLevelMonitor < 25) {
-                    data.put("serviceLevelMonitor", "<span class=\"dot_green\">&nbsp;</span>");
-                } else if (serviceLevelMonitor >= 25 && serviceLevelMonitor < 50) {
-                    data.put("serviceLevelMonitor", "<span class=\"dot_green_yellow\">&nbsp;</span>");
-                } else if (serviceLevelMonitor >= 50 && serviceLevelMonitor < 75) {
-                    data.put("serviceLevelMonitor", "<span class=\"dot_yellow\">&nbsp;</span>");
-                } else if (serviceLevelMonitor >= 75 && serviceLevelMonitor < 100) {
-                    data.put("serviceLevelMonitor", "<span class=\"dot_yellow_red\">&nbsp;</span>");
-                } else {
-                    data.put("serviceLevelMonitor", "<span class=\"dot_red\">&nbsp;</span>");
-                }
-            } else {
-                data.put("serviceLevelMonitor", "-");
-            }
+            data.put("serviceLevelMonitor", WorkflowUtil.getServiceLevelIndicator(serviceLevelMonitor));
 
             data.put("id", assignment.getActivityId());
             data.put("label", assignment.getActivityName());
@@ -847,21 +779,7 @@ public class WorkflowJsonController {
 
             double serviceLevelMonitor = workflowFacade.getServiceLevelMonitorForRunningActivity(assignment.getActivityId());
 
-            if (serviceLevelMonitor > 0) {
-                if (serviceLevelMonitor < 25) {
-                    data.put("serviceLevelMonitor", "<span class=\"dot_green\">&nbsp;</span>");
-                } else if (serviceLevelMonitor >= 25 && serviceLevelMonitor < 50) {
-                    data.put("serviceLevelMonitor", "<span class=\"dot_green_yellow\">&nbsp;</span>");
-                } else if (serviceLevelMonitor >= 50 && serviceLevelMonitor < 75) {
-                    data.put("serviceLevelMonitor", "<span class=\"dot_yellow\">&nbsp;</span>");
-                } else if (serviceLevelMonitor >= 75 && serviceLevelMonitor < 100) {
-                    data.put("serviceLevelMonitor", "<span class=\"dot_yellow_red\">&nbsp;</span>");
-                } else {
-                    data.put("serviceLevelMonitor", "<span class=\"dot_red\">&nbsp;</span>");
-                }
-            } else {
-                data.put("serviceLevelMonitor", "-");
-            }
+            data.put("serviceLevelMonitor", WorkflowUtil.getServiceLevelIndicator(serviceLevelMonitor));
 
             data.put("id", assignment.getActivityId());
             data.put("label", assignment.getActivityName());
@@ -896,21 +814,7 @@ public class WorkflowJsonController {
 
             double serviceLevelMonitor = workflowFacade.getServiceLevelMonitorForRunningActivity(assignment.getActivityId());
 
-            if (serviceLevelMonitor > 0) {
-                if (serviceLevelMonitor < 25) {
-                    data.put("serviceLevelMonitor", "<span class=\"dot_green\">&nbsp;</span>");
-                } else if (serviceLevelMonitor >= 25 && serviceLevelMonitor < 50) {
-                    data.put("serviceLevelMonitor", "<span class=\"dot_green_yellow\">&nbsp;</span>");
-                } else if (serviceLevelMonitor >= 50 && serviceLevelMonitor < 75) {
-                    data.put("serviceLevelMonitor", "<span class=\"dot_yellow\">&nbsp;</span>");
-                } else if (serviceLevelMonitor >= 75 && serviceLevelMonitor < 100) {
-                    data.put("serviceLevelMonitor", "<span class=\"dot_yellow_red\">&nbsp;</span>");
-                } else {
-                    data.put("serviceLevelMonitor", "<span class=\"dot_red\">&nbsp;</span>");
-                }
-            } else {
-                data.put("serviceLevelMonitor", "-");
-            }
+            data.put("serviceLevelMonitor", WorkflowUtil.getServiceLevelIndicator(serviceLevelMonitor));
 
             data.put("id", assignment.getActivityId());
             data.put("label", assignment.getActivityName());
@@ -1248,6 +1152,73 @@ public class WorkflowJsonController {
             }
         }
 
+        writeJson(writer, jsonObject, callback);
+    }
+    
+    @RequestMapping("/json/workflow/processInstanceInfo/(*:processInstanceId)")
+    public void getProcessInstanceInfo(Writer writer, @RequestParam("processInstanceId") String processInstanceId, @RequestParam(value = "callback", required = false) String callback) throws IOException, JSONException {
+        WorkflowProcess wfProcess = workflowFacade.getRunningProcessById(processInstanceId);
+        double serviceLevelMonitor = workflowFacade.getServiceLevelMonitorForRunningProcess(processInstanceId);
+        WorkflowProcess trackWflowProcess = workflowFacade.getRunningProcessInfo(processInstanceId);
+        
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.accumulate("id", wfProcess.getInstanceId());
+        jsonObject.accumulate("processDefId", wfProcess.getId());
+        jsonObject.accumulate("packageId", wfProcess.getPackageId());
+        jsonObject.accumulate("version", wfProcess.getVersion());
+        jsonObject.accumulate("processName", wfProcess.getName());
+        jsonObject.accumulate("requesterId", wfProcess.getRequesterId());
+        jsonObject.accumulate("state", wfProcess.getState());
+        jsonObject.accumulate("serviceLevelMonitor", WorkflowUtil.getServiceLevelIndicator(serviceLevelMonitor));
+        jsonObject.accumulate("startedTime", trackWflowProcess.getStartedTime());
+        jsonObject.accumulate("limit", (trackWflowProcess.getLimit() != null) ? trackWflowProcess.getLimit() : "");
+        jsonObject.accumulate("due", (trackWflowProcess.getDue() != null) ? trackWflowProcess.getDue() : "");
+        jsonObject.accumulate("delay", (trackWflowProcess.getDelay() != null) ? trackWflowProcess.getDelay() : "");
+        jsonObject.accumulate("delayInSeconds", trackWflowProcess.getDelayInSeconds());
+        jsonObject.accumulate("finishTime", (trackWflowProcess.getFinishTime() != null) ? trackWflowProcess.getFinishTime() : "");
+        jsonObject.accumulate("timeConsumingFromDateStarted", (trackWflowProcess.getTimeConsumingFromDateStarted() != null) ? trackWflowProcess.getTimeConsumingFromDateStarted() : "");
+        jsonObject.accumulate("timeConsumingFromDateStartedInSeconds", trackWflowProcess.getTimeConsumingFromDateStartedInSeconds());
+        
+        writeJson(writer, jsonObject, callback);
+    }
+    
+    @RequestMapping("/json/workflow/activityInstanceInfo/(*:activityInstanceId)")
+    public void getActivityInstanceInfo(Writer writer, @RequestParam("activityInstanceId") String activityInstanceId, @RequestParam(value = "callback", required = false) String callback) throws IOException, JSONException {
+        WorkflowActivity wflowActivity = workflowFacade.getActivityById(activityInstanceId);
+        Collection<WorkflowVariable> variableList = workflowFacade.getActivityVariableList(activityInstanceId);
+        Collection<Map> variables = new ArrayList<Map>();
+        for(WorkflowVariable v : variableList){
+            Map<String, String> m = new HashMap<String, String>();
+            m.put("id", v.getId());
+            m.put("value", (v.getVal() != null) ? v.getVal().toString() : "");
+            variables.add(m);
+        }
+        
+        double serviceLevelMonitor = workflowFacade.getServiceLevelMonitorForRunningActivity(activityInstanceId);
+        WorkflowActivity trackWflowActivity = workflowFacade.getRunningActivityInfo(activityInstanceId);
+        
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.accumulate("id", activityInstanceId);
+        jsonObject.accumulate("processDefId", wflowActivity.getProcessDefId());
+        jsonObject.accumulate("version", wflowActivity.getProcessVersion());
+        jsonObject.accumulate("processName", wflowActivity.getProcessName());
+        jsonObject.accumulate("performer", trackWflowActivity.getPerformer());
+        jsonObject.accumulate("assignmentUsers", trackWflowActivity.getAssignmentUsers());
+        jsonObject.accumulate("state", wflowActivity.getState());
+        jsonObject.accumulate("serviceLevelMonitor", WorkflowUtil.getServiceLevelIndicator(serviceLevelMonitor));
+        jsonObject.accumulate("createdTime", (trackWflowActivity.getCreatedTime() != null) ? trackWflowActivity.getCreatedTime() : "");
+        jsonObject.accumulate("startedTime", (trackWflowActivity.getStartedTime() != null) ? trackWflowActivity.getStartedTime() : "");
+        jsonObject.accumulate("limit", (trackWflowActivity.getLimit() != null) ? trackWflowActivity.getLimit() : "");
+        jsonObject.accumulate("due", (trackWflowActivity.getDue() != null) ? trackWflowActivity.getDue() : "");
+        jsonObject.accumulate("delay", (trackWflowActivity.getDelay() != null) ? trackWflowActivity.getDelay() : "");
+        jsonObject.accumulate("delayInSeconds", trackWflowActivity.getDelayInSeconds());
+        jsonObject.accumulate("finishTime", (trackWflowActivity.getFinishTime() != null) ? trackWflowActivity.getFinishTime() : "");
+        jsonObject.accumulate("timeConsumingFromDateCreated", (trackWflowActivity.getTimeConsumingFromDateCreated() != null) ? trackWflowActivity.getTimeConsumingFromDateCreated() : "");
+        jsonObject.accumulate("timeConsumingFromDateStarted", (trackWflowActivity.getTimeConsumingFromDateStarted() != null) ? trackWflowActivity.getTimeConsumingFromDateStarted() : "");
+        jsonObject.accumulate("timeConsumingFromDateCreatedInSeconds", trackWflowActivity.getTimeConsumingFromDateCreatedInSeconds());
+        jsonObject.accumulate("timeConsumingFromDateStartedInSeconds", trackWflowActivity.getTimeConsumingFromDateStartedInSeconds());
+        jsonObject.accumulate("variables", variables.toArray());
+        
         writeJson(writer, jsonObject, callback);
     }
 

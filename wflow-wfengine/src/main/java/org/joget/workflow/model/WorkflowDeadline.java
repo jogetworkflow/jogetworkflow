@@ -27,24 +27,28 @@ public class WorkflowDeadline {
     }
 
     private void setLimitFromExpression(){
-        Pattern pattern = Pattern.compile("(.+\\+)([0-9]+)(\\);.+)");
-        Matcher matcher = pattern.matcher(deadlineExpression);
+        if (deadlineExpression != null) {
+            Pattern pattern = Pattern.compile("(.+\\+)([0-9]+)(\\);.+)");
+            Matcher matcher = pattern.matcher(deadlineExpression);
 
-        while (matcher.find()) {
-            try{
-                deadlineLimit = Integer.parseInt(matcher.group(2));
-            }catch(NumberFormatException nfe){
-                deadlineLimit = 0;
+            while (matcher.find()) {
+                try{
+                    deadlineLimit = Integer.parseInt(matcher.group(2));
+                }catch(NumberFormatException nfe){
+                    deadlineLimit = 0;
+                }
             }
         }
     }
 
     private void setExpressionFromLimit(){
-        Pattern pattern = Pattern.compile("(.+\\+)([0-9]+)(\\);.+)");
-        Matcher matcher = pattern.matcher(deadlineExpression);
+        if (deadlineExpression != null) {
+            Pattern pattern = Pattern.compile("(.+\\+)([0-9]+)(\\);.+)");
+            Matcher matcher = pattern.matcher(deadlineExpression);
 
-        while (matcher.find()) {
-            deadlineExpression = matcher.replaceFirst("$1" + deadlineLimit + "$3");
+            while (matcher.find()) {
+                deadlineExpression = matcher.replaceFirst("$1" + deadlineLimit + "$3");
+            }
         }
     }
 }

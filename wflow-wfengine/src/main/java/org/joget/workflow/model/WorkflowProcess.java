@@ -21,6 +21,9 @@ public class WorkflowProcess implements Serializable {
     private Date due;
     private String delay;
     private Date finishTime;
+    private long delayInSeconds;
+    private long timeConsumingFromDateStartedInSeconds;
+    private long timeConsumingFromDateCreatedInSeconds;
     private String timeConsumingFromDateCreated;
     private String timeConsumingFromDateStarted;
     private String state;
@@ -190,5 +193,29 @@ public class WorkflowProcess implements Serializable {
 
     public void setRequesterId(String requesterId) {
         this.requesterId = requesterId;
+    }
+
+    public long getDelayInSeconds() {
+        return delayInSeconds;
+    }
+
+    public void setDelayInSeconds(long delayInSeconds) {
+        this.delayInSeconds = delayInSeconds;
+    }
+
+    public long getTimeConsumingFromDateCreatedInSeconds() {
+        return timeConsumingFromDateCreatedInSeconds;
+    }
+
+    public void setTimeConsumingFromDateCreatedInSeconds(long timeConsumingFromDateCreatedInSeconds) {
+        this.timeConsumingFromDateCreatedInSeconds = timeConsumingFromDateCreatedInSeconds;
+    }
+
+    public long getTimeConsumingFromDateStartedInSeconds() {
+        return timeConsumingFromDateStartedInSeconds;
+    }
+
+    public void setTimeConsumingFromDateStartedInSeconds(long timeConsumingFromDateStartedInSeconds) {
+        this.timeConsumingFromDateStartedInSeconds = timeConsumingFromDateStartedInSeconds;
     }
 }
