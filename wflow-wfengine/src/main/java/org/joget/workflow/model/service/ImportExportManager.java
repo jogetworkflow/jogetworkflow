@@ -72,7 +72,7 @@ public class ImportExportManager {
 
         try {
             Serializer serializer = new Persister();
-            ExportedPackage exportedPackage = serializer.read(ExportedPackage.class, new ByteArrayInputStream(processData));
+            ExportedPackage exportedPackage = serializer.read(ExportedPackage.class, new ByteArrayInputStream(processData), "UTF-8");
             Collection<ExportedProcess> processList = exportedPackage.getProcessList();
 
             for (ExportedProcess process : processList) {
@@ -293,7 +293,7 @@ public class ImportExportManager {
 
         try {
             Serializer serializer = new Persister();
-            ExportedPackage exportedPackage = serializer.read(ExportedPackage.class, new ByteArrayInputStream(processData));
+            ExportedPackage exportedPackage = serializer.read(ExportedPackage.class, new ByteArrayInputStream(processData), "UTF-8");
             Collection<ExportedProcess> processList = exportedPackage.getProcessList();
 
             updatedForm = new HashMap<String, String>();
@@ -732,7 +732,7 @@ public class ImportExportManager {
             exportedPackage.setProcessList(exportedProcessList);
 
             Serializer serializer = new Persister();
-            serializer.write(exportedPackage, baos);
+            serializer.write(exportedPackage, baos, "UTF-8");
 
             out.putNextEntry(new ZipEntry("packageData.xml"));
             out.write(baos.toByteArray());
@@ -788,7 +788,7 @@ public class ImportExportManager {
 
         try {
             Serializer serializer = new Persister();
-            ExportedPackage exportedPackage = serializer.read(ExportedPackage.class, new ByteArrayInputStream(packageData));
+            ExportedPackage exportedPackage = serializer.read(ExportedPackage.class, new ByteArrayInputStream(packageData), "UTF-8");
 
             UserviewSetup userviewSetup = exportedPackage.getUserviewSetup();
             String processDefId = userviewSetup.getStartProcessDefId();
@@ -890,7 +890,7 @@ public class ImportExportManager {
             exportedPackage.setProcessList(exportedProcessList);
 
             Serializer serializer = new Persister();
-            serializer.write(exportedPackage, baos);
+            serializer.write(exportedPackage, baos, "UTF-8");
 
             out.putNextEntry(new ZipEntry("packageData.xml"));
             out.write(baos.toByteArray());
@@ -935,7 +935,7 @@ public class ImportExportManager {
             exportedPackage.setProcessList(exportedProcessList);
 
             Serializer serializer = new Persister();
-            serializer.write(exportedPackage, baos);
+            serializer.write(exportedPackage, baos, "UTF-8");
 
             packageDataXml = baos.toByteArray();
         } catch (Exception ex) {

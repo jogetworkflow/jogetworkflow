@@ -78,7 +78,7 @@ public class XpdlImageUtil {
                     String url = designerwebBaseUrl + "/wflow-designerweb/viewer/viewer.jsp?processId=" + process.getEncodedId();
                     PostMethod post = new PostMethod(url);
                     NameValuePair[] data = {
-                        new NameValuePair("xpdl", new String(xpdlBytes)),
+                        new NameValuePair("xpdl", new String(xpdlBytes, "UTF-8")),
                         new NameValuePair("packageId", process.getPackageId()),
                         new NameValuePair("processId", processDefId)
                     };

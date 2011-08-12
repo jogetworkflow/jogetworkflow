@@ -69,7 +69,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.joget.commons.util.MobileUtil;
 import org.joget.commons.util.SetupManager;
 import org.joget.commons.util.TimeZoneUtil;
-import org.joget.directory.model.Employment;
 import org.joget.workflow.model.ActivitySetup;
 import org.joget.workflow.model.PluginDefaultProperties;
 import org.joget.workflow.model.dao.PluginDefaultPropertiesDao;
@@ -457,8 +456,12 @@ public class WorkflowWebController {
         // get process xpdl
         byte[] xpdlBytes = workflowFacade.getPackageContent(wfProcess.getPackageId(), wfProcess.getVersion());
         if (xpdlBytes != null) {
-            String xpdl = new String(xpdlBytes);
-
+            String xpdl = null;
+            try {
+                xpdl = new String(xpdlBytes, "UTF-8");
+            } catch (Exception e) {
+                LogUtil.debug(WorkflowWebController.class.getName(), "XPDL cannot load");
+            }
             // get running activities
             Collection<String> runningActivityIdList = new ArrayList<String>();
             List<WorkflowActivity> activityList = workflowFacade.getActivityList("id", Boolean.FALSE, 0, 10000, processId);
@@ -1369,7 +1372,7 @@ public class WorkflowWebController {
         String packageId = process.getPackageId();
         String packageVersion = process.getVersion();
         byte[] content = workflowFacade.getPackageContent(packageId, packageVersion);
-        String xpdl = new String(content, "UTF8");
+        String xpdl = new String(content, "UTF-8");
         writer.write(xpdl);
     }
 
