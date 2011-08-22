@@ -230,7 +230,7 @@ public class DynamicFormDao extends DynamicFormDaoSupport {
                         }
 
                         if (sort != null && !sort.equals("")) {
-                            query += "ORDER BY e." + sort;
+                            query += "ORDER BY cast(e." + sort + " as string)";
 
                             if (desc) {
                                 query += " DESC";
