@@ -87,7 +87,7 @@ public class WorkflowToolActivityHandler extends StandardToolActivityHandler {
                     if (request != null) {
                         propertyMap.put("request", request);
                     }
-                } catch (NoClassDefFoundError e) {
+                } catch (Throwable t) {
                     // ignore if class is not found
                 }
 
