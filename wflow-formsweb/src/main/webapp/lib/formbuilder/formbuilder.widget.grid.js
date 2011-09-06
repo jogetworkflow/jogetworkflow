@@ -32,6 +32,7 @@ var Grid = Widget.extend({
                         columns.push({ widget: new TextArea({id: col.id, name: col.name}), label: (col.label)?col.label:gettext('clic_to_edit')});
                         break;
                     case 'select':
+                        col.idExtend = col.id.substring(col.id.lastIndexOf('_'));
                         columns.push({ widget : new Select(col), label: (col.label)?col.label:gettext('clic_to_edit')});
                         break;
                     default:

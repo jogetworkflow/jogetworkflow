@@ -19,8 +19,6 @@ var Select = Widget.extend({
         }, config);
         if(gridNumber >= 0){
             this.config.idExtend = '_' + gridNumber;
-        }else{
-            this.config.idExtend = this.config.id.substring(this.config.id.lastIndexOf('_'));
         }
         this._super(this.config);
     },
