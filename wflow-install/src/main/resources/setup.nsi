@@ -13,7 +13,7 @@
 
   ;Default installation folder
   ;InstallDir "$PROGRAMFILES\Joget"
-  InstallDir "C:\Joget-v2-beta"
+  InstallDir "C:\Joget-v2"
 
   ;Get installation folder from registry if available
   ;InstallDirRegKey HKCU "Software\Joget"
@@ -247,11 +247,11 @@ Section "Start Menu Shortcuts" SecStartMenu
 
   SetOutPath "$INSTDIR"
 
-  CreateDirectory "$SMPROGRAMS\Joget Workflow v2 Beta"
-  CreateShortCut "$SMPROGRAMS\Joget Workflow v2 Beta\Start Joget Server.lnk" "$INSTDIR\joget-start.bat" "Start Joget Server" "$INSTDIR\joget_start.ico"
-  CreateShortCut "$SMPROGRAMS\Joget Workflow v2 Beta\Stop Joget Server.lnk" "$INSTDIR\joget-stop.bat" "Stop Joget Server" "$INSTDIR\joget_stop.ico"
-  CreateShortCut "$SMPROGRAMS\Joget Workflow v2 Beta\Workflow Management Console.lnk" "http://localhost:8080/wflow-wfweb" "Workflow Management Console" "$INSTDIR\joget.ico"
-  CreateShortCut "$SMPROGRAMS\Joget Workflow v2 Beta\www.joget.org.lnk" "http://www.joget.org" "www.joget.org" "$INSTDIR\joget.ico"
+  CreateDirectory "$SMPROGRAMS\Joget Workflow v2"
+  CreateShortCut "$SMPROGRAMS\Joget Workflow v2\Start Joget Server.lnk" "$INSTDIR\joget-start.bat" "Start Joget Server" "$INSTDIR\joget_start.ico"
+  CreateShortCut "$SMPROGRAMS\Joget Workflow v2\Stop Joget Server.lnk" "$INSTDIR\joget-stop.bat" "Stop Joget Server" "$INSTDIR\joget_stop.ico"
+  CreateShortCut "$SMPROGRAMS\Joget Workflow v2\Workflow Management Console.lnk" "http://localhost:8080/wflow-wfweb" "Workflow Management Console" "$INSTDIR\joget.ico"
+  CreateShortCut "$SMPROGRAMS\Joget Workflow v2\www.joget.org.lnk" "http://www.joget.org" "www.joget.org" "$INSTDIR\joget.ico"
 
 SectionEnd
 
@@ -307,7 +307,7 @@ Section "Uninstall"
 
 
   ;Uninstall Files Here
-  RMDir /r "$SMPROGRAMS\Joget Workflow v2 Beta"
+  RMDir /r "$SMPROGRAMS\Joget Workflow v2"
 
   RmDir /r "$INSTDIR\apache-ant-1.7.1"
   RmDir /r "$INSTDIR\jdk1.6.0"
