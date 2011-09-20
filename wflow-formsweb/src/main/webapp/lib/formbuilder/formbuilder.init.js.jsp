@@ -206,136 +206,96 @@ function getFormData(formId, isFromParentProcess, skipDataLoading){
 
             if(elements != null){
                 $.each(elements, function(i, v){
-                    //do not load data for hiddenfield
-                    if(!/hiddenfield/.test(v.id)){
+                    //skip loading value for hidden field
+                    if (!/hiddenfield/.test(v.id)) {
                         $.each(json.data, function(pName, pVal){
                             //remove form field prefix
                             pName = pName.replace(/^c_/, '');
-
-                            if($(v).attr('type') != "grid" && $(v).attr('type') != "textarea"  && pVal instanceof Object){
-                                var baseString = '';
-                                $.each(pVal, function(i, val){
-                                    val = val.replace(/^"/, '');
-                                    val = val.replace(/"$/, '');
-                                    val = val.replace(/"\|"/g, ',');
-                                    baseString += val;
-                                })
-                                pVal = baseString;
-                            }
-
+							
                             if(pName == $(v).attr('name') || (pName.replace(/^var_/, '') == $(v).attr('variablename'))){
-                                if($(v).attr('type')){
-                                    if($(v).attr('type') == 'radio'){
-                                        $.each($('input[@name="' + $(v).attr('name') + '"]'), function(index, radio){
-                                            if($(radio).attr('value') == pVal){
-                                                $(radio).attr('checked', 'yes')
+                                if($(v).attr('type') == 'radio'){
+                                    $.each($('input[@name="' + $(v).attr('name') + '"]'), function(index, radio){
+                                        if($(radio).attr('value') == pVal){
+                                            $(radio).attr('checked', 'yes')
+                                        }
+                                    });
+                                }else if($(v).attr('type') == 'checkbox'){
+                                    //checkbox value deliminator = |
+                                    var vals = pVal.split("|");
+                                    $.each(vals, function(valIndex, val){
+                                        $.each($('input[@name="' + $(v).attr('name') + '"]'), function(index, checkbox){
+                                            if($(checkbox).attr('value') == val){
+                                                $(checkbox).attr('checked', 'yes')
                                             }
                                         });
-                                    }else if($(v).attr('type') == 'checkbox'){
-                                        //checkbox value deliminator = |
-                                        var vals = pVal.split("|");
-                                        $.each(vals, function(valIndex, val){
-                                            $.each($('input[@name="' + $(v).attr('name') + '"]'), function(index, checkbox){
-                                                if($(checkbox).attr('value') == val){
-                                                    $(checkbox).attr('checked', 'yes')
-                                                }
-                                            });
-                                        });
-                                    }else if(($(v).attr('type') == 'textarea' || $(v).attr('type') == 'readonlytextarea' || $(v).attr('type') == 'customHtml' || $(v).attr('type') == 'htmleditor') && !$(v).attr('rowid')){
-                                        if(pVal instanceof Object){
-                                            var baseString = '';
-                                            $.each(pVal, function(i, val){
-                                                //remove first & last double quote
-                                                val = val.replace(/^"/, '');
-                                                val = val.replace(/"$/, '');
-                                                var temp = val.split('"|"');
-                                                baseString += temp + "\n";
-                                            })
-                                            $(v).val(baseString);
-                                        }else{
-                                            $(v).val(pVal);
-                                        }
-                                    }else if($(v).attr('type') == 'file'){
-                                        var widgetContainer = $(v).parent().get(0);
-                                        var divId = v.id + "_" + v.name + "_fileDownload";
-                                        var fileLink = '<a href="' + fileBaseLink + '?fileName=' + encodeURI(pVal) + '&processId=<c:out value="${param.processId}" escapeXml="true"/>">';
-                                        if($('#' + divId).length == 0){
-                                            var baseString = '<div id="' + divId + '">uploaded file: ' + fileLink + pVal + '</a></div>';
-                                            $(widgetContainer).append(baseString);
-                                        }else{
-                                            $('#' + divId).html('uploaded file: ' + fileLink + pVal);
-                                        }
+                                    });
+                                }else if($(v).attr('type') == 'file'){
+                                    var widgetContainer = $(v).parent().get(0);
+                                    var divId = v.id + "_" + v.name + "_fileDownload";
+                                    var fileLink = '<a href="' + fileBaseLink + '?fileName=' + encodeURI(pVal) + '&processId=<c:out value="${param.processId}" escapeXml="true"/>">';
+                                    if($('#' + divId).length == 0){
+                                        var baseString = '<div id="' + divId + '">uploaded file: ' + fileLink + pVal + '</a></div>';
+                                        $(widgetContainer).append(baseString);
                                     }else{
-                                        //if it's grid data
-                                        if(pVal instanceof Object){
-                                            //check if it's for other input fields first
-                                            /*if($('input[@name="' + pName + '"]').length == 1){
-                                                var finalValue = "";
-                                                $.each(pVal, function(i, val){
-                                                    val = val.replace(/^"/, '');
-                                                    val = val.replace(/"$/, '');
-                                                    var temp = val.split('"|"');
-                                                    for(j in temp){
-                                                        finalValue += temp[j];
-                                                        if(j != temp.length - 1)
-                                                            finalValue += ',';
-                                                    }
-                                                });
+                                        $('#' + divId).html('uploaded file: ' + fileLink + pVal);
+                                    }
+                                }else if($(v).attr('rowid') != undefined){ //Check for grid
+                                    //get corresponding grid table row id
+                                    var gridTable = $(v).parents().get(3);
+                                    var id = $(gridTable).attr('id');
+                                    
+                                    if(loadedGridId.indexOf(id + "|") == -1){
+                                        var rowsData = [];
+                                        $.each(pVal, function(i, val){
+                                            //remove first & last double quote
+                                            val = val.replace(/^"/, '');
+                                            val = val.replace(/"$/, '');
+                                            var temp = val.split('"|"');
+                                            rowsData.push(temp);
+                                            if(i == 0)
+                                                $('#_ex_' + $(v).attr('name') + "_row").val(1);
+                                            if(i != 0)
+                                                formbuilder_grid_add_row(id);
+                                        })
+                                        
+                                        console.log(rowsData);
 
-                                                $(v).attr("value", finalValue);
-                                            }else{*/
+                                        //insert data into grid
+                                        for(var j=0; j<rowsData.length; j++){
+                                            //for firefox
+                                            var selector = '*[rowid="_ex_' + pName + '_' + j + '"]';
+                                            $.each($(selector), function(i, v){
+                                                $(v).val(rowsData[j][i]);
+                                            })
 
-                                                if($(v).parent().get(0).tagName == 'TD'){
-
-                                                    //get corresponding grid table row id
-                                                    var gridTable = $(v).parents().get(3);
-                                                    var id = $(gridTable).attr('id');
-                                                    //var m = /grid_(\d)+$/.exec(id);
-                                                    //id = m[1];
-                                                    if(loadedGridId.indexOf(id + "|") == -1){
-                                                        var rowsData = [];
-                                                        $.each(pVal, function(i, val){
-                                                            //remove first & last double quote
-                                                            val = val.replace(/^"/, '');
-                                                            val = val.replace(/"$/, '');
-                                                            var temp = val.split('"|"');
-                                                            rowsData.push(temp);
-                                                            if(i != 0)
-                                                                formbuilder_grid_add_row(id);
-                                                        })
-
-                                                        //insert data into grid
-                                                        for(var j=0; j<rowsData.length; j++){
-                                                            //console.log('*[rowid="_ex_' + pName + '_' + j + '"]');
-                                                            //for firefox
-                                                            var selector = '*[rowid="_ex_' + pName + '_' + j + '"]';
-                                                            $.each($(selector), function(i, v){
-                                                                $(v).val(rowsData[j][i]);
-                                                            })
-
-                                                            //for IE (temp. hack)
-                                                            if(j == 0){
-                                                                var selector = '*[rowid="' + pName + '_' + j + '"]';
-                                                                $.each($(selector), function(i, v){
-                                                                    $(v).val(rowsData[j][i]);
-                                                                })
-                                                            }
-                                                        }
-
-                                                        loadedGridId += id + "|";
-                                                    }
-                                                //}
+                                            //for IE (temp. hack)
+                                            if(j == 0){
+                                                var selector = '*[rowid="' + pName + '_' + j + '"]';
+                                                $.each($(selector), function(i, v){
+                                                    $(v).val(rowsData[j][i]);
+                                                })
                                             }
-                                        }else{
-                                            $(v).attr("value", pVal);
                                         }
+
+                                        loadedGridId += id + "|";
                                     }
                                 }else{
-
-                                    $(v).attr("value", pVal);
+                                    if(pVal instanceof Object){
+                                        var baseString = '';
+                                        $.each(pVal, function(i, val){
+                                            //remove first & last double quote
+                                            val = val.replace(/^"/, '');
+                                            val = val.replace(/"$/, '');
+                                            val = val.replace(/"\|"/g, ',');
+                                            baseString += val + "\n";
+                                        })
+                                        $(v).val(baseString);
+                                    }else{
+                                        $(v).val(pVal);
+                                    }
                                 }
                             }
-                        });
+			});
                     }
                 });
             }
@@ -363,7 +323,6 @@ function getFormData(formId, isFromParentProcess, skipDataLoading){
                 initFieldsetOverlay();
         }
     }
-
 }
 
 function setWymEditorHtml(){
